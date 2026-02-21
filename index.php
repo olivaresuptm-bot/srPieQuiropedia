@@ -45,7 +45,7 @@
     <!-- Aqui inclui el footer -->
     <?php include 'includes/footer.php'; ?>
    
-    <!-- Este script lo agregue para que funcione ojo de ocultar y mostra clave :) -->
+    <!-- Este script lo agregue para que funcione el ojo de ocultar y mostra clave imagino que es js nose nada de js :) -->
     <script>
         const btn = document.querySelector('#togglePass');
         const input = document.querySelector('#password');

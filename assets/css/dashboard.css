@@ -1,0 +1,77 @@
+/* Modulos */
+.modules-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    padding: 0 5% 50px 5%;
+    justify-content: center;
+}
+
+.module-card {
+    background: #ffffff;
+    border-radius: 25px;
+    padding: 30px 20px;
+    width: 280px; /* Tamaño fijo para escritorio */
+    text-decoration: none;
+    color: #444;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.module-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(74, 144, 226, 0.2);
+    border-color: #4a90e2;
+    color: #4a90e2;
+}
+
+.module-card i {
+    font-size: 3rem;
+    color: #4a90e2;
+    margin-bottom: 15px;
+}
+
+.module-card span {
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: block;
+}
+
+.module-card small {
+    color: #888;
+    margin-top: 5px;
+}
+.modules-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que bajen en móviles */
+    gap: 20px;
+    justify-content: center;
+    padding-bottom: 50px;
+}
+
+
+.module-card {
+    background: #ffffff;
+    border-radius: 25px;
+    padding: 35px 20px;
+    width: 260px; /* Ancho fijo en escritorio */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: #444;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.module-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(74, 144, 226, 0.15);
+}
+

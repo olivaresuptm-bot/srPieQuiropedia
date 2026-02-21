@@ -13,17 +13,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$usuario, $usuario]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // VERIFICACIÓN: Comparamos la clave ingresada con el hash de la BD
+        // VERIFICACIÓN de datos
         if ($user && password_verify($password_ingresada, $user['password'])) {
-            // Credenciales correctas
             $_SESSION['usuario_id'] = $user['cedula_id'];
             $_SESSION['rol'] = $user['rol'];
+            
+            // Esta seccion la hice para que salga el nombre del usuario en bienvenida
+            $_SESSION['nombre'] = $user['primer_nombre'];
+            $_SESSION['apellido'] = $user['primer_apellido'];
+            
             header("Location: ../dashboard.php");
             exit;
-        } else {
-            header("Location: ../index.php?error=1");
         }
-        //Mensaje de erro si no concuerdan los parametros con la BD
+        //Mensaje de error si no concuerdan los parametros
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }

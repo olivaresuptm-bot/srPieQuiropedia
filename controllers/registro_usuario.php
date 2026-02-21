@@ -2,7 +2,7 @@
 include '../includes/db.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //Estos son los campos que deben coincidir con la bd tabla de usuario
+    //Ya que esto es registro_usuario estos son los campos que deben coincidir con la bd tabla de usuario
     $cedula_id       = $_POST['cedula'];
     $tipo_doc        = $_POST['tipo_doc'];
     $primer_nombre   = $_POST['nombre1'];
