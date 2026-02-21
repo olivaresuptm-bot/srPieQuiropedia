@@ -1,0 +1,32 @@
+.footer-srpie {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    padding: 8px 0; 
+    width: 100%;
+    font-size: 0.75rem;
+}
+
+.footer-content {
+    text-align: center;
+    line-height: 1.3;
+}
+
+.copyright-text {
+    margin-bottom: 1px;
+    opacity: 0.9;
+}
+
+.license-text {
+    color: #888;
+    font-size: 0.7rem;
+}
+
+.footer-links a {
+    color: #4a90e2;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}

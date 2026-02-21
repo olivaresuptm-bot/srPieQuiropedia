@@ -1,0 +1,121 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #e0f2ff 0%, #b2d8ff 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
+
+/* Este es el contenedos principal */
+.main-wrapper {
+    flex: 1; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.login-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 900px;
+    border-radius: 25px;
+    overflow: hidden;
+    display: flex;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    min-height: 450px;
+}
+
+/* ESTA ES LA SECCIÓN IZQUIERDA (BLANCA)  */
+.form-side {
+    flex: 1;
+    padding: 30px 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-container img {
+    max-width: 90px;
+    margin-bottom: 15px;
+}
+
+.form-side h1, .form-side h3, .form-side h4 {
+    color: #4a90e2;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* INPUTS Y BOTONES  */
+.custom-input {
+    background-color: #f8f9fa !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 10px !important;
+    padding: 10px 15px !important;
+    font-size: 0.9rem !important;
+}
+
+.custom-input:focus {
+    border-color: #4a90e2 !important;
+    box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25) !important;
+}
+
+.btn-entrar {
+    background-color: #4a90e2 !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 10px !important;
+    font-weight: bold;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.btn-entrar:hover {
+    background-color: #357abd !important;
+}
+
+/* ESTA ES LA SECCIÓN DERECHA (AZUL)*/
+.blue-side {
+    flex: 1;
+    background-color: #4a90e2;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    text-align: center;
+}
+
+.blue-side h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.btn-registrate {
+    border: 2px solid white !important;
+    color: white !important;
+    border-radius: 15px !important;
+    padding: 8px 35px !important;
+    font-weight: bold;
+    text-decoration: none;
+    margin-top: 15px;
+    transition: 0.3s;
+}
+
+.btn-registrate:hover {
+    background-color: white !important;
+    color: #4a90e2 !important;
+}
+
+     
+       
