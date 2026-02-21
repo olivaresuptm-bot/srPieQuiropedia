@@ -57,7 +57,7 @@
             <small>Instrucciones y guía de uso para el personal.</small>
         </a>
 
-        <a href="manual.php" class="module-card">
+        <a href="mantenimiento.php" class="module-card">
             <i class="bi bi-database"></i>
             <span>Mantenimiento</span>
             <small>Mantenimiento del sistema, respaldo de la Base de datos</small>
