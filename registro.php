@@ -18,7 +18,7 @@
                     <img src="assets/img/logo_sr_pie.png" alt="Logo" >
                 </div>
                 <h2 class="fw-bold h4">Registro</h2>
-                <p class="small text-center px-3">Complete los 9 campos para crear la cuenta.</p>
+                <p class="small text-center px-3">Completa todos los campos para crear la cuenta.</p>
                 <a href="index.php" class="btn btn-registrate btn-sm py-1 px-4">Volver</a>
             </div>
 
@@ -87,13 +87,6 @@
     <?php include 'includes/footer.php'; ?>
 
     <!-- Lo mismo que en index.php -->
-    <script>
-        const btn = document.querySelector('#togglePass');
-        const input = document.querySelector('#password');
-        btn.addEventListener('click', () => {
-            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-            input.setAttribute('type', type);
-        });
-    </script>
+   <script src="assets/js/login.js"></script>
 </body>
 </html>

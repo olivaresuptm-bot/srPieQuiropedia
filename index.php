@@ -30,7 +30,11 @@
                         </span>
                     </div>
                     <button type="submit" class="btn btn-primary btn-entrar">Entrar</button>
+                    
                 </form>
+                <a href="recuperar.php" class="text-decoration-none small text-primary fw-bold mt-3">
+                        <i class="bi bi-exclamation-triangle"></i> ¿Olvidaste tu clave? <i class="bi bi-exclamation-triangle"></i>
+                    </a>
             </div>
 
             <div class="blue-side">
@@ -45,16 +49,6 @@
     <!-- Aqui inclui el footer -->
     <?php include 'includes/footer.php'; ?>
    
-    <!-- Este script lo agregue para que funcione el ojo de ocultar y mostra clave imagino que es js nose nada de js :) -->
-    <script>
-        const btn = document.querySelector('#togglePass');
-        const input = document.querySelector('#password');
-        btn.addEventListener('click', () => {
-            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-            input.setAttribute('type', type);
-            btn.querySelector('i').classList.toggle('bi-eye');
-            btn.querySelector('i').classList.toggle('bi-eye-slash');
-        });
-    </script>
+    <script src="assets/js/login.js"></script>
 </body>
 </html>
