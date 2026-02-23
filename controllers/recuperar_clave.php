@@ -1,5 +1,4 @@
 <?php
-// controllers/recuperar_clave.php
 require_once '../includes/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -7,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $correo = trim($_POST['correo']);
     $nueva_clave = $_POST['nueva_clave'];
 
-    // 1. Validación de fortaleza de clave (Regex)
+    // campos necesario para contraseña
     $patron = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\/\*\$\%]).{8,}$/';
     if (!preg_match($patron, $nueva_clave)) {
         echo "<script>alert('La clave no cumple con los requisitos de seguridad.'); window.history.back();</script>";
@@ -22,12 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt_verif->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            // Iniciar transacción para asegurar ambas tablas
             $conexion->beginTransaction();
 
             // 3. Registrar en la tabla recuperacion_claves
-            $token = bin2hex(random_bytes(16)); // Generamos un token único
-            $expiracion = date("Y-m-d H:i:s", strtotime('+1 hour')); // Expira en 1 hora
+            $token = bin2hex(random_bytes(16)); 
+            $expiracion = date("Y-m-d H:i:s", strtotime('+1 hour'));
             
             $sql_recu = "INSERT INTO recuperacion_claves (correo, token, expiracion, utilizado) VALUES (?, ?, ?, 1)";
             $stmt_recu = $conexion->prepare($sql_recu);

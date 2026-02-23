@@ -48,7 +48,7 @@
 
     <!-- Aqui inclui el footer -->
     <?php include 'includes/footer.php'; ?>
-   
+   <!-- este es el ojito de oculta contraseña -->
     <script src="assets/js/login.js"></script>
     
 </body>

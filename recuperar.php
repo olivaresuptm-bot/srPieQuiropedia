@@ -64,7 +64,7 @@
     </div>
 
     <?php include 'includes/footer.php'; ?>
-    
+    <!-- este es el ojito de oculta contraseña -->
     <script src="assets/js/recuperar_clave.js"></script>
 </body>
 </html>

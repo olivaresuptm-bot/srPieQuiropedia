@@ -12,11 +12,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correo          = $_POST['correo'];
     $password_raw    = $_POST['clave'];
     $rol             = $_POST['rol'];
-
-        // ... después de recibir los datos por POST ...
     $password_raw = $_POST['clave'];
 
-    // Expresión regular: Mínimo 8 caracteres, 1 Mayúscula, 1 Minúscula, 1 Número y 1 Carácter Especial
+    // campos necesrios para registro de clave
     $patron = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\/\*\$\%]).{8,}$/';
 
     if (!preg_match($patron, $password_raw)) {
@@ -25,7 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $password_hash = password_hash($password_raw, PASSWORD_BCRYPT);
-    // ... continuar con el INSERT ...
 
     try {
         $sql = "INSERT INTO usuarios (cedula_id, tipo_doc, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, correo, password, rol) 
