@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        // 2. Verificar si el usuario existe (Cédula y Correo)
+        // Verifica si el usuario existe (Cédula y Correo)
         $sql_verif = "SELECT * FROM usuarios WHERE cedula_id = ? AND correo = ? LIMIT 1";
         $stmt_verif = $conexion->prepare($sql_verif);
         $stmt_verif->execute([$cedula, $correo]);
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user) {
             $conexion->beginTransaction();
 
-            // 3. Registrar en la tabla recuperacion_claves
+            // Registra en la tabla recuperacion_claves
             $token = bin2hex(random_bytes(16)); 
             $expiracion = date("Y-m-d H:i:s", strtotime('+1 hour'));
             
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt_recu = $conexion->prepare($sql_recu);
             $stmt_recu->execute([$correo, $token, $expiracion]);
 
-            // 4. Actualizar la clave en la tabla usuarios
+            //Actualizar la clave en la tabla usuarios
             $password_hash = password_hash($nueva_clave, PASSWORD_BCRYPT);
             $sql_upd = "UPDATE usuarios SET password = ? WHERE correo = ?";
             $stmt_upd = $conexion->prepare($sql_upd);
