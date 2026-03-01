@@ -3,7 +3,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 ?>
 
 <nav id="sidebar">
-    <div class="sidebar-header p-4">
+    <div id="header" class="sidebar-header p-4">
         <img src="../assets/img/logo_sr_pie.png" width="80" class="mb-2">
         <h4>Sr. Pie</h4>
     </div>
