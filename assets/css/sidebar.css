@@ -1,0 +1,37 @@
+/* Sidebar base */
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+    transition: all 0.3s;
+    background: #4a90e2;
+    color: white;
+}
+
+/* Sidebar contraído */
+#sidebar.active {
+    margin-left: -250px;
+}
+
+/* Estilo de los enlaces */
+#sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    padding: 15px 20px;
+    display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#sidebar .nav-link:hover {
+    background: #34495e;
+    color: white;
+}
+
+/* Ocultar el link de la página actual */
+.nav-link.current-page {
+    display: none !important;
+}
+
+/* Contenedor del contenido */
+#content {
+    width: 100%;
+}
