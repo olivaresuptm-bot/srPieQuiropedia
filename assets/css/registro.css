@@ -13,7 +13,6 @@
     flex: 1;
 }
 
-/* Optimización de espacio para los campos */
 .custom-input { 
     padding: 4px 10px !important; 
     font-size: 0.8rem !important; 
@@ -23,7 +22,7 @@
     border-radius: 10px !important;
 }
 
-/* Selector de Tipo de Documento ultra angosto */
+
 .col-tipo-doc {
     flex: 0 0 75px !important;
     width: 75px !important;

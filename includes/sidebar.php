@@ -4,7 +4,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
 <nav id="sidebar">
     <div class="sidebar-header p-4">
-        <img src="../assets/img/logo_sr_pie.png" width="50" class="mb-2">
+        <img src="../assets/img/logo_sr_pie.png" width="80" class="mb-2">
         <h4>Sr. Pie</h4>
     </div>
 
@@ -36,7 +36,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
         <?php endif; ?>
 
         <li>
-            <a href="../controllers/logout.php" class="nav-link text-danger"><i class="bi bi-box-arrow-right me-2"></i> Salir</a>
+            <a href="../controllers/logout.php" class="nav-link"><i class="bi bi-box-arrow-right me-2"></i> Salir</a>
         </li>
     </ul>
 </nav>

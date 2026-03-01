@@ -1,13 +1,10 @@
 <?php
 session_start();
 
-// Seguridad: Línea 3 corregida para evitar fallos de acceso
 if (!isset($_SESSION['usuario_id']) || strtolower($_SESSION['rol']) !== 'gerente') {
     header("Location: ../dashboard.php");
     exit;
 }
-
-// Definimos la página para el sidebar
 $pagina_actual = basename(__FILE__);
 ?>
 <!DOCTYPE html>

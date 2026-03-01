@@ -1,4 +1,3 @@
-/* Sidebar base */
 #sidebar {
     min-width: 250px;
     max-width: 250px;
@@ -8,12 +7,12 @@
     color: white;
 }
 
-/* Sidebar contraído */
+
 #sidebar.active {
     margin-left: -250px;
 }
 
-/* Estilo de los enlaces */
+
 #sidebar .nav-link {
     color: rgba(255, 255, 255, 0.8);
     padding: 15px 20px;
@@ -26,12 +25,12 @@
     color: white;
 }
 
-/* Ocultar el link de la página actual */
+
 .nav-link.current-page {
     display: none !important;
 }
 
-/* Contenedor del contenido */
+
 #content {
     width: 100%;
 }

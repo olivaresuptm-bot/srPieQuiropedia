@@ -57,6 +57,7 @@
             <small>Instrucciones y guía de uso para el personal.</small>
         </a>
 
+<!-- Este modulo el Administrador y Recepcionista solo tiene acceso ;) -->
         <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
         <a href="modulos/mantenimiento.php" class="module-card">
             <i class="bi bi-database"></i>
