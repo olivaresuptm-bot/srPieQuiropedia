@@ -1,50 +1,25 @@
 <?php
-require_once '../includes/db.php';
+include '../includes/db.php';
+include '../includes/mailer.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $cedula = trim($_POST['cedula']);
     $correo = trim($_POST['correo']);
-    $nueva_clave = $_POST['nueva_clave'];
+    $cedula = trim($_POST['cedula']);
 
-    // campos necesario para contraseña
-    $patron = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\/\*\$\%]).{8,}$/';
-    if (!preg_match($patron, $nueva_clave)) {
-        echo "<script>alert('La clave no cumple con los requisitos de seguridad.'); window.history.back();</script>";
-        exit;
-    }
+    $stmt = $conexion->prepare("SELECT primer_nombre FROM usuarios WHERE correo = ? AND cedula_id = ? AND estado = 1");
+    $stmt->execute([$correo, $cedula]);
+    $user = $stmt->fetch();
 
-    try {
-        // Verifica si el usuario existe (Cédula y Correo)
-        $sql_verif = "SELECT * FROM usuarios WHERE cedula_id = ? AND correo = ? LIMIT 1";
-        $stmt_verif = $conexion->prepare($sql_verif);
-        $stmt_verif->execute([$cedula, $correo]);
-        $user = $stmt_verif->fetch(PDO::FETCH_ASSOC);
+    if ($user) {
+        $token = bin2hex(random_bytes(16));
+        $conexion->prepare("UPDATE usuarios SET token_recuperacion = ? WHERE correo = ?")->execute([$token, $correo]);
 
-        if ($user) {
-            $conexion->beginTransaction();
+        $url = "srpiequiropedia.com/restablecer.php?token=$token";
+        $cuerpo = "<h2>Hola {$user['primer_nombre']}</h2><p>Restablece tu clave aquí:</p><a href='$url'>Restablecer Contraseña</a>";
 
-            // Registra en la tabla recuperacion_claves
-            $token = bin2hex(random_bytes(16)); 
-            $expiracion = date("Y-m-d H:i:s", strtotime('+1 hour'));
-            
-            $sql_recu = "INSERT INTO recuperacion_claves (correo, token, expiracion, utilizado) VALUES (?, ?, ?, 1)";
-            $stmt_recu = $conexion->prepare($sql_recu);
-            $stmt_recu->execute([$correo, $token, $expiracion]);
-
-            //Actualizar la clave en la tabla usuarios
-            $password_hash = password_hash($nueva_clave, PASSWORD_BCRYPT);
-            $sql_upd = "UPDATE usuarios SET password = ? WHERE correo = ?";
-            $stmt_upd = $conexion->prepare($sql_upd);
-            $stmt_upd->execute([$password_hash, $correo]);
-
-            $conexion->commit();
-
-            echo "<script>alert('¡Éxito! Su contraseña ha sido actualizada.'); window.location.href='../index.php';</script>";
-        } else {
-            echo "<script>alert('Los datos (Cédula/Correo) no coinciden con nuestros registros.'); window.history.back();</script>";
-        }
-    } catch (PDOException $e) {
-        if ($conexion->inTransaction()) $conexion->rollBack();
-        die("Error en la base de datos: " . $e->getMessage());
+        enviarEmail($correo, "Recuperar Contraseña", $cuerpo);
+        echo "<script>alert('Enlace enviado al correo.'); window.location.href='../index.php';</script>";
+    } else {
+        echo "<script>alert('Datos inválidos o cuenta no aprobada.'); window.history.back();</script>";
     }
 }
