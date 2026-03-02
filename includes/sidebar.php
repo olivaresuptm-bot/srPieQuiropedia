@@ -5,6 +5,7 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 $nombres_modulos = [
     'citas.php'         => 'Gestión de Citas',    
     'pacientes.php'     => 'Gestión de Pacientes e historia',
+    'servicios.php'     => 'Gestion de Servicios',
     'usuarios.php'      => 'Gestion administrativa',
     'reportes.php'      => 'Reportes y analítica',
     'manual_usuario.php'=> 'Manual de sistema',
@@ -37,6 +38,12 @@ $path = (file_exists('includes/sidebar.php')) ? '' : '../';
         <li class="<?= ($pagina_actual == 'citas.php') ? 'current-page' : '' ?>">
             <a href="<?= $path ?>../modulos/citas.php" class="nav-link <?= ($pagina_actual == 'citas.php') ? 'active-link' : 'text-dark' ?>">
                 <i class="bi bi-speedometer2 me-2"></i> Citas
+            </a>
+        </li>
+
+         <li class="<?= ($pagina_actual == 'servicios.php') ? 'current-page' : '' ?>">
+            <a href="<?= $path ?>../modulos/servicios.php" class="nav-link <?= ($pagina_actual == 'servicios.php') ? 'active-link' : 'text-dark' ?>">
+                <i class="bi bi-card-checklist me-2"></i>   Servicios
             </a>
         </li>
         

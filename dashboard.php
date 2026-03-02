@@ -42,6 +42,14 @@
                 <small>Control de personal, usuarios y permisos.</small>
             </a>
         <?php endif; ?>
+
+        <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?> 
+        <a href="modulos/servicios.php" class="module-card">
+            <i class="bi bi-card-checklist"></i>
+            <span>Servicios</span>
+            <small>Acceso a servios ofrecidos.</small>
+        </a>
+        <?php endif; ?>
 <!-- ---------------------------------------------------------------------------------------- -->
         
 
