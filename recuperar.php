@@ -30,25 +30,7 @@
                     <input type="email" name="correo" class="form-control" placeholder="correo@ejemplo.com" required>
                 </div>
 
-                <div class="mb-4">
-                    <label class="form-label small">Nueva Contraseña</label>
-                    <div class="input-group">
-                        <input type="password" 
-                               id="nueva_clave" 
-                               name="nueva_clave" 
-                               class="form-control" 
-                               placeholder="Mínimo 8 caracteres" 
-                               required
-                               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\/\*\$\%]).{8,}"
-                               title="Debe tener 8 caracteres, incluir Mayúscula, Minúscula, Número y Símbolo (/*$%!)">
-                        <span class="input-group-text" style="background: #4a90e2; color: white; border: none; cursor: pointer;" id="togglePass">                    
-                            <i class="bi bi-eye"></i>
-                        </span>
-                    </div>
-                    <div class="form-text" style="font-size: 0.7rem;">
-                        Mínimo 8 caracteres: Mayúscula, Minúscula, Número y Símbolo (/*$%)
-                    </div>
-                </div>
+                
 
                 <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
                     Actualizar Contraseña
@@ -64,7 +46,6 @@
     </div>
 
     <?php include 'includes/footer.php'; ?>
-    <!-- este es el ojito de oculta contraseña -->
-    <script src="assets/js/recuperar_clave.js"></script>
+    
 </body>
 </html>
