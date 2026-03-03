@@ -14,16 +14,16 @@ function enviarEmail($destinatario, $asunto, $cuerpo) {
         $mail->SMTPAuth   = true;
         
         // AQUÍ AGREGAS TU CORREO
-        $mail->Username   = 'olivaresuptm@gmail.com'; 
+        $mail->Username   = 'srpiequiropedia4@gmail.com'; 
         
         // AQUÍ LA CLAVE DE 16 LETRAS QUE GENERASTE EN EL PASO 1
-        $mail->Password   = 'rncc ktiu rpgr dvhb'; 
+        $mail->Password   = 'vnxu qjjz qubo dnza'; 
         
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port       = 465;
 
         // Quién envía el correo
-        $mail->setFrom('olivaresuptm@gmail.com', 'srpiequiropedia');
+        $mail->setFrom('srpiequiropedia4@gmail.com', 'srpiequiropedia');
         $mail->addAddress($destinatario);
 
         $mail->isHTML(true);
