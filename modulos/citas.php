@@ -129,7 +129,7 @@ if (!isset($_SESSION['usuario_id'])) {
     
     <script src="../assets/js/hamburguesa.js"></script>
     
-     <script src="../assets/js/citas.js"></script>
+    <script src="../assets/js/citas.js"></script>
 
     
 

@@ -4,12 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Agendar Cita - Sr. Pie</title>
-    <link rel="icon" type="image/png" href="../assets/img/logo_sr_pie.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../assets/css/sidebar.css">
     <link rel="stylesheet" href="../assets/css/header.css">
-    <link rel="stylesheet" href="../assets/css/citas.css">
     <link rel="stylesheet" href="../assets/css/footer.css">
 </head>
 <body class="bg-light">
@@ -49,31 +47,46 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8 col-lg-6">
                         <div class="card shadow">
-                            <div class="card-header bg-white py-3">
-                                <h5 class="card-title mb-0">
-                                    <i class="bi bi-clock-history text-primary me-2"></i>
-                                    Duración estimada: 50 minutos por cita
-                                </h5>
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0"><i class="bi bi-person-badge me-2"></i>Buscar Paciente por Cédula</h5>
                             </div>
                             <div class="card-body p-4">
                                 
-                                <form method="POST" action="" id="formCita">
-                                    
-                                    <div class="mb-3">
-                                        <label class="form-label fw-bold">Paciente</label>
-                                        <select name="paciente_cedula" class="form-select form-select-lg" required>
-                                            <option value="">-- Seleccione un paciente --</option>
-                                            <?php if ($pacientes && $pacientes->rowCount() > 0): ?>
-                                                <?php foreach ($pacientes as $p): ?>
-                                                    <option value="<?php echo $p['cedula_id']; ?>">
-                                                        <?php echo $p['cedula_id'] . ' - ' . $p['primer_nombre'] . ' ' . $p['primer_apellido']; ?>
-                                                    </option>
-                                                <?php endforeach; ?>
-                                            <?php else: ?>
-                                                <option value="" disabled>No hay pacientes registrados</option>
-                                            <?php endif; ?>
-                                        </select>
+                                <!-- BUSCADOR DE PACIENTE -->
+                                <form method="POST" action="" class="mb-4">
+                                    <div class="input-group">
+                                        <input type="text" name="cedula_buscar" class="form-control form-control-lg" 
+                                               placeholder="Ingrese cédula del paciente" value="<?php echo htmlspecialchars($paciente_cedula); ?>" required>
+                                        <button type="submit" name="buscar_paciente" class="btn btn-primary btn-lg">
+                                            <i class="bi bi-search"></i> Buscar
+                                        </button>
                                     </div>
+                                </form>
+                                
+                                <!-- RESULTADO DE LA BÚSQUEDA -->
+                                <?php if ($paciente_buscado): ?>
+                                    <div class="alert alert-success mb-4">
+                                        <i class="bi bi-person-check-fill me-2"></i>
+                                        <strong>Paciente encontrado:</strong><br>
+                                        <?php 
+                                        $nombre_completo = $paciente_buscado['primer_nombre'] . ' ' . 
+                                                          ($paciente_buscado['segundo_nombre'] ? $paciente_buscado['segundo_nombre'] . ' ' : '') . 
+                                                          $paciente_buscado['primer_apellido'] . ' ' . 
+                                                          ($paciente_buscado['segundo_apellido'] ? $paciente_buscado['segundo_apellido'] : '');
+                                        ?>
+                                        <span class="h5"><?php echo $nombre_completo; ?></span>
+                                        <br>
+                                        <small>Cédula: <?php echo $paciente_buscado['cedula_id']; ?></small>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <hr>
+                                
+                                <!-- FORMULARIO PARA AGENDAR CITA -->
+                                <form method="POST" action="">
+                                    
+                                    <!-- Campo oculto con la cédula del paciente -->
+                                    <input type="hidden" name="paciente_cedula" value="<?php echo htmlspecialchars($paciente_cedula); ?>">
                                     
                                     <div class="mb-3">
                                         <label class="form-label fw-bold">Quiropedista</label>
@@ -110,15 +123,13 @@
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label fw-bold">Fecha</label>
-                                            <input type="date" name="fecha" id="fecha" class="form-control form-control-lg" 
+                                            <input type="date" name="fecha" class="form-control form-control-lg" 
                                                    min="<?php echo date('Y-m-d'); ?>" required>
                                         </div>
                                         
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label fw-bold">Hora</label>
-                                            <input type="time" name="hora" id="hora" class="form-control form-control-lg" 
-                                                   min="08:00" max="18:00" required>
-                                            <small class="text-muted">Horario: 8:00 AM - 6:00 PM (puedes poner cualquier minuto, ej: 8:23, 9:47)</small>
+                                            <input type="time" name="hora" class="form-control form-control-lg" required>
                                         </div>
                                     </div>
                                     
@@ -126,13 +137,20 @@
                                     <input type="hidden" name="aviso" value="N">
                                     
                                     <div class="d-grid gap-2 mt-4">
-                                        <button type="submit" class="btn btn-primary btn-lg">
+                                        <button type="submit" name="guardar_cita" class="btn btn-success btn-lg" <?php echo !$paciente_buscado ? 'disabled' : ''; ?>>
                                             <i class="bi bi-save me-2"></i>Guardar Cita
                                         </button>
                                         <a href="citas.php" class="btn btn-outline-secondary">
                                             <i class="bi bi-arrow-left me-2"></i>Volver al menú
                                         </a>
                                     </div>
+                                    
+                                    <?php if (!$paciente_buscado): ?>
+                                        <div class="alert alert-warning mt-3 mb-0">
+                                            <i class="bi bi-info-circle-fill me-2"></i>
+                                            Debe buscar y seleccionar un paciente antes de guardar la cita.
+                                        </div>
+                                    <?php endif; ?>
                                 </form>
                                 
                             </div>
@@ -144,11 +162,11 @@
         </div>
     </div>
     
-    <?php include '../includes/footer.php'; ?>
+    </div> </div> </div> <?php include '../includes/footer.php'; ?>
     
     <script src="../assets/js/hamburguesa.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/agregar_cita.js"></script>
     
+    <script src="../assets/js/agregar_cita.js"></script>
 </body>
 </html>
