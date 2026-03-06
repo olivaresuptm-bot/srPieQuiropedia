@@ -15,6 +15,7 @@ if (!isset($_SESSION['usuario_id'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../assets/css/sidebar.css">
     <link rel="stylesheet" href="../assets/css/header.css">
+    <link rel="stylesheet" href="../assets/css/citas.css">
     <link rel="stylesheet" href="../assets/css/footer.css">
 </head>
 <body class="bg-light">
@@ -128,36 +129,9 @@ if (!isset($_SESSION['usuario_id'])) {
     
     <script src="../assets/js/hamburguesa.js"></script>
     
-    <!-- Script para cargar estadísticas -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Aquí puedes agregar una llamada AJAX para cargar estadísticas reales
-        // Por ahora solo mostramos datos de ejemplo
-        setTimeout(function() {
-            document.getElementById('citas_hoy').innerText = '3';
-            document.getElementById('citas_proximas').innerText = '7';
-            document.getElementById('citas_mes').innerText = '24';
-        }, 500);
-    });
-    </script>
+     <script src="../assets/js/citas.js"></script>
 
-    <!-- Estilos adicionales -->
-    <style>
-    .hover-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        cursor: pointer;
-    }
-    .hover-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
-    }
-    .hover-card .btn {
-        transition: all 0.3s ease;
-    }
-    .hover-card:hover .btn {
-        transform: scale(1.05);
-    }
-    </style>
+    
 
 </body>
 </html>

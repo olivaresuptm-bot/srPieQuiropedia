@@ -1,0 +1,14 @@
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+    .hover-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
+    }
+    .hover-card .btn {
+        transition: all 0.3s ease;
+    }
+    .hover-card:hover .btn {
+        transform: scale(1.05);
+    }
