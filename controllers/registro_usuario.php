@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $admin_email = $conexion->query("SELECT correo FROM usuarios WHERE rol = 'gerente' LIMIT 1")->fetchColumn();
             
             if ($admin_email) {
-                $link = BASE_URL . "controllers/aprobar_usuario.php?token=$token";
+                $link = "srpiequiropedia.com/controllers/aprobar_usuario.php?token=$token";
                 $cuerpo = "
                     <div style='font-family: sans-serif;'>
                         <h3>Nueva Solicitud de Registro</h3>
