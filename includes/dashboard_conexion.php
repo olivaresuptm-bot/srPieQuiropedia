@@ -1,16 +1,21 @@
 <?php
 session_start();
+require_once 'includes/db.php'; 
 
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: index.php");
-    exit();
+    exit;
 }
 
-// Concatenamos nombre y apellido con un espacio en medio para que salga en la bienvenida 1er nombre y 1er apellido
-$nombre = $_SESSION['nombre'] ?? 'Usuario';
-$apellido = $_SESSION['apellido'] ?? '';
+$stmt = $conexion->prepare("SELECT estado FROM usuarios WHERE cedula_id = ?");
+$stmt->execute([$_SESSION['usuario_id']]);
+$estado_actual = $stmt->fetchColumn();
 
-// Esta es la variable que se usan en el HTML para que salga el nombre completo en bienvenida
-$nombre_completo = trim($nombre . " " . $apellido);
-$rol_usuario = $_SESSION['rol'] ?? 'Personal';
+if ($estado_actual != 1) {
+    session_destroy();
+    header("Location: index.php?error=cuenta_desactivada");
+    exit;
+}
+
+$rol_usuario = $_SESSION['rol'];
 ?>

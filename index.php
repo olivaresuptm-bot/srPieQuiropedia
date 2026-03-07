@@ -46,6 +46,11 @@
 
         </div>
     </div>
+    <?php if (isset($_GET['error']) && $_GET['error'] == 'cuenta_desactivada'): ?>
+    <div class="alert alert-warning" style="font-size: 0.8rem;">
+        Tu cuenta ha sido desactivada. Contacta al administrador.
+    </div>
+    <?php endif; ?>
 
     <!-- Aqui inclui el footer -->
     <?php include 'includes/footer.php'; ?>
