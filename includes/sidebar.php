@@ -25,13 +25,13 @@ $path = (file_exists('includes/sidebar.php')) ? '' : '../';
     <ul class="list-unstyled components">
         <li class="<?= ($pagina_actual == 'dashboard.php') ? 'current-page' : '' ?>">
             <a href="<?= $path ?>dashboard.php" class="nav-link <?= ($pagina_actual == 'dashboard.php') ? 'active-link' : 'text-dark' ?>">
-                <i class="bi bi-speedometer2 me-2"></i> Pagina principal
+                <i class="bi bi-speedometer2 me-2 me-2"></i> Pagina principal
             </a>
         </li>
         
         <li class="<?= ($pagina_actual == 'pacientes.php') ? 'current-page' : '' ?>">
             <a href="<?= $path ?>../modulos/pacientes.php" class="nav-link <?= ($pagina_actual == 'pacientes.php') ? 'active-link' : 'text-dark' ?>">
-                <i class="bi bi-speedometer2 me-2"></i> Pacientes e historias
+                <i class="bi bi-speedometer2 me-2 me-2"></i> Pacientes e historias
             </a>
         </li>
         
@@ -56,6 +56,12 @@ $path = (file_exists('includes/sidebar.php')) ? '' : '../';
         <li class="<?= ($pagina_actual == 'reportes.php') ? 'current-page' : '' ?>">
             <a href="<?= $path ?>../modulos/reportes.php" class="nav-link <?= ($pagina_actual == 'reportes.php') ? 'active-link' : 'text-dark' ?>">
                 <i class="bi bi-speedometer2 me-2"></i> Reportes y analítica
+            </a>
+        </li>
+
+        <li class="<?= ($pagina_actual == 'manual_usuario.php') ? 'current-page' : '' ?>">
+            <a href="<?= $path ?>../modulos/manual_usuario.php" class="nav-link <?= ($pagina_actual == 'manual_usuario.php') ? 'active-link' : 'text-dark' ?>">
+                <i class="bi bi-journal-bookmark me-2"></i> Manual de Usuario
             </a>
         </li>
 
