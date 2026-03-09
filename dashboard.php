@@ -26,16 +26,19 @@
             <small>Búsqueda de fichas y acceso a historiales clínicos.</small>
         </a>
 
-        <a href="modulos/citas.php" class="module-card">
-            <i class="bi bi-calendar2-check"></i>
-            <span>Gestión de Citas</span>
-            <small>Agendar, reprogramar y controlar turnos diarios.</small>
-        </a>
+<!-- Estos son los modulos a los que el Administrador y recepcionista solo tiene acceso ;) -->        
+        <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?> 
+            <a href="modulos/citas.php" class="module-card">
+                <i class="bi bi-calendar2-check"></i>
+                <span>Gestión de Citas</span>
+                <small>Agendar, reprogramar y controlar turnos diarios.</small>
+            </a>
+        <?php endif; ?>
   
 
-<!-- Estos son los modulos a los que el Administrador y Recepcionista solo tiene acceso ;) -->
+<!-- Estos son los modulos a los que el Administrador solo tiene acceso ;) -->
 
-        <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?> 
+        <?php if($rol_usuario == 'gerente'): ?> 
             <a href="modulos/servicios.php" class="module-card">
                 <i class="bi bi-card-checklist"></i>
                 <span>Servicios</span>
@@ -43,7 +46,7 @@
             </a>
         <?php endif; ?>
 
-        <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
+        <?php if($rol_usuario == 'gerente'): ?>
             <a href="modulos/usuarios.php" class="module-card">
                 <i class="bi bi-shield-lock"></i>
                 <span>Gestión Administrativa</span>

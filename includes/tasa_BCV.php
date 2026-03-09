@@ -1,6 +1,6 @@
 <?php
 function getDolarBCV() {
-    $url = 'https://alcambio.app/';
+    $url = 'https://www.bcv.org.ve/';
     $options = [
         "http" => [
             "header" => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/114.0.0.0 Safari/537.36\r\n",
