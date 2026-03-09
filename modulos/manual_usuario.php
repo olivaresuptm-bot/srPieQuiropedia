@@ -22,33 +22,30 @@ if (!isset($_SESSION['usuario_id'])) {
     <?php include '../includes/header.php'; ?>
 
     <div class="d-flex" style="height: calc(100vh - 70px); overflow: hidden;">
-
-
-    
         
         <?php include '../includes/sidebar.php'; ?>
 
         <?php include '../includes/titulo_modulo.php'; ?>
 
         <div class="container ">
-    <div class="row justify-content-center">
-        <div class="col-md-6 text-center">
-            <h2 class="mb-2">Manual de Usuario - Sr. Pie</h2>
-            <p class="text-muted mb-4">Haz clic en la imagen para descargar</p>
-            <div class="mt-2">
-                    <a href="../assets/docs/Manual_Usuario_SrPie.pdf" 
-                        download="Manual_Usuario_SrPie.pdf" 
-                        class="btn btn-primary ">
-                        <i class="bi bi-file-earmark-pdf-fill me-2"></i>Descargar PDF
-                    </a>
-                </div>
-            <a href="../assets/docs/Manual_Usuario_SrPie.pdf" download="Manual_Usuario_SrPie.pdf" class="manual-download-link">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center">
+                    <h2 class="mb-2">Manual de Usuario - Sr. Pie</h2>
+                    <p class="text-muted mb-2">Haz clic en la imagen para descargar</p>
+                    
+            <a href="../assets/docs/Manual_Usuario_SrPie.pdf" download="Manual_Usuario_SrPie.pdf" 
+                    class="manual-download-link">
                 <img src="../assets/img/portada_manual.png" 
                      alt="Descargar Manual de Usuario" 
                      style="max-width: 300px; transition: transform 0.3s ease;">
-                
-                
-            </a>
+             </a>
+             <div>
+                        <a href="../assets/docs/Manual_Usuario_SrPie.pdf" 
+                            download="Manual_Usuario_SrPie.pdf" 
+                            class="btn btn-primary ">
+                            <i class="bi bi-file-earmark-pdf-fill me-2"></i>Descargar PDF
+                        </a>
+             </div>
         </div>
     </div>
 </div>
