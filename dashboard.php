@@ -20,21 +20,28 @@
 
     <main class="mt-5 modules-container flex-grow-1">
         
-        <a href="modulos/citas.php" class="module-card">
-            <i class="bi bi-calendar2-check"></i>
-            <span>Gestión de Citas</span>
-            <small>Agendar, reprogramar y controlar turnos diarios.</small>
-        </a>
-
         <a href="modulos/pacientes.php" class="module-card">
             <i class="bi bi-person-vcard"></i>
             <span>Pacientes e Historias</span>
             <small>Búsqueda de fichas y acceso a historiales clínicos.</small>
         </a>
 
-
+        <a href="modulos/citas.php" class="module-card">
+            <i class="bi bi-calendar2-check"></i>
+            <span>Gestión de Citas</span>
+            <small>Agendar, reprogramar y controlar turnos diarios.</small>
+        </a>
+  
 
 <!-- Estos son los modulos a los que el Administrador y Recepcionista solo tiene acceso ;) -->
+
+        <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?> 
+            <a href="modulos/servicios.php" class="module-card">
+                <i class="bi bi-card-checklist"></i>
+                <span>Servicios</span>
+                <small>Acceso a servios ofrecidos.</small>
+            </a>
+        <?php endif; ?>
 
         <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
             <a href="modulos/usuarios.php" class="module-card">
@@ -44,13 +51,7 @@
             </a>
         <?php endif; ?>
 
-        <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?> 
-        <a href="modulos/servicios.php" class="module-card">
-            <i class="bi bi-card-checklist"></i>
-            <span>Servicios</span>
-            <small>Acceso a servios ofrecidos.</small>
-        </a>
-        <?php endif; ?>
+        
 <!-- ---------------------------------------------------------------------------------------- -->
         
 
