@@ -22,10 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $verificarSmt->execute([':cedula' => $cedula]);
         
         if ($verificarSmt->fetchColumn() > 0) {
-            // Si existe lanzamos un error
+        // Si existe lanza un error
             $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ Error: El número de cédula ya se encuentra registrado."];
         } else {
-            // Si no existe se procesa el registro
+        // Si no existe se procesa el registro
             $sql = "INSERT INTO pacientes (cedula_id, tipo_doc, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fecha_nac, genero, telefono, correo, direccion, registrado_por, fecha_registro) 
                     VALUES (:cedula, :tipo, :nom1, :nom2, :ape1, :ape2, :f_nac, :gen, :tel, :cor, :dir, :reg_por, :f_reg)";
             

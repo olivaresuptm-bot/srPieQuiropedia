@@ -12,27 +12,29 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-    <div class="main-wrapper flex-grow-1">
-        <div class="login-card registro-card"> 
-            <div class="blue-side d-none d-md-flex" style="flex: 0 0 30%;">
-                <div class="logo-container mb-2">
-                    <img src="assets/img/logo_sr_pie.png" alt="Logo">
-                </div>
+<div class="main-wrapper flex-grow-1">
+    <div class="login-card registro-card"> 
+        <div class="blue-side d-none d-md-flex" style="flex: 0 0 30%;">
+            <div class="logo-container mb-2">
+                <img src="assets/img/logo_sr_pie.png" alt="Logo">
+            </div>
+                
                 <h2 class="fw-bold h4">Registro</h2>
                 <p class="small text-center px-3">Completa todos los campos para crear la cuenta de acceso al sistema.</p>
                 <a href="index.php" class="btn btn-registrate btn-sm py-1 px-4">Volver</a>
-            </div>
+        </div>
 
-            <div class="form-side p-4">
-                <form action="controllers/registro_usuario.php" method="POST" class="w-100">
-                    <div class="row g-2">
-                        <div class="col-md-2">
-                            <label class="form-label">Tipo</label>
+        <div class="form-side p-4">
+            <form action="controllers/registro_usuario.php" method="POST" class="w-100">
+                <div class="row g-2">
+                    <div class="col-md-2">
+                        <label class="form-label">Tipo</label>
                             <select name="tipo_doc" class="form-select custom-input" required>
                                 <option value="V">V</option>
                                 <option value="E">E</option>
                             </select>
-                        </div>
+                    </div>
+
                         <div class="col-md-10">
                             <label class="form-label">Cédula</label>
                             <input type="text" name="cedula" class="form-control custom-input" required>
@@ -42,6 +44,7 @@
                             <label class="form-label">Primer Nombre</label>
                             <input type="text" name="nombre1" class="form-control custom-input" required>
                         </div>
+
                         <div class="col-md-6">
                             <label class="form-label">Segundo Nombre</label>
                             <input type="text" name="nombre2" class="form-control custom-input">
@@ -51,6 +54,7 @@
                             <label class="form-label">Primer Apellido</label>
                             <input type="text" name="apellido1" class="form-control custom-input" required>
                         </div>
+
                         <div class="col-md-6">
                             <label class="form-label">Segundo Apellido</label>
                             <input type="text" name="apellido2" class="form-control custom-input">
@@ -84,19 +88,20 @@
                                     <i class="bi bi-eye"></i>
                                 </span>
                             </div>
+
                             <div class="form-text" style="font-size: 0.7rem;">
                                 Mínimo 8 caracteres: Mayúscula, Minúscula, Número y Símbolo (/*$%)
                             </div>
                         </div>
-                    </div>
+                </div>
 
                     <div class="text-center mt-3">
                         <button type="submit" class="btn btn-primary btn-entrar btn-sm py-2">Crear Usuario</button>
                     </div>
-                </form>
-            </div>
+            </form>
         </div>
     </div>
+</div>
     
     <?php include 'includes/footer.php'; ?>
     <!-- este es el ojito de oculta contraseña -->

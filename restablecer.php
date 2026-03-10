@@ -33,19 +33,22 @@
                        <span class="input-group-text bg-primary text-white border-0" id="togglePass" style="cursor: pointer;">
                                     <i class="bi bi-eye"></i>
                         </span>
+                </div>
             </div>
+
+            <div class="form-text" style="font-size: 0.7rem;">
+            Mínimo 8 caracteres: Mayúscula, Minúscula, Número y Símbolo (/*$%)
             </div>
-             <div class="form-text" style="font-size: 0.7rem;">
-                                Mínimo 8 caracteres: Mayúscula, Minúscula, Número y Símbolo (/*$%)
-                            </div>
             
 
             <button type="submit" class="btn btn-entrar text-white">
                 Actualizar Contraseña
             </button>
+
         </form>
+        </div>
     </div>
-    </div>
+    
     <?php include 'includes/footer.php'; ?>
     <!-- este es el ojito de oculta contraseña -->
     <script src="assets/js/login.js"></script>

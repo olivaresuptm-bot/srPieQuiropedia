@@ -5,7 +5,7 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
     $accion = $_POST['accion'];
 
-    // CASO: CREAR O EDITAR
+    // CREAR / EDITAR SERVICIO
     if ($accion === 'crear' || $accion === 'editar') {
         $nombre = trim($_POST['nombre']);
         $descripcion = trim($_POST['descripcion']);
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
         }
     }
 
-    // CASO: ACTIVAR / DESACTIVAR
+    // ACTIVAR / DESACTIVAR SERVICIO
     if ($accion === 'alternar_estado') {
         $id = $_POST['id'];
         $nuevo_estatus = $_POST['nuevo_estatus'];

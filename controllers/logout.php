@@ -13,7 +13,7 @@ if (ini_get("session.use_cookies")) {
 // Se destruye la sesión en el servidor
 session_destroy();
 
-// 4. Se redirige al usuario a index.php
+// Se redirige al usuario a index.php
 header("Location: ../index.php");
 exit;
 ?>

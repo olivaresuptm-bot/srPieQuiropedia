@@ -31,18 +31,18 @@ include '../controllers/registro_paciente.php';
         <?php include '../includes/titulo_modulo.php'; ?>
 
         <div class="container-fluid d-flex justify-content-center align-items-center bg-light">
-    <div class="card border-0 shadow-lg p-4" style="max-width: 600px; border-radius: 15px;">
+        <div class="card border-0 shadow-lg p-4" style="max-width: 600px; border-radius: 15px;">
         
-        <div class="row g-0">
-            <div class="col-lg-12 panel-info text-center">
-            <div class="d-flex align-items-center justify-content-center mb-2 text-primary">
-                            <i class="bi bi-person-plus-fill me-2"></i>
-                            <span class="small fw-bold text-uppercase" style="letter-spacing: 1px;">Gestión de Pacientes</span>
-                        </div>
+            <div class="row g-0">
+                <div class="col-lg-12 panel-info text-center">
+                <div class="d-flex align-items-center justify-content-center mb-2 text-primary">
+                        <i class="bi bi-person-plus-fill me-2"></i>
+                        <span class="small fw-bold text-uppercase" style="letter-spacing: 1px;">Gestión de Pacientes</span>
+                </div>
                 <h2 class="fw-bold mb-2" style="color: #333;">Registro</h2>
                 <p class="mb-4 text-muted small">Completa todos los campos para registrar al paciente en el sistema.</p>
                 <hr class="mb-4 opacity-25">
-            </div>
+                </div>
 
             <div class="col-lg-12 form-panel">
                 <?php if ($msj && $msj['tipo'] === "success"): ?>
@@ -136,12 +136,10 @@ include '../controllers/registro_paciente.php';
             </div>
         </div>
     </div>
-</div>
-
-            
-        
-        
+</div>     
+    
     </div> </div> </div> <?php include '../includes/footer.php'; ?>
     <script src="../assets/js/hamburguesa.js"></script>
+    
 </body>
 </html>

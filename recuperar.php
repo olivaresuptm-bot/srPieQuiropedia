@@ -12,8 +12,8 @@
 </head>
 <body class="d-flex align-items-center justify-content-center min-vh-100">
 
-    <div class="main-wrapper">
-        <div class="login-card p-4 p-md-5">
+<div class="main-wrapper">
+    <div class="login-card p-4 p-md-5">
             <div class="text-center mb-4">
                 <img src="assets/img/logo_sr_pie.png" alt="Logo Sr. Pie" class="mb-3" style="width: 80px;">
                 <h1>¿Olvidaste tu clave?</h1>
@@ -31,8 +31,6 @@
                     <input type="email" name="correo" class="form-control" placeholder="correo@ejemplo.com" required>
                 </div>
 
-                
-
                 <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
                     Actualizar Contraseña
                 </button>
@@ -43,10 +41,10 @@
                     </a>
                 </div>
             </form>
-        </div>
     </div>
+</div>
 
-    <?php include 'includes/footer.php'; ?>
+<?php include 'includes/footer.php'; ?>
     
 </body>
 </html>

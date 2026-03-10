@@ -1,3 +1,4 @@
+        //El ojo que oculta la clave
         const btn = document.querySelector('#togglePass');
         const input = document.querySelector('#password');
         btn.addEventListener('click', () => {

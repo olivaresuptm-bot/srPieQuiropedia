@@ -13,7 +13,7 @@
 </head>
 <body class="bg-light">
 
-    <?php include '../includes/header.php'; ?>
+<?php include '../includes/header.php'; ?>
     
     <div class="d-flex" style="height: calc(100vh - 70px); overflow: hidden;">
         
@@ -163,11 +163,11 @@
         </div>
     </div>
     
-    </div> </div> </div> <?php include '../includes/footer.php'; ?>
-    
-    <script src="../assets/js/hamburguesa.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script src="../assets/js/agregar_cita.js"></script>
+</div> </div> </div> <?php include '../includes/footer.php'; ?>
+
+<script src="../assets/js/hamburguesa.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/agregar_cita.js"></script>
+
 </body>
 </html>

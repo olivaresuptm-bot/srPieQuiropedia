@@ -22,7 +22,7 @@ if (isset($_GET['token']) && !empty($_GET['token'])) {
 
             // 4. Incluimos el diseño visual de éxito
             include '../acceso_aprobar.php';
-            exit; // Finalizamos el script aquí para que no ejecute nada más
+            exit; 
             
         } else {
             // Si el token no existe, es incorrecto o ya fue usado (estado ya es 1)
@@ -35,11 +35,7 @@ if (isset($_GET['token']) && !empty($_GET['token'])) {
     mostrarError("No se proporcionó un token de seguridad válido.");
 }
 
-/**
- * Función para mostrar errores manteniendo la estética del sistema
- */
 function mostrarError($mensaje) {
-    // Usamos las clases de tu login.css para el error también
     include '../acceso_negado.php';
     exit;
 }

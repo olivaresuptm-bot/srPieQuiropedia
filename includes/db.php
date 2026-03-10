@@ -1,5 +1,5 @@
 <?php
-// Datos de la base de datos en xampp
+// Conexion con la BD con Xampp
 $host     = "localhost";
 $db_name  = "srpiequiropedia"; 
 $username = "root";            
@@ -14,7 +14,6 @@ try {
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
 } catch(PDOException $e) {
-    // Si la conexión falla
     die("Error crítico de conexión: " . $e->getMessage());
 }
 ?>

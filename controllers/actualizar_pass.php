@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Encriptamos la clave con BCRYPT (el estándar actual)
+    // Encriptamos la clave con BCRYPT (estándar actual)
     $hash = password_hash($nueva, PASSWORD_BCRYPT);
 
     try {

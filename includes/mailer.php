@@ -13,10 +13,10 @@ function enviarEmail($destinatario, $asunto, $cuerpo) {
         $mail->Host       = 'smtp.gmail.com'; 
         $mail->SMTPAuth   = true;
         
-        // AQUÍ AGREGAS TU CORREO
+        // AQUÍ CORREO A USAR
         $mail->Username   = 'srpiequiropedia4@gmail.com'; 
         
-        // AQUÍ LA CLAVE DE 16 LETRAS QUE GENERASTE EN EL PASO 1
+        // AQUÍ LA CLAVE DE 16 LETRAS 
         $mail->Password   = 'vnxu qjjz qubo dnza'; 
         
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;

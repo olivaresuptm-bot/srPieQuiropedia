@@ -1,7 +1,6 @@
 <?php
 $pagina_actual = basename($_SERVER['PHP_SELF']);
 
-// Diccionario de nombres para que se conecte con tus páginas
 $nombres_modulos = [
     'citas.php'         => 'Gestión de Citas',    
     'pacientes.php'     => 'Gestión de Pacientes e historia',

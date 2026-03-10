@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_update = $conexion->prepare("UPDATE usuarios SET token_recuperacion = ? WHERE correo = ?");
         $stmt_update->execute([$token, $correo]);
 
-        // IMPORTANTE: Ajusta esta URL a tu dominio o localhost
+        // IMPORTANTE: Aqui ajustamos la url segun el dominio
         $url = "srpiequiropedia.com/restablecer.php?token=$token";
         
         $cuerpo = "

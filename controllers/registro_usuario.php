@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // REGLA: ADMINISTRADOR ÚNICO
+    // ADMINISTRADOR ÚNICO
     if (strtolower($rol) === 'gerente') {
         $check = $conexion->prepare("SELECT COUNT(*) FROM usuarios WHERE LOWER(rol) = 'gerente'");
         $check->execute();
@@ -34,7 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password_hash = password_hash($pass_raw, PASSWORD_BCRYPT);
 
     try {
-        // INICIAMOS TRANSACCIÓN para afectar a varias tablas con seguridad
         $conexion->beginTransaction();
 
         // 1. Insertar en la tabla 'usuarios'
@@ -48,13 +47,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // 2. ACTUALIZACIÓN: Si el rol es quiropedista, insertar en la tabla 'quiropedistas'
         if (strtolower($rol) === 'quiropedista') {
-            // Se inserta con especialidad 'General' y disponibilidad 1 por defecto
+        // Se inserta con especialidad 'General' y disponibilidad 1 por defecto
             $sql_q = "INSERT INTO quiropedistas (usuario_cedula, especialidad, disponibilidad) VALUES (?, ?, ?)";
             $stmt_q = $conexion->prepare($sql_q);
             $stmt_q->execute([$cedula_id, 'General', 1]);
         }
 
-        // Si llegamos aquí sin errores, confirmamos los cambios en la BD
         $conexion->commit();
 
         // Lógica de notificaciones

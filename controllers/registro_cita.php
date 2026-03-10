@@ -5,7 +5,6 @@ if (!isset($_SESSION['usuario_id'])) {
     exit;
 }
 
-// ✅ INCLUIR LA CONEXIÓN PDO DESDE INCLUDES
 include '../includes/db.php';
 
 // Variables para mensajes
@@ -55,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['guardar_cita'])) {
         if ($check_paciente->rowCount() == 0) {
             $error = "❌ El paciente con cédula $paciente_cedula no existe en el sistema";
         } else {
-            // INSERT con PDO (SEGURO)
+            
             $sql = "INSERT INTO citas (paciente_cedula, quiropedista_cedula, servicio_id, fecha, hora, estatus, aviso) 
                     VALUES (:paciente, :quiropedista, :servicio, :fecha, :hora, 'programada', 'N')";
             
@@ -70,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['guardar_cita'])) {
             
             $mensaje = "✅ Cita guardada correctamente";
             
-            // Limpiar la búsqueda después de guardar
+            // Limpia la búsqueda después de guardar
             $paciente_buscado = null;
             $paciente_cedula = "";
         }

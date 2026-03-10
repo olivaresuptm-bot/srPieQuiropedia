@@ -20,11 +20,11 @@ if (!isset($_SESSION['usuario_id'])) {
 </head>
 <body class="bg-light">
 
-    <?php include '../includes/header.php'; ?>
+<?php include '../includes/header.php'; ?>
 
     <div class="d-flex" style="height: calc(100vh - 70px); overflow: hidden;">
         
-        <?php include '../includes/sidebar.php'; ?>
+<?php include '../includes/sidebar.php'; ?>
 
         <!-- Contenido principal -->
         <div class="flex-grow-1" style="overflow-y: auto;">
@@ -130,8 +130,6 @@ if (!isset($_SESSION['usuario_id'])) {
     <script src="../assets/js/hamburguesa.js"></script>
     
     <script src="../assets/js/citas.js"></script>
-
-    
 
 </body>
 </html>

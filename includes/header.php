@@ -3,7 +3,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Si las variables no vienen definidas desde el archivo que lo incluye, las preparamos aquí
 if (!isset($nombre_completo)) {
     $nombre = $_SESSION['nombre'] ?? 'Usuario';
     $apellido = $_SESSION['apellido'] ?? '';

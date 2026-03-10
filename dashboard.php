@@ -54,10 +54,8 @@
             </a>
         <?php endif; ?>
 
-        
 <!-- ---------------------------------------------------------------------------------------- -->
         
-
         <a href="modulos/reportes.php" class="module-card">
             <i class="bi bi-bar-chart-line"></i>
             <span>Reportes y Analítica</span>
@@ -72,15 +70,15 @@
 
 <!-- Este modulo el Administrador y Recepcionista solo tiene acceso ;) -->
         <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
-        <a href="modulos/mantenimiento.php" class="module-card">
-            <i class="bi bi-database"></i>
-            <span>Mantenimiento</span>
-            <small>Mantenimiento del sistema, respaldo de la Base de datos</small>
-        </a>
+            <a href="modulos/mantenimiento.php" class="module-card">
+                <i class="bi bi-database"></i>
+                <span>Mantenimiento</span>
+                <small>Mantenimiento del sistema, respaldo de la Base de datos</small>
+            </a>
         <?php endif; ?>
     </main>
 
-    <?php include 'includes/footer.php'; ?>
+<?php include 'includes/footer.php'; ?>
 
 </body>
 </html>

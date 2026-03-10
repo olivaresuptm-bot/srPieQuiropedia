@@ -19,18 +19,18 @@ if (!isset($_SESSION['usuario_id'])) {
 </head>
 <body class="bg-light">
 
-    <?php include '../includes/header.php'; ?>
+<?php include '../includes/header.php'; ?>
 
     <div class="d-flex" style="height: calc(100vh - 70px); overflow: hidden;">
         
         <?php include '../includes/sidebar.php'; ?>
-
         <?php include '../includes/titulo_modulo.php'; ?>
 
             
         
         
-    </div> </div> </div> <?php include '../includes/footer.php'; ?>
-     <script src="../assets/js/hamburguesa.js"></script>
+</div> </div> </div> <?php include '../includes/footer.php'; ?>
+<script src="../assets/js/hamburguesa.js"></script>
+
 </body>
 </html>

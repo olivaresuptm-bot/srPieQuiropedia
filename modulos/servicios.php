@@ -22,12 +22,12 @@ include '../includes/tasa_BCV.php';
 </head>
 <body class="bg-light">
 
-    <?php include '../includes/header.php'; ?>
+<?php include '../includes/header.php'; ?>
 
     <div class="d-flex" style="height: calc(100vh - 70px); overflow: hidden;">
         <?php include '../includes/sidebar.php'; ?>
          
-            <?php include '../includes/titulo_modulo.php'; ?>
+        <?php include '../includes/titulo_modulo.php'; ?>
 
         <div class="flex-grow-1 p-4" style="overflow-y: auto;">
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -93,8 +93,9 @@ include '../includes/tasa_BCV.php';
     </div>
     </div>
 
-   <script src="../assets/js/servicios.js"></script>
-    </div> </div> </div> <?php include '../includes/footer.php'; ?>
-     <script src="../assets/js/hamburguesa.js"></script>
+<script src="../assets/js/servicios.js"></script>
+</div> </div> </div> <?php include '../includes/footer.php'; ?>
+<script src="../assets/js/hamburguesa.js"></script>
+
 </body>
 </html>

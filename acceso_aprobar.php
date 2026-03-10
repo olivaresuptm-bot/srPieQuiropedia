@@ -8,32 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../assets/css/login.css">
-    <style>
-        .status-card-success {
-            max-width: 500px; 
-            width: 100%;
-            border-top: 6px solid #28a745; /* Verde de éxito */
-            padding: 40px !important;
-            text-align: center;
-            flex-direction: column !important; /* Mantiene el flujo vertical */
-        }
-        .icon-circle-success {
-            width: 80px; 
-            height: 80px;
-            background-color: #d4edda; /* Fondo verde suave */
-            color: #28a745; /* Icono verde fuerte */
-            border-radius: 50%;
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            font-size: 40px; 
-            margin: 0 auto 20px;
-        }
-        .logo-small {
-            width: 70px;
-            margin-bottom: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/acceso.css">
 </head>
 <body>
     <div class="main-wrapper">
