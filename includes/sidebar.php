@@ -2,13 +2,14 @@
 $pagina_actual = basename($_SERVER['PHP_SELF']);
 
 $nombres_modulos = [
-    'citas.php'         => 'Gestión de Citas',    
-    'pacientes.php'     => 'Gestión de Pacientes e historia',
-    'servicios.php'     => 'Gestion de Servicios',
-    'usuarios.php'      => 'Gestion administrativa',
-    'reportes.php'      => 'Reportes y analítica',
-    'manual_usuario.php'=> 'Manual de sistema',
-    'mantenimiento.php' => 'Configuración y Sistema'
+    'citas.php'                 => 'Gestión de Citas',    
+    'gestion_pacientes.php'     => 'Gestión de Pacientes e historia',
+    'pacientes.php'             => 'Gestión de Pacientes e historia',
+    'servicios.php'             => 'Gestion de Servicios',
+    'usuarios.php'              => 'Gestion administrativa',
+    'reportes.php'              => 'Reportes y analítica',
+    'manual_usuario.php'        => 'Manual de sistema',
+    'mantenimiento.php'         => 'Configuración y Sistema'
 ];
 
 $titulo_modulo = $nombres_modulos[$pagina_actual] ?? 'Módulo';
@@ -29,7 +30,7 @@ $path = (file_exists('includes/sidebar.php')) ? '' : '../';
         </li>
         
         <li class="<?= ($pagina_actual == 'pacientes.php') ? 'current-page' : '' ?>">
-            <a href="<?= $path ?>../modulos/pacientes.php" class="nav-link <?= ($pagina_actual == 'pacientes.php') ? 'active-link' : 'text-dark' ?>">
+            <a href="<?= $path ?>../modulos/gestion_pacientes.php" class="nav-link <?= ($pagina_actual == 'pacientes.php') ? 'active-link' : 'text-dark' ?>">
                 <i class="bi bi-person-vcard me-2"></i> Pacientes e historias
             </a>
         </li>

@@ -21,11 +21,7 @@
         
         <div class="flex-grow-1" style="overflow-y: auto;">
             
-            <?php 
-            $titulo_modulo = "Agendar Cita";
-            $icono_modulo = "bi-calendar-plus";
-            include '../includes/titulo_modulo.php'; 
-            ?>
+            <?php  include '../includes/titulo_modulo.php'; ?>
             
             <div class="container-fluid p-4">
                 

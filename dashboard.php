@@ -20,7 +20,7 @@
 
     <main class="mt-5 modules-container flex-grow-1">
         
-        <a href="modulos/pacientes.php" class="module-card">
+        <a href="modulos/gestion_pacientes.php" class="module-card">
             <i class="bi bi-person-vcard"></i>
             <span>Pacientes e Historias</span>
             <small>Búsqueda de fichas y acceso a historiales clínicos.</small>

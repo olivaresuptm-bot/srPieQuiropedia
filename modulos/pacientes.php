@@ -130,7 +130,7 @@ include '../controllers/registro_paciente.php';
                         </div>
                     </form>
                     <div class="text-center mt-3">
-                        <a href="../dashboard.php" class="text-decoration-none small text-muted">← Volver al menú</a>
+                        <a href="gestion_pacientes.php" class="text-decoration-none small text-muted"> Volver a getión de pacientes </a>
                     </div>
                 <?php endif; ?>
             </div>
