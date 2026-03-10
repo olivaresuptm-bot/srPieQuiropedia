@@ -19,7 +19,9 @@ if (!isset($rol_usuario)) {
     </div>
     
     <div class="d-flex align-items-center gap-4">
-        <img src="../assets/img/logo_sr_pie.png" alt="Logo" style="width: 80px;">
+         <a href="../dashboard.php" >
+                <img src="../assets/img/logo_sr_pie.png" width="80" class="mb-2">
+        </a>
         <a href="../controllers/logout.php" class="btn-logout" title="Cerrar Sesión">
             <i class="bi bi-box-arrow-right"></i>
         </a>

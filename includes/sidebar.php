@@ -18,7 +18,11 @@ $path = (file_exists('includes/sidebar.php')) ? '' : '../';
 
 <nav id="sidebar">
     <div id="header" class="sidebar-header p-4">
-        <img src="../assets/img/logo_sr_pie.png" width="80" class="mb-2">
+        
+        <a href="../dashboard.php" >
+                <img src="../assets/img/logo_sr_pie.png" width="80" class="mb-2">
+        </a>
+        
         <h4>Sr. Pie</h4>
     </div>
 

@@ -27,3 +27,57 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
 }
  
+
+       /* Contenedor de Registro Potenciado */
+.card-registro-alto {
+    min-height: 180px; /* Controla la altura aquí */
+    display: flex;
+    align-items: center;
+    border-radius: 20px !important; /* Bordes más redondeados */
+    transition: all 0.3s ease;
+    border-left: 8px solid #198754 !important; /* Borde verde más grueso */
+    background-color: #ffffff;
+}
+
+.card-registro-alto:hover {
+    transform: translateY(-5px); /* Efecto de levante */
+    box-shadow: 0 10px 25px rgba(92, 2, 2, 0.1) !important;
+}
+
+/* Caja del Icono */
+.icon-container-registro {
+    background-color: rgba(24, 34, 173, 0.1);
+    padding: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 25px;
+    transition: background-color 0.3s ease;
+}
+
+.card-registro-alto:hover .icon-container-registro {
+    background-color: rgba(25, 135, 84, 0.2);
+}
+
+/* Tipografía dentro de la card */
+.card-registro-alto h4 {
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    font-size: 1.5rem;
+}
+
+.card-registro-alto p {
+    font-size: 1.1rem;
+    color: #6c757d;
+    max-width: 450px; /* Evita que el texto se estire demasiado */
+}
+
+/* Botón llamativo */
+.btn-registro-alto {
+    padding: 15px 35px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(25, 135, 84, 0.2);
+}
