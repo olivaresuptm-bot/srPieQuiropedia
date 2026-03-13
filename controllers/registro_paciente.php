@@ -1,4 +1,9 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$msj = null;
 $dsn = "mysql:host=localhost;dbname=srpiequiropedia;charset=utf8mb4";
 $usuario = "root";
 $password = "";
@@ -13,49 +18,86 @@ try {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    try {
-        $cedula = $_POST['cedula_id'];
 
-        // Verificar si la cédula ya existe
-        $verificarSql = "SELECT COUNT(*) FROM pacientes WHERE cedula_id = :cedula";
-        $verificarSmt = $pdo->prepare($verificarSql);
-        $verificarSmt->execute([':cedula' => $cedula]);
-        
-        if ($verificarSmt->fetchColumn() > 0) {
-        // Si existe lanza un error
-            $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ Error: El número de cédula ya se encuentra registrado."];
-        } else {
-        // Si no existe se procesa el registro
-            $sql = "INSERT INTO pacientes (cedula_id, tipo_doc, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fecha_nac, genero, telefono, correo, direccion, registrado_por, fecha_registro) 
-                    VALUES (:cedula, :tipo, :nom1, :nom2, :ape1, :ape2, :f_nac, :gen, :tel, :cor, :dir, :reg_por, :f_reg)";
+    // --- CASO 1: EDICIÓN---
+    if (isset($_POST['action']) && $_POST['action'] === 'edit_patient') {
+        try {
+            $sql = "UPDATE pacientes SET 
+                    primer_nombre = :n1, segundo_nombre = :n2, 
+                    primer_apellido = :a1, segundo_apellido = :a2, 
+                    telefono = :tel, correo = :correo, direccion = :dir 
+                    WHERE cedula_id = :id";
             
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
-                ':cedula'  => $cedula,
-                ':tipo'    => $_POST['tipo_doc'],
-                ':nom1'    => $_POST['primer_nombre'],
-                ':nom2'    => $_POST['segundo_nombre'],
-                ':ape1'    => $_POST['primer_apellido'],
-                ':ape2'    => $_POST['segundo_apellido'],
-                ':f_nac'   => $_POST['fecha_nac'],
-                ':gen'     => $_POST['genero'],
-                ':tel'     => $_POST['telefono'],
-                ':cor'     => $_POST['correo'],
-                ':dir'     => $_POST['direccion'],
-                ':reg_por' => $_POST['registrado_por'],
-                ':f_reg'   => date("Y-m-d H:i:s")
+                ':n1' => trim($_POST['primer_nombre']),
+                ':n2' => trim($_POST['segundo_nombre']),
+                ':a1' => trim($_POST['primer_apellido']),
+                ':a2' => trim($_POST['segundo_apellido']),
+                ':tel' => trim($_POST['telefono']),
+                ':correo' => trim($_POST['correo']),
+                ':dir' => trim($_POST['direccion']),
+                ':id' => trim($_POST['cedula_id'])
             ]);
 
-            $_SESSION['mensaje'] = ["tipo" => "success", "texto" => "Paciente guardado con éxito."];
+            $_SESSION['mensaje'] = ["tipo" => "success", "texto" => "✅ Paciente actualizado con éxito."];
+            header("Location: ../modulos/gestion_pacientes.php");
+            exit();
+        } catch (PDOException $e) {
+            $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ Error al actualizar: " . $e->getMessage()];
+            header("Location: ../modulos/gestion_pacientes.php");
+            exit();
         }
-    } catch (PDOException $e) {
-        $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ Error: " . $e->getMessage()];
+    } 
+
+    // --- CASO 2: REGISTRO NUEVO ---
+    else if (isset($_POST['cedula_id'])) {
+        try {
+            // Verificar si la cédula del paciente ya existe
+            $check = $pdo->prepare("SELECT COUNT(*) FROM pacientes WHERE cedula_id = ?");
+            $check->execute([$_POST['cedula_id']]);
+            
+            if ($check->fetchColumn() > 0) {
+                $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ La cédula del paciente ya está registrada."];
+            } else {
+                
+                $sql = "INSERT INTO pacientes (cedula_id, tipo_doc, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fecha_nac, genero, telefono, correo, direccion, registrado_por) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    $_POST['cedula_id'], 
+                    $_POST['tipo_doc'], 
+                    $_POST['primer_nombre'], 
+                    $_POST['segundo_nombre'], 
+                    $_POST['primer_apellido'], 
+                    $_POST['segundo_apellido'], 
+                    $_POST['fecha_nac'], 
+                    $_POST['genero'], 
+                    $_POST['telefono'], 
+                    $_POST['correo'], 
+                    $_POST['direccion'],
+                    $_POST['registrado_por'] 
+                ]);
+
+                $_SESSION['mensaje'] = ["tipo" => "success", "texto" => "✅ Paciente registrado con éxito."];
+            }
+        } catch (PDOException $e) {
+            
+            if (strpos($e->getMessage(), '1452') !== false || $e->getCode() == 23000) {
+                $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ Error: La cédula ingresada en 'Registrado Por' no corresponde a ningún usuario del sistema. Verifique la cédula del operador."];
+            } else {
+                $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ Error: " . $e->getMessage()];
+            }
+        }
+        header("Location: ../modulos/pacientes.php");
+        exit();
     }
-    
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
 }
 
-$msj = $_SESSION['mensaje'] ?? null;
-unset($_SESSION['mensaje']);
+
+if (isset($_SESSION['mensaje'])) {
+    $msj = $_SESSION['mensaje'];
+    unset($_SESSION['mensaje']);
+}
 ?>

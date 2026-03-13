@@ -26,66 +26,59 @@ include '../controllers/usuario_edicion.php';
     <?php include '../includes/header.php'; ?>
 
     <div class="d-flex" style="height: calc(100vh - 70px); overflow: hidden;">
-        <?php include '../includes/sidebar.php'; ?>
+        <?php include '../includes/sidebar.php'; 
+        include '../includes/titulo_modulo.php'; ?>
 
         <div class="flex-grow-1 p-4 overflow-auto">
-            <?php include '../includes/titulo_modulo.php'; ?>
-
-            <?php if(isset($_GET['res']) && $_GET['res'] === 'status_changed'): ?>
-                <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i>
-                    Estado del usuario actualizado correctamente.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            <?php endif; ?>
 
             <div class="card shadow-sm border-0 mt-3">
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table table-hover align-middle mb-0">
-                            <thead class="table-light">
+                            <thead class="table-primary">
                                 <tr>
-                                    <th class="ps-4">Identificación</th>
+                                    <th class="ps-3">Cédula</th>
                                     <th>Nombre Completo</th>
                                     <th>Rol</th>
                                     <th>Estado</th>
-                                    <th class="text-center">Acceso</th>
+                                    <th class="text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                $stmt = $conexion->prepare("SELECT cedula_id, tipo_doc, primer_nombre, primer_apellido, rol, estado FROM usuarios");
-                                $stmt->execute();
-                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)):
+                                $stmt = $conexion->query("SELECT * FROM usuarios ORDER BY rol ASC");
+                                while($row = $stmt->fetch()):
                                     $es_fila_gerente = ($row['rol'] === 'gerente');
-                                    $activo = ($row['estado'] == 1);
                                 ?>
                                 <tr>
-                                    <td class="ps-4 fw-bold"><?php echo $row['tipo_doc'] . "-" . $row['cedula_id']; ?></td>
-                                    <td><?php echo $row['primer_nombre'] . " " . $row['primer_apellido']; ?></td>
+                                    <td class="ps-3"><?php echo $row['cedula_id']; ?></td>
+                                    <td><?php echo $row['primer_nombre'] . " " . $row['segundo_nombre']." " . $row['primer_apellido']." " . $row['segundo_apellido']; ?></td>
                                     <td><span class="badge bg-secondary"><?php echo ucfirst($row['rol']); ?></span></td>
                                     <td>
-                                        <span class="badge <?php echo $activo ? 'bg-success' : 'bg-warning text-dark'; ?>">
-                                            <?php echo $activo ? 'Activo' : 'Pendiente'; ?>
-                                        </span>
+                                        <?php if($row['estado'] == 1): ?>
+                                            <span class="badge bg-success">Activo</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-warning text-dark">Pendiente</span>
+                                        <?php endif; ?>
                                     </td>
                                     <td class="text-center">
-                                        <?php if (!$es_fila_gerente && $es_admin_actual): ?>
-                                            <?php if ($activo): ?>
+                                        <button class="btn btn-sm btn-outline-primary" 
+                                            onclick='abrirEditar(<?php echo json_encode($row); ?>)'>
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+
+                                        <?php if ($es_admin_actual && !$es_fila_gerente): ?>
+                                            <?php if ($row['estado'] == 1): ?>
                                                 <a href="usuarios.php?action=change_status&id=<?php echo $row['cedula_id']; ?>&nuevo_estado=0" 
-                                                   class="btn btn-sm btn-danger" title="Dar de baja">
-                                                    <i class="bi bi-person-x-fill me-1"></i> Desactivar
+                                                   class="btn btn-sm btn-danger" title="Desactivar">
+                                                    <i class="bi bi-person-x-fill"></i>
                                                 </a>
                                             <?php else: ?>
                                                 <a href="usuarios.php?action=change_status&id=<?php echo $row['cedula_id']; ?>&nuevo_estado=1" 
                                                    class="btn btn-sm btn-success" title="Activar">
-                                                    <i class="bi bi-person-check-fill me-1"></i> Activar
+                                                    <i class="bi bi-person-check-fill"></i>
                                                 </a>
                                             <?php endif; ?>
-                                        <?php elseif ($es_fila_gerente): ?>
-                                            <span class="text-muted small italic">Administrador</span>
-                                        <?php else: ?>
-                                            <i class="bi bi-lock text-muted"></i>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
@@ -98,8 +91,53 @@ include '../controllers/usuario_edicion.php';
         </div> 
     </div>
 
-    </div> </div> </div> <?php include '../includes/footer.php'; ?>
+    <div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="usuarios.php" method="POST" class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="bi bi-person-gear me-2"></i>Editar Datos de Usuario</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="action" value="edit_user"> <input type="hidden" name="cedula_id" id="edit_cedula">
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Primer Nombre</label>
+                            <input type="text" name="primer_nombre" id="edit_primer_nombre" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Segundo Nombre</label>
+                            <input type="text" name="segundo_nombre" id="edit_segundo_nombre" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Primer Apellido</label>
+                            <input type="text" name="primer_apellido" id="edit_primer_apellido" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Segundo Apellido</label>
+                            <input type="text" name="segundo_apellido" id="edit_segundo_apellido" class="form-control">
+                        </div>
+                        
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Rol</label>
+                        <select name="rol" id="edit_rol" class="form-select" required>
+                            <option value="quiropedista">Quiropedista</option>
+                            <option value="recepcionista">Recepcionista</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Actualizar Usuario</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    </div></div></div><?php include '../includes/footer.php'; ?>
+    <script src="../assets/js/usuarios.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script src="../assets/js/hamburguesa.js"></script>
 </body>
 </html>

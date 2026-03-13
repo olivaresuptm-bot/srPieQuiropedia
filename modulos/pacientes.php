@@ -4,15 +4,13 @@ if (!isset($_SESSION['usuario_id'])) {
     header("Location: ../index.php");
     exit;
 }
-
-include '../controllers/registro_paciente.php';
-
+include '../controllers/registro_paciente.php'; 
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Gestión Pacientes - Sr. Pie</title>
+    <title>Registro de Pacientes - Sr. Pie</title>
     <link rel="icon" type="image/png" href="../assets/img/logo_sr_pie.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -21,16 +19,13 @@ include '../controllers/registro_paciente.php';
     <link rel="stylesheet" href="../assets/css/footer.css">
 </head>
 <body class="bg-light">
-
     <?php include '../includes/header.php'; ?>
 
     <div class="d-flex" style="height: calc(100vh - 70px); overflow: hidden;">
+        <?php include '../includes/sidebar.php'; 
+        include '../includes/titulo_modulo.php'; ?>
         
-        <?php include '../includes/sidebar.php'; ?>
-
-        <?php include '../includes/titulo_modulo.php'; ?>
-
-        <div class="container-fluid d-flex justify-content-center align-items-center bg-light">
+       <div class="container-fluid d-flex justify-content-center align-items-center bg-light">
         <div class="card border-0 shadow-lg p-4" style="max-width: 600px; border-radius: 15px;">
         
             <div class="row g-0">
@@ -138,8 +133,9 @@ include '../controllers/registro_paciente.php';
     </div>
 </div>     
     
-    </div> </div> </div> <?php include '../includes/footer.php'; ?>
+
+    </div></div></div><?php include '../includes/footer.php'; ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/hamburguesa.js"></script>
-    
 </body>
 </html>
