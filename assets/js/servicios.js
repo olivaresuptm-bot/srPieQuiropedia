@@ -1,16 +1,27 @@
-src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
-        function abrirEditar(datos) {
-            document.getElementById('modalTitulo').innerText = "Editar Servicio";
-            document.getElementById('btnAccion').value = "editar";
-            document.getElementById('serv_id').value = datos.servicio_id;
-            document.getElementById('serv_nombre').value = datos.nombre;
-            document.getElementById('serv_desc').value = datos.descripcion;
-            document.getElementById('serv_precio').value = datos.precio;
-            new bootstrap.Modal(document.getElementById('modalServicio')).show();
-        }
-        function prepararNuevo() {
-            document.getElementById('modalTitulo').innerText = "Nuevo Servicio";
-            document.getElementById('btnAccion').value = "crear";
-            document.getElementById('serv_id').value = "";
-            document.querySelector('#modalServicio form').reset();
-        }
+
+function prepararNuevo() {
+    document.getElementById('serv_id').value = '';
+    document.getElementById('serv_nombre').value = '';
+    document.getElementById('serv_desc').value = '';
+    document.getElementById('serv_precio').value = '';
+    
+  
+    document.getElementById('inputAccion').value = 'crear';
+    document.getElementById('modalTitulo').innerHTML = '<i class="bi bi-tag me-2"></i>Nuevo Servicio';
+}
+
+
+function abrirEditar(servicio) {
+    document.getElementById('serv_id').value = servicio.servicio_id;
+    document.getElementById('serv_nombre').value = servicio.nombre;
+    document.getElementById('serv_desc').value = servicio.descripcion;
+    document.getElementById('serv_precio').value = servicio.precio;
+    
+
+    document.getElementById('inputAccion').value = 'editar';
+    document.getElementById('modalTitulo').innerHTML = '<i class="bi bi-pencil-square me-2"></i>Editar Servicio';
+
+  
+    var myModal = new bootstrap.Modal(document.getElementById('modalServicio'));
+    myModal.show();
+}

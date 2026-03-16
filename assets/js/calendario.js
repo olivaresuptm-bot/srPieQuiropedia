@@ -78,8 +78,14 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function mostrarCitasDelDia(fecha) {
-    const citasDelDia = citasData.filter(c => c.fecha === fecha);
-    const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const citasDelDia = citasData.filter(c => c.fecha === fecha);
+        const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
+            timeZone: 'UTC', // <--- ¡ESTA ES LA LÍNEA MÁGICA!
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
     document.getElementById('fechaSeleccionada').textContent = fechaFormateada;
     
     const listaCitas = document.getElementById('listaCitasDia');

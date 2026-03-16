@@ -1,0 +1,34 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.badge-estatus {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+}
+
+.table-actions .btn {
+    padding: 0.25rem 0.5rem;
+    margin: 0 2px;
+}
+
+.cita-cancelada {
+    background-color: #fff5f5;
+}
+
+.cita-atendida {
+    background-color: #f0fff4;
+}
+
+.contenedor-principal {
+    height: calc(100vh - 70px);
+    overflow-y: auto;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    overflow-y: visible;
+}

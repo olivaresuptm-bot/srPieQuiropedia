@@ -1,4 +1,4 @@
- <?php
+<?php
     $stmt = $conexion->query("SELECT * FROM servicios ORDER BY precio DESC, nombre ASC");
     while ($s = $stmt->fetch(PDO::FETCH_ASSOC)):
         $precio_bs = $s['precio'] * $tasa_bcv;
@@ -24,17 +24,16 @@
             </span>
         </td>
         <td class="text-center">
-            <button class="btn btn-sm btn-warning" onclick="abrirEditar(<?php echo htmlspecialchars(json_encode($s)); ?>)">
+            <button class="btn btn-sm btn-warning shadow-sm" onclick="abrirEditar(<?php echo htmlspecialchars(json_encode($s), ENT_QUOTES, 'UTF-8'); ?>)">
                 <i class="bi bi-pencil"></i>
             </button>
             <form action="../controllers/servicios_controller.php" method="POST" class="d-inline" onsubmit="return confirm('¿Cambiar estado?');">
                 <input type="hidden" name="id" value="<?php echo $s['servicio_id']; ?>">
                 <input type="hidden" name="nuevo_estatus" value="<?php echo $s['estatus'] ? 0 : 1; ?>">
-                <button type="submit" name="accion" value="alternar_estado" class="btn btn-sm btn-outline-secondary">
+                <button type="submit" name="accion" value="alternar_estado" class="btn btn-sm btn-outline-secondary shadow-sm">
                     <i class="bi bi-arrow-repeat"></i>
                 </button>
             </form>
         </td>
     </tr>
-    <?php endwhile; ?>
-    
+<?php endwhile; ?>
