@@ -1,10 +1,28 @@
-//para cargar estadísticas de citas
-    document.addEventListener('DOMContentLoaded', function() {
-        // Aquí se puede agregar una llamada AJAX para cargar estadísticas reales
-        // Por ahora solo mostramos datos de ejemplo
-        setTimeout(function() {
-            document.getElementById('citas_hoy').innerText = '3';
-            document.getElementById('citas_proximas').innerText = '7';
-            document.getElementById('citas_mes').innerText = '24';
-        }, 500);
-    });
+document.addEventListener('DOMContentLoaded', function() {
+    function animateNumber(elementId) {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        
+        const finalNumber = parseInt(element.getAttribute('data-final')) || 0;
+        if (finalNumber === 0) {
+            element.textContent = "0";
+            return;
+        }
+
+        let current = 0;
+        const increment = Math.ceil(finalNumber / 50);
+        const timer = setInterval(function() {
+            current += increment;
+            if (current >= finalNumber) {
+                element.textContent = finalNumber;
+                clearInterval(timer);
+            } else {
+                element.textContent = current;
+            }
+        }, 20);
+    }
+
+    animateNumber('citas_hoy');
+    animateNumber('citas_proximas');
+    animateNumber('citas_proximos_7dias');
+});

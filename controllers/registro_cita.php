@@ -1,93 +1,74 @@
 <?php
-session_start();
-if (!isset($_SESSION['usuario_id'])) {
-    header("Location: ../index.php");
-    exit;
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
+require_once '../includes/db.php';
 
-include '../includes/db.php';
-
-// Variables para mensajes
-$mensaje = "";
-$error = "";
-
-// Variables para el paciente buscado
+$mensaje = ''; 
+$error = '';
 $paciente_buscado = null;
-$paciente_cedula = "";
+$paciente_cedula = $_GET['id'] ?? ''; 
+$servicios = [];
+$quiropedistas = [];
 
-// Procesar búsqueda de paciente
-if (isset($_POST['buscar_paciente'])) {
-    $cedula_buscar = $_POST['cedula_buscar'];
-    
-    try {
-        $sql_buscar = "SELECT cedula_id, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido 
-                      FROM pacientes WHERE cedula_id = :cedula";
-        $stmt_buscar = $conexion->prepare($sql_buscar);
-        $stmt_buscar->execute([':cedula' => $cedula_buscar]);
-        
-        if ($stmt_buscar->rowCount() > 0) {
-            $paciente_buscado = $stmt_buscar->fetch(PDO::FETCH_ASSOC);
-            $paciente_cedula = $cedula_buscar;
-        } else {
-            $error = "❌ No se encontró ningún paciente con la cédula: " . $cedula_buscar;
-        }
-    } catch(PDOException $e) {
-        $error = "Error al buscar: " . $e->getMessage();
+
+try {
+   
+    $stmt_servicios = $conexion->query("SELECT * FROM servicios WHERE estatus = 1");
+    if ($stmt_servicios) {
+        $servicios = $stmt_servicios->fetchAll(PDO::FETCH_ASSOC);
     }
+
+   
+    $stmt_quiro = $conexion->query("SELECT u.cedula_id as usuario_cedula, u.primer_nombre, u.primer_apellido 
+                                    FROM quiropedistas q 
+                                    JOIN usuarios u ON q.usuario_cedula = u.cedula_id 
+                                    WHERE u.estado = 1");
+    if ($stmt_quiro) {
+        $quiropedistas = $stmt_quiro->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+} catch(PDOException $e) {
+    $error = "Error al cargar listas: " . $e->getMessage();
 }
 
-// Procesar el formulario cuando se envíe la cita
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['guardar_cita'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    try {
-        // Recibir datos
-        $paciente_cedula = $_POST['paciente_cedula'];
-        $quiropedista_cedula = $_POST['quiropedista_cedula'];
-        $servicio_id = $_POST['servicio_id'];
-        $fecha = $_POST['fecha'];
-        $hora = $_POST['hora'];
-        
-        // Validar que el paciente exista
-        $check_paciente = $conexion->prepare("SELECT cedula_id FROM pacientes WHERE cedula_id = :cedula");
-        $check_paciente->execute([':cedula' => $paciente_cedula]);
-        
-        if ($check_paciente->rowCount() == 0) {
-            $error = "❌ El paciente con cédula $paciente_cedula no existe en el sistema";
-        } else {
+    // Buscar Paciente
+    if (isset($_POST['buscar_paciente'])) {
+        $paciente_cedula = trim($_POST['cedula_buscar']);
+        $stmt = $conexion->prepare("SELECT * FROM pacientes WHERE cedula_id = ?");
+        $stmt->execute([$paciente_cedula]);
+        $paciente_buscado = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$paciente_buscado) {
+            $error = "Paciente no encontrado.";
+        }
+    } 
+    // Guardar Cita
+    elseif (isset($_POST['guardar_cita'])) {
+        try {
             
             $sql = "INSERT INTO citas (paciente_cedula, quiropedista_cedula, servicio_id, fecha, hora, estatus, aviso) 
-                    VALUES (:paciente, :quiropedista, :servicio, :fecha, :hora, 'programada', 'N')";
-            
+                    VALUES (:paciente, :quiro, :serv, :fecha, :hora, 'programada', 'N')";
             $stmt = $conexion->prepare($sql);
             $stmt->execute([
-                ':paciente' => $paciente_cedula,
-                ':quiropedista' => $quiropedista_cedula,
-                ':servicio' => $servicio_id,
-                ':fecha' => $fecha,
-                ':hora' => $hora
+                ':paciente' => $_POST['paciente_cedula'],
+                ':quiro' => $_POST['quiropedista_cedula'],
+                ':serv' => $_POST['servicio_id'],
+                ':fecha' => $_POST['fecha'],
+                ':hora' => $_POST['hora']
             ]);
-            
-            $mensaje = "✅ Cita guardada correctamente";
-            
-            // Limpia la búsqueda después de guardar
-            $paciente_buscado = null;
-            $paciente_cedula = "";
+            $mensaje = "Cita agendada correctamente.";
+            $paciente_buscado = null; 
+            $paciente_cedula = '';
+        } catch(PDOException $e) {
+            $error = "Error al agendar: " . $e->getMessage();
         }
-        
-    } catch(PDOException $e) {
-        $error = "❌ Error: " . $e->getMessage();
     }
-}
-
-// Obtener datos para los otros selects
-try {
-    $quiropedistas = $conexion->query("SELECT q.usuario_cedula, u.primer_nombre, u.primer_apellido 
-                                       FROM quiropedistas q 
-                                       JOIN usuarios u ON q.usuario_cedula = u.cedula_id 
-                                       WHERE q.disponibilidad = 1
-                                       ORDER BY u.primer_nombre");
-    $servicios = $conexion->query("SELECT servicio_id, nombre FROM servicios WHERE estatus = 1 ORDER BY nombre");
-} catch(PDOException $e) {
-    $error = "Error al cargar datos: " . $e->getMessage();
+} else if (!empty($paciente_cedula)) {
+    
+    $stmt = $conexion->prepare("SELECT * FROM pacientes WHERE cedula_id = ?");
+    $stmt->execute([$paciente_cedula]);
+    $paciente_buscado = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 ?>

@@ -4,6 +4,7 @@ if (!isset($_SESSION['usuario_id'])) {
     header("Location: ../index.php");
     exit;
 }
+require_once '../controllers/citas_estadisticas.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -15,26 +16,21 @@ if (!isset($_SESSION['usuario_id'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../assets/css/sidebar.css">
     <link rel="stylesheet" href="../assets/css/header.css">
-    <link rel="stylesheet" href="../assets/css/citas.css">
     <link rel="stylesheet" href="../assets/css/footer.css">
+    <link rel="stylesheet" href="../assets/css/citas.css">
 </head>
 <body class="bg-light">
 
-<?php include '../includes/header.php'; ?>
+    <?php include '../includes/header.php'; ?>
 
     <div class="d-flex" style="height: calc(100vh - 70px); overflow: hidden;">
-        
-<?php include '../includes/sidebar.php'; ?>
+        <?php include '../includes/sidebar.php'; 
+        include '../includes/titulo_modulo.php'; ?>
 
-        <!-- Contenido principal -->
         <div class="flex-grow-1" style="overflow-y: auto;">
-            
-            <?php include '../includes/titulo_modulo.php'; ?>
+           
 
-            <!-- Contenedor del módulo de citas -->
-            <div class="container-fluid p-4" style="overflow-y: auto; height: calc(100vh - 140px);">
-                
-                <!-- Tarjeta de bienvenida/módulo -->
+            <div class="container-fluid p-4">
                 <div class="card shadow-sm border-0 mb-4">
                     <div class="card-body">
                         <h4 class="card-title text-primary">
@@ -44,10 +40,7 @@ if (!isset($_SESSION['usuario_id'])) {
                     </div>
                 </div>
 
-                <!-- Grid de botones grandes -->
                 <div class="row g-4">
-                    
-                    <!-- Botón AGREGAR CITA -->
                     <div class="col-md-4">
                         <div class="card h-100 shadow hover-card border-0">
                             <div class="card-body text-center p-4 d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
@@ -63,7 +56,6 @@ if (!isset($_SESSION['usuario_id'])) {
                         </div>
                     </div>
                     
-                    <!-- Botón ESTATUS DE CITAS -->
                     <div class="col-md-4">
                         <div class="card h-100 shadow hover-card border-0">
                             <div class="card-body text-center p-4 d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
@@ -71,7 +63,7 @@ if (!isset($_SESSION['usuario_id'])) {
                                     <i class="bi bi-arrow-left-right text-warning" style="font-size: 3.5rem;"></i>
                                 </div>
                                 <h3 class="fw-bold mb-2">Estatus de Citas</h3>
-                                <p class="text-muted mb-3">Actualizar estado de citas (programada, atendida, cancelada)</p>
+                                <p class="text-muted mb-3">Actualizar estado de citas</p>
                                 <a href="actualizar_citas.php" class="btn btn-warning btn-lg w-100">
                                     <i class="bi bi-pencil-square me-2"></i>Gestionar Estados
                                 </a>
@@ -79,7 +71,6 @@ if (!isset($_SESSION['usuario_id'])) {
                         </div>
                     </div>
                     
-                    <!-- Botón CALENDARIO DE CITAS -->
                     <div class="col-md-4">
                         <div class="card h-100 shadow hover-card border-0">
                             <div class="card-body text-center p-4 d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
@@ -87,17 +78,15 @@ if (!isset($_SESSION['usuario_id'])) {
                                     <i class="bi bi-calendar-week-fill text-info" style="font-size: 3.5rem;"></i>
                                 </div>
                                 <h3 class="fw-bold mb-2">Calendario de Citas</h3>
-                                <p class="text-muted mb-3">Visualizar todas las citas en formato calendario</p>
+                                <p class="text-muted mb-3">Visualizar todas las citas</p>
                                 <a href="calendario.php" class="btn btn-info btn-lg w-100 text-white">
                                     <i class="bi bi-calendar3 me-2"></i>Ver Calendario
                                 </a>
                             </div>
                         </div>
                     </div>
-                    
                 </div>
 
-                <!-- Fila adicional con estadísticas rápidas (opcional) -->
                 <div class="row mt-5">
                     <div class="col-12">
                         <div class="card shadow-sm border-0 bg-light">
@@ -105,15 +94,15 @@ if (!isset($_SESSION['usuario_id'])) {
                                 <div class="row text-center">
                                     <div class="col-md-4">
                                         <h5 class="text-success"><i class="bi bi-calendar-check me-2"></i>Hoy</h5>
-                                        <h3 id="citas_hoy" class="fw-bold">-</h3>
+                                        <h3 id="citas_hoy" class="fw-bold" data-final="<?php echo $citas_hoy; ?>">0</h3>
                                     </div>
                                     <div class="col-md-4">
                                         <h5 class="text-warning"><i class="bi bi-hourglass-split me-2"></i>Próximas 24h</h5>
-                                        <h3 id="citas_proximas" class="fw-bold">-</h3>
+                                        <h3 id="citas_proximas" class="fw-bold" data-final="<?php echo $citas_proximas_24h; ?>">0</h3>
                                     </div>
                                     <div class="col-md-4">
-                                        <h5 class="text-primary"><i class="bi bi-graph-up me-2"></i>Total mes</h5>
-                                        <h3 id="citas_mes" class="fw-bold">-</h3>
+                                        <h5 class="text-primary"><i class="bi bi-calendar-week me-2"></i>Próximos 7 días</h5>
+                                        <h3 id="citas_proximos_7dias" class="fw-bold" data-final="<?php echo $citas_proximos_7dias; ?>">0</h3>
                                     </div>
                                 </div>
                             </div>
@@ -121,15 +110,12 @@ if (!isset($_SESSION['usuario_id'])) {
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
     <?php include '../includes/footer.php'; ?>
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/hamburguesa.js"></script>
-    
     <script src="../assets/js/citas.js"></script>
-
 </body>
 </html>

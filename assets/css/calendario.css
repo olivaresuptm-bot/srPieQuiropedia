@@ -1,0 +1,104 @@
+html, body { 
+    height: 100%;
+    margin: 0;
+    padding: 0; 
+    overflow: hidden; 
+}
+.contenedor-principal { 
+    height: calc(100vh - 70px); 
+    overflow-y: auto; 
+}
+#calendar { 
+    max-width: 1100px; 
+    margin: 0 auto;
+    background: white; 
+    padding: 20px; 
+    border-radius: 10px; 
+}
+.fc-daygrid-day.fc-day-today { 
+    background-color: #e3f2fd !important; 
+}
+.fc-daygrid-day.fc-day-today .fc-daygrid-day-number { 
+    font-weight: bold; 
+    color: #0d6efd; 
+}
+.fc-daygrid-day-events { 
+    min-height: 60px !important; 
+    max-height: 100px !important; 
+    overflow-y: auto !important; 
+}
+.fc-daygrid-event { 
+    white-space: normal !important; 
+    word-wrap: break-word !important; 
+    overflow-wrap: break-word !important; 
+    line-height: 1.2 !important; 
+    font-size: 0.75rem !important;
+    padding: 2px 4px !important; 
+    margin-bottom: 2px !important; 
+    border-radius: 3px !important; 
+    border: none !important; 
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1) !important; 
+}
+.fc-daygrid-event .fc-event-title { 
+    white-space: normal !important; 
+    word-wrap: break-word !important; 
+    overflow-wrap: break-word !important; 
+    font-weight: normal !important; 
+    padding: 0 !important; 
+}
+.fc-daygrid-event .fc-event-time { 
+    font-weight: bold !important; 
+    margin-right: 2px !important; 
+    white-space: normal !important; 
+}
+.fc-daygrid-day-frame { 
+    overflow: visible !important; 
+}
+.fc-daygrid-day-events { 
+    position: relative !important; 
+    top: auto !important; 
+    bottom: auto !important; 
+}
+.cita-indicador { 
+    display: inline-block; 
+    width: 8px; 
+    height: 8px; 
+    border-radius: 50%; 
+    background-color: #0d6efd; 
+    margin: 0 2px; 
+}
+.cita-indicador.programada { 
+    background-color: #ffc107; 
+}
+.cita-indicador.atendida { 
+    background-color: #198754; 
+}
+.cita-indicador.cancelada { 
+    background-color: #dc3545; 
+}
+.modal-citas { 
+    max-height: 500px; 
+    overflow-y: auto; 
+}
+.cita-item { 
+    padding: 10px; 
+    border-left: 4px solid; 
+    margin-bottom: 10px; 
+    background: white; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+}
+.cita-item.programada { 
+    border-left-color: #ffc107; 
+}
+.cita-item.atendida { 
+    border-left-color: #198754; 
+}
+.cita-item.cancelada { 
+    border-left-color: #dc3545; 
+}
+.hora-cita { 
+    font-weight: bold; 
+    color: #0d6efd; 
+    margin-right: 10px; 
+}
