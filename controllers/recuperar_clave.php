@@ -39,3 +39,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<script>alert('Los datos no coinciden con una cuenta activa.'); window.history.back();</script>";
     }
 }
+?>

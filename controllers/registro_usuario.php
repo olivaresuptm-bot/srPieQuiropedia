@@ -83,3 +83,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<script>alert('Error en el registro: " . addslashes($e->getMessage()) . "'); window.history.back();</script>";
     }
 }
+?>

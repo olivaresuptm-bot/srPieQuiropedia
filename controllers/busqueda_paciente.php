@@ -104,3 +104,4 @@ if (isset($_GET['cedula'])) {
         echo "error";
     }
 }
+?>
