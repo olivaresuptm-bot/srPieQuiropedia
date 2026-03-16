@@ -79,7 +79,7 @@ require_once '../controllers/calendario_citas.php';
         </div>
     </div>
     
-    <?php include '../includes/footer.php'; ?>
+    </div></div><?php include '../includes/footer.php'; ?>
     
     <script src="../assets/js/hamburguesa.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -90,6 +90,7 @@ require_once '../controllers/calendario_citas.php';
     <script>
         const citasData = <?php echo json_encode($citas); ?>;
     </script>
+    
     <script src="../assets/js/calendario.js"></script>
 </body>
 </html>

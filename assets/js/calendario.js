@@ -6,9 +6,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (cita.estatus === 'atendida') color = '#198754';
         else if (cita.estatus === 'cancelada') color = '#dc3545';
         
+        let horaCorta = cita.hora.substring(0, 5); 
+
         return {
             id: cita.cita_id,
-            title: `${cita.hora} - ${cita.paciente_nombre} ${cita.paciente_apellido}`,
+            title: `${horaCorta} - ${cita.paciente_nombre} ${cita.paciente_apellido}`, 
             start: cita.fecha + 'T' + cita.hora,
             allDay: false,
             color: color,
@@ -24,13 +26,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     var calendarEl = document.getElementById('calendar');
-    calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        locale: 'es',
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,dayGridWeek,dayGridDay'
+        calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'es',
+                displayEventTime: false, 
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,dayGridWeek,dayGridDay'
         },
         buttonText: { today: 'Hoy', month: 'Mes', week: 'Semana', day: 'Día' },
         events: eventos,
