@@ -9,15 +9,15 @@ $citas_proximas_24h = 0;
 $citas_proximos_7dias = 0;
 
 try {
-    // 1. Citas de HOY: Compara usando la fecha exacta del servidor de base de datos
+    // 1. Citas de HOY
     $sql_hoy = "SELECT COUNT(*) as total FROM citas 
                 WHERE fecha = CURDATE() 
                 AND estatus = 'programada'";
     $stmt_hoy = $conexion->query($sql_hoy);
     $citas_hoy = $stmt_hoy->fetch(PDO::FETCH_ASSOC)['total'];
 
-    // 2. Citas Próximas 24h: Mide estrictamente desde ESTE instante hasta mañana a esta misma hora.
-    // Usamos CAST para unir fecha y hora y compararlo con precisión.
+    // 2. Citas Próximas 24h
+    
     $sql_24h = "SELECT COUNT(*) as total FROM citas 
                 WHERE CAST(CONCAT(fecha, ' ', hora) AS DATETIME) > NOW() 
                 AND CAST(CONCAT(fecha, ' ', hora) AS DATETIME) <= DATE_ADD(NOW(), INTERVAL 24 HOUR) 
@@ -25,7 +25,7 @@ try {
     $stmt_24h = $conexion->query($sql_24h);
     $citas_proximas_24h = $stmt_24h->fetch(PDO::FETCH_ASSOC)['total'];
 
-    // 3. Citas próximos 7 días: Cuenta desde hoy hasta exactamente dentro de 7 días.
+    // 3. Citas próximos 7 días
     $sql_7d = "SELECT COUNT(*) as total FROM citas 
                WHERE fecha >= CURDATE() 
                AND fecha <= DATE_ADD(CURDATE(), INTERVAL 7 DAY) 
