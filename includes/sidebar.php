@@ -3,7 +3,8 @@ $pagina_actual = basename($_SERVER['PHP_SELF']);
 
 $nombres_modulos = [
     'citas.php'                 => 'Gestión de Citas',
-    'agregar_cita.php'         => 'Gestión de Citas',     
+    'agregar_cita.php'          => 'Gestión de Citas',   
+    'calendario.php'            => 'Gestión de Citas',   
     'gestion_pacientes.php'     => 'Gestión de Pacientes e historia',
     'pacientes.php'             => 'Gestión de Pacientes e historia',
     'servicios.php'             => 'Gestion de Servicios',
