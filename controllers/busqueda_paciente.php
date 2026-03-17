@@ -48,6 +48,10 @@ if (isset($_GET['cedula'])) {
                     <button type="button" class="btn btn-outline-primary btn-lg" onclick=\'abrirEditarPaciente(' . json_encode($p) . ')\'>
                         <i class="bi bi-pencil-square me-2"></i>Editar Datos
                     </button>
+
+                    <a href="gestion_pacientes/historial_pago_paciente.php?cedula=' . $p['cedula_id'] . '" class="btn btn-success btn-lg shadow-sm">
+                        <i class="bi bi-cash-stack me-1"></i> Pagos
+                    </a>
                 </div>
             </div>
         </div>

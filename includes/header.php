@@ -11,6 +11,9 @@ if (!isset($nombre_completo)) {
 if (!isset($rol_usuario)) {
     $rol_usuario = $_SESSION['rol'] ?? 'Personal';
 }
+
+// DEFINIR RUTA BASE PARA EL HEADER
+$ruta = isset($ruta_base) ? $ruta_base : '../'; 
 ?>
 <header class="dash-header">
     <div class="welcome-text">
@@ -19,10 +22,10 @@ if (!isset($rol_usuario)) {
     </div>
     
     <div class="d-flex align-items-center gap-4">
-         <a href="../dashboard.php" >
-                <img src="../assets/img/logo_sr_pie.png" width="80" class="mb-2">
+         <a href="<?php echo $ruta; ?>dashboard.php">
+                <img src="<?php echo $ruta; ?>assets/img/logo_sr_pie.png" width="80" class="mb-2" alt="Logo">
         </a>
-        <a href="../controllers/logout.php" class="btn-logout" title="Cerrar Sesión">
+        <a href="<?php echo $ruta; ?>controllers/logout.php" class="btn-logout" title="Cerrar Sesión">
             <i class="bi bi-box-arrow-right"></i>
         </a>
     </div>

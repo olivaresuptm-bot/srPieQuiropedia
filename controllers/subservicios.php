@@ -2,7 +2,7 @@
     $stmt = $conexion->query("SELECT * FROM servicios ORDER BY precio DESC, nombre ASC");
     while ($s = $stmt->fetch(PDO::FETCH_ASSOC)):
         $precio_bs = $s['precio'] * $tasa_bcv;
-        $es_control = ($s['precio'] <= 0); // Ponemos el costo 0 para que salga como gratis el subservicio
+        $es_control = ($s['precio'] <= 0); // Costo 0 para que salga como gratis el subservicio
     ?>
     <tr class="<?php echo $es_control ? 'table-light' : ''; ?>">
         <td class="ps-4">

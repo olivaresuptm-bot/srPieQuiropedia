@@ -139,24 +139,37 @@ require_once '../controllers/actualizar_citas.php';
                                                         <?php echo ucfirst($cita['estatus']); ?>
                                                     </span>
                                                 </td>
-                                                <td class="table-actions">
-                                                    <?php if ($cita['estatus'] == 'programada'): ?>
-                                                        <a href="?accion=atendida&id=<?php echo $cita['cita_id']; ?>&search=<?php echo urlencode($search); ?>" 
-                                                           class="btn btn-success btn-sm shadow-sm" 
-                                                           onclick="return confirm('¿Marcar esta cita como ATENDIDA?')" title="Marcar como atendida">
-                                                            <i class="bi bi-check-lg"></i> Atendida
-                                                        </a>
-                                                        <a href="?accion=cancelada&id=<?php echo $cita['cita_id']; ?>&search=<?php echo urlencode($search); ?>" 
-                                                           class="btn btn-danger btn-sm shadow-sm" 
-                                                           onclick="return confirm('¿Estás seguro de CANCELAR esta cita?')" title="Cancelar cita">
-                                                            <i class="bi bi-x-lg"></i> Cancelar
-                                                        </a>
-                                                    <?php elseif ($cita['estatus'] == 'atendida'): ?>
-                                                        <span class="text-success fw-bold small"><i class="bi bi-check-circle-fill"></i> Completada</span>
-                                                    <?php else: ?>
-                                                        <span class="text-danger fw-bold small"><i class="bi bi-x-circle-fill"></i> Cancelada</span>
-                                                    <?php endif; ?>
-                                                </td>
+                                               <td class="table-actions">
+    <?php if ($cita['estatus'] == 'programada'): ?>
+        <a href="?accion=atendida&id=<?php echo $cita['cita_id']; ?>&search=<?php echo urlencode($search); ?>" 
+           class="btn btn-success btn-sm shadow-sm" 
+           onclick="return confirm('¿Marcar esta cita como ATENDIDA?')" title="Marcar como atendida">
+            <i class="bi bi-check-lg"></i> Atendida
+        </a>
+        <a href="?accion=cancelada&id=<?php echo $cita['cita_id']; ?>&search=<?php echo urlencode($search); ?>" 
+           class="btn btn-danger btn-sm shadow-sm" 
+           onclick="return confirm('¿Estás seguro de CANCELAR esta cita?')" title="Cancelar cita">
+            <i class="bi bi-x-lg"></i> Cancelar
+        </a>
+
+    <?php elseif ($cita['estatus'] == 'atendida'): ?>
+        
+        <?php if (!empty($cita['pago_id'])): ?>
+            <span class="badge bg-success p-2 shadow-sm" style="font-size: 0.85rem;">
+                <i class="bi bi-check-circle-fill me-1"></i> Pagado
+            </span>
+        <?php else: ?>
+            <a href="gestion_pacientes/facturacion_paciente.php?cita_id=<?php echo $cita['cita_id']; ?>" 
+               class="btn btn-primary btn-sm shadow-sm">
+                <i class="bi bi-receipt-cutoff me-1"></i> Facturar
+            </a>
+            <span class="text-success fw-bold small ms-2"><i class="bi bi-check-circle-fill"></i> Completada</span>
+        <?php endif; ?>
+
+    <?php else: ?>
+        <span class="text-danger fw-bold small"><i class="bi bi-x-circle-fill"></i> Cancelada</span>
+    <?php endif; ?>
+</td>
                                             </tr>
                                         <?php endforeach; ?>
                                     <?php endif; ?>

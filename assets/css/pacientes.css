@@ -1,0 +1,146 @@
+
+:root {
+  --azul-principal: #4a90e2; 
+  --azul-oscuro: #357abd;
+  --fondo-pagina: #d1e9ff; 
+  --texto-suave: #666;
+}
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--fondo-pagina);
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.main-card {
+  background: white;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: none;
+  max-width: 950px;
+  width: 100%;
+}
+
+.panel-info {
+  background-color: var(--azul-principal);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  text-align: center;
+}
+.form-panel {
+  padding: 40px;
+  min-height: 550px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.form-control,
+.form-select {
+  background-color: #f0f7ff;
+  border: 1px solid #e1e9f0;
+  border-radius: 12px;
+  padding: 8px 12px;
+}
+.btn-crear {
+  background-color: var(--azul-principal);
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  font-weight: bold;
+  color: white;
+  transition: 0.3s;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+.btn-crear:hover {
+  background-color: #357abd;
+  color: white;
+}
+.btn-volver {
+  border: 2px solid white;
+  border-radius: 25px;
+  padding: 8px 40px;
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.btn-volver:hover {
+  background: white;
+  color: var(--azul);
+}
+
+.check-icon {
+  font-size: 5rem;
+  color: #27ae60;
+  margin-bottom: 20px;
+}
+
+h3 {
+  margin-top: 0;
+  color: #1c1e21;
+  text-align: center;
+}
+.alert {
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 14px;
+}
+.success {
+  background: #e7f4e8;
+  color: #2d8a39;
+  border: 1px solid #2d8a39;
+}
+.error {
+  background: #fbe9e9;
+  color: #d93025;
+  border: 1px solid #d93025;
+}
+input,
+select,
+textarea {
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  outline: none;
+  transition: 0.3s;
+}
+input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+button {
+  width: 100%;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+}
+button:hover {
+  background: #0056b3;
+}
+label {
+  font-size: 12px;
+  color: #606770;
+  font-weight: bold;
+  margin-left: 2px;
+}

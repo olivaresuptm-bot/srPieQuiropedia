@@ -32,11 +32,19 @@ if (!isset($_SESSION['usuario_id'])) {
                 <div class="card-body p-4">
                     <div class="row justify-content-center">
                         <div class="col-md-8">
-                            <div class="input-group input-group-lg shadow-sm">
-                                <span class="input-group-text bg-white border-end-0"><i class="bi bi-person-vcard text-primary"></i></span>
-                                <input type="text" id="inputBusqueda" class="form-control border-start-0" placeholder="Ingrese cédula del paciente..." onkeypress="verificarEnter(event)">
-                                <button class="btn btn-primary" onclick="realizarBusqueda()">Buscar</button>
-                            </div>
+                            <?php 
+                                $cedula_busqueda = $_GET['busqueda'] ?? ''; 
+                                ?>
+                                <div class="input-group input-group-lg shadow-sm">
+                                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-person-vcard text-primary"></i></span>
+                                    
+                                    <input type="text" id="inputBusqueda" class="form-control border-start-0" 
+                                        placeholder="Ingrese cédula del paciente..." 
+                                        onkeypress="verificarEnter(event)" 
+                                        value="<?php echo htmlspecialchars($cedula_busqueda); ?>">
+                                        
+                                    <button class="btn btn-primary" id="btnBuscar" onclick="realizarBusqueda()">Buscar</button>
+                                </div>
                             <div id="errorBusqueda" class="text-danger mt-2" style="display:none;">
                                 <i class="bi bi-exclamation-circle"></i> No se encontró el paciente.
                             </div>
@@ -59,7 +67,7 @@ if (!isset($_SESSION['usuario_id'])) {
                                     <p class="mb-0" style="margin-right: 20px;">Registra un nuevo paciente en el sistema.</p>
                                 </div>
                             </div>
-                            <a href="pacientes.php" class="btn btn-primary btn-lg px-4">Registrar paciente</a>
+                            <a href="gestion_pacientes/pacientes.php" class="btn btn-primary btn-lg px-4">Registrar paciente</a>
                         </div>
                     </div>
                 </div>
@@ -68,13 +76,29 @@ if (!isset($_SESSION['usuario_id'])) {
         </div>
     </div>
 
-    <div class="mt-auto">
-                <?php include '../includes/footer.php'; ?>
-            </div>
+    </div></div></div><?php include '../includes/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/busqueda_paciente.js"></script>
     <script src="../assets/js/editar_paciente.js"></script>
     <script src="../assets/js/hamburguesa.js"></script>
+   <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const inputVal = document.getElementById("inputBusqueda").value;
+            
+            // Si hay algo escrito en la barra...
+            if (inputVal.trim() !== "") {
+                setTimeout(() => {
+                    // Buscamos el botón y simulamos un clic real
+                    const botonBuscar = document.getElementById("btnBuscar");
+                    if (botonBuscar) {
+                        botonBuscar.click(); 
+                    }
+                }, 200); // Le damos 200 milisegundos para que todo cargue bien
+            }
+        });
+    </script>
+</body>
+</html>
 </body>
 </html>
