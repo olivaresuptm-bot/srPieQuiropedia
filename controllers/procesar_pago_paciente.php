@@ -1,9 +1,10 @@
 <?php
 session_start();
 require_once '../includes/db.php';
+require_once '../includes/tasa_BCV.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validar que se enviaron los datos
+    // Validar que se enviaron los datos principales
     if (!isset($_POST['cita_id']) || empty($_POST['metodo_pago'])) {
         die("Error: Datos incompletos.");
     }
@@ -12,7 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $monto = $_POST['monto'];
     $metodo_pago = $_POST['metodo_pago'];
     $referencia = !empty($_POST['referencia']) ? trim($_POST['referencia']) : null;
-    $fecha_actual = date('Y-m-d H:i:s');
+    $fecha_pago = date('Y-m-d H:i:s');
+    
+    // Atrapamos la variable $tasa_bcv que viene de tu archivo incluido
+    $tasa_guardar = isset($tasa_bcv) ? $tasa_bcv : 0; 
 
     try {
         // Verificar si la cita ya fue pagada para evitar cobros dobles
@@ -27,19 +31,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         }
 
-        // Insertar en la tabla pagos
-        $sql = "INSERT INTO pagos (cita_id, monto, metodo_pago, fecha_pago, referencia) 
-                VALUES (:cita, :monto, :metodo, :fecha, :referencia)";
+        // Insertar en la tabla pagos (Asegúrate de que tu columna de fecha se llame fecha_pago)
+        $sql = "INSERT INTO pagos (cita_id, monto, metodo_pago, fecha_pago, referencia, tasa_bcv) 
+                VALUES (?, ?, ?, ?, ?, ?)"; 
         
         $stmt = $conexion->prepare($sql);
-        $stmt->execute([
-            ':cita' => $cita_id,
-            ':monto' => $monto,
-            ':metodo' => $metodo_pago,
-            ':fecha' => $fecha_actual,
-            ':referencia' => $referencia
-        ]);
-
+        // Ejecutamos pasando los 6 valores exactos
+        $stmt->execute([$cita_id, $monto, $metodo_pago, $fecha_pago, $referencia, $tasa_guardar]);
+        
         // Redirigir con éxito
         echo "<script>
                 alert('✅ Pago registrado correctamente.');
