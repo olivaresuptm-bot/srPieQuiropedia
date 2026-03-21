@@ -19,10 +19,12 @@ include '../../controllers/registro_paciente.php';
     <link rel="stylesheet" href="../../assets/css/footer.css">
 </head>
 <body class="bg-light">
-    <?php include '../../includes/header.php'; ?>
+   <?php $ruta_base = '../../';
+    include '../../includes/header.php'; ?>
 
     <div class="d-flex" style="height: calc(100vh - 70px); overflow: hidden;">
-        <?php include '../../includes/sidebar.php'; 
+        <?php $ruta_base = '../../'; 
+        include '../../includes/sidebar.php'; 
         include '../../includes/titulo_modulo.php'; ?>
         
        <div class="container-fluid d-flex justify-content-center align-items-center bg-light">

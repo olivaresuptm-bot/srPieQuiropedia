@@ -120,7 +120,7 @@ include '../controllers/usuario_edicion.php';
                         
                     <div class="mb-3">
                         <label class="form-label fw-bold">Rol</label>
-                        <select name="rol" id="edit_rol" class="form-select" required>
+                        <select name="rol" id="edit_rol" class="form-select" >
                             <option value="quiropedista">Quiropedista</option>
                             <option value="recepcionista">Recepcionista</option>
                         </select>

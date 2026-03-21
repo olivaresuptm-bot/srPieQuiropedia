@@ -140,13 +140,19 @@ include '../../controllers/historial_pago_paciente.php';
                             <a href="../../controllers/factura_pagos_paciente_pdf.php?cedula=<?php echo $cedula; ?>" 
                                 target="_blank" 
                                 class="btn btn-warning shadow-sm ms-3">
-                                    <i class="bi bi-file-earmark-pdf me-2"></i>Descargar Factura PDF
+                                    <i class="bi bi-file-earmark-pdf me-2"></i>Historial Pago Paciente PDF
                             </a>
 
                             <a href="../../controllers/factura_ultimo_pago_paciente_pdf.php?cedula=<?php echo $cedula; ?>" 
                                 target="_blank" 
                                 class="btn btn-primary shadow-sm">
-                                    <i class="bi bi-file-earmark-pdf me-2"></i>Descargar Última Factura PDF
+                                    <i class="bi bi-file-earmark-pdf me-2"></i>Última Factura PDF
+                            </a>
+
+                            <a href="../../controllers/factura_pago_enviar_correo.php?cedula=<?php echo $cedula; ?>" 
+                                target="_blank" 
+                                class="btn btn-success shadow-sm">
+                                    <i class="bi bi-envelope-paper me-2"></i>Enviar al Correo
                             </a>
                        
                         </div>
