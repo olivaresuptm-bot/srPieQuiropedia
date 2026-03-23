@@ -1,0 +1,27 @@
+
+.card-paciente { 
+    border-top: 5px solid #0d6efd; 
+}
+
+.timeline-item { 
+    border-left: 3px solid #0d6efd; 
+    padding-left: 15px; 
+    margin-bottom: 20px; 
+    position: relative; 
+}
+
+.timeline-item::before { 
+    content: ''; 
+    position: absolute; 
+    width: 12px; 
+    height: 12px; 
+    background: #0d6efd; 
+    border-radius: 50%; 
+    left: -8px; 
+    top: 5px; 
+}
+
+textarea {
+    resize: none;
+}
+  

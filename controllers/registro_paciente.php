@@ -4,18 +4,9 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $msj = null;
-$dsn = "mysql:host=localhost;dbname=srpiequiropedia;charset=utf8mb4";
-$usuario = "root";
-$password = "";
 
-try {
-    $pdo = new PDO($dsn, $usuario, $password, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-    ]);
-} catch (PDOException $e) {
-    die("Error de conexión: " . $e->getMessage());
-}
+// TRUCO 1: __DIR__ ancla la ruta a la carpeta 'controllers', sin importar quién lo llame.
+require_once __DIR__ . '/../includes/db.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -28,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     telefono = :tel, correo = :correo, direccion = :dir 
                     WHERE cedula_id = :id";
             
-            $stmt = $pdo->prepare($sql);
+            $stmt = $conexion->prepare($sql);
             $stmt->execute([
                 ':n1' => trim($_POST['primer_nombre']),
                 ':n2' => trim($_POST['segundo_nombre']),
@@ -41,11 +32,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ]);
 
             $_SESSION['mensaje'] = ["tipo" => "success", "texto" => "✅ Paciente actualizado con éxito."];
-            header("Location: ../modulos/gestion_pacientes.php");
+            // TRUCO 2: Recargamos la misma página donde estamos, evitando rutas locas.
+            header("Location: " . $_SERVER['PHP_SELF']);
             exit();
         } catch (PDOException $e) {
             $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ Error al actualizar: " . $e->getMessage()];
-            header("Location: ../modulos/gestion_pacientes.php");
+            header("Location: " . $_SERVER['PHP_SELF']);
             exit();
         }
     } 
@@ -53,8 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // --- CASO 2: REGISTRO NUEVO ---
     else if (isset($_POST['cedula_id'])) {
         try {
-            // Verificar si la cédula del paciente ya existe
-            $check = $pdo->prepare("SELECT COUNT(*) FROM pacientes WHERE cedula_id = ?");
+            $check = $conexion->prepare("SELECT COUNT(*) FROM pacientes WHERE cedula_id = ?");
             $check->execute([$_POST['cedula_id']]);
             
             if ($check->fetchColumn() > 0) {
@@ -64,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $sql = "INSERT INTO pacientes (cedula_id, tipo_doc, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fecha_nac, genero, telefono, correo, direccion, registrado_por) 
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 
-                $stmt = $pdo->prepare($sql);
+                $stmt = $conexion->prepare($sql);
                 $stmt->execute([
                     $_POST['cedula_id'], 
                     $_POST['tipo_doc'], 
@@ -90,11 +81,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ Error: " . $e->getMessage()];
             }
         }
-        header("Location: ../modulos/pacientes.php");
+        
+        // TRUCO 2 de nuevo
+        header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     }
 }
-
 
 if (isset($_SESSION['mensaje'])) {
     $msj = $_SESSION['mensaje'];

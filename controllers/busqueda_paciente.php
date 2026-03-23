@@ -41,7 +41,7 @@ if (isset($_GET['cedula'])) {
                         <i class="bi bi-calendar-check me-2"></i>Agendar Cita
                     </a>
 
-                    <a href="historial.php?id=' . $p['cedula_id'] . '" class="btn btn-dark btn-lg">
+                <a href="gestion_pacientes/historial.php?cedula=' . $p['cedula_id'] . '" class="btn btn-dark btn-lg">
                         <i class="bi bi-file-earmark-medical me-2"></i>Historial Clínico
                     </a>
 

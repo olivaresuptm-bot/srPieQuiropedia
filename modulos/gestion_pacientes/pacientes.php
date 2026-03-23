@@ -1,9 +1,10 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario_id'])) {
-    header("Location: ../index.php");
+    header("Location: ../../index.php");
     exit;
 }
+// AQUÍ ESTABA EL ERROR: Necesitamos dos niveles (../../) para llegar a controllers
 include '../../controllers/registro_paciente.php'; 
 ?>
 <!DOCTYPE html>
@@ -19,7 +20,7 @@ include '../../controllers/registro_paciente.php';
     <link rel="stylesheet" href="../../assets/css/footer.css">
 </head>
 <body class="bg-light">
-   <?php $ruta_base = '../../';
+    <?php $ruta_base = '../../'; 
     include '../../includes/header.php'; ?>
 
     <div class="d-flex" style="height: calc(100vh - 70px); overflow: hidden;">
@@ -117,7 +118,7 @@ include '../../controllers/registro_paciente.php';
 
                         <div class="col-12">
                             <label class="form-label small fw-bold text-secondary">Registrado Por</label>
-                            <input type="text" name="registrado_por" class="form-control border-light-subtle shadow-sm" placeholder="Cèdula del operador" required>
+                            <input type="text" name="registrado_por" class="form-control border-light-subtle shadow-sm" placeholder="Cédula del operador" required>
                         </div>
 
                         <div class="col-12 mt-4">
@@ -127,7 +128,7 @@ include '../../controllers/registro_paciente.php';
                         </div>
                     </form>
                     <div class="text-center mt-3">
-                        <a href="../gestion_pacientes.php" class="text-decoration-none small text-muted"> Volver a getión de pacientes </a>
+                        <a href="../gestion_pacientes.php" class="text-decoration-none small text-muted"> Volver a gestión de pacientes </a>
                     </div>
                 <?php endif; ?>
             </div>
