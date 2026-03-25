@@ -73,7 +73,7 @@ include '../../controllers/historial_pago_paciente.php';
 
                     <div class="card shadow border-0">
                         <div class="card-header bg-white py-3 border-0">
-                            <h5 class="mb-0 text-primary"><i class="bi bi-card-list me-2"></i>Facturas Registradas</h5>
+                            <h5 class="mb-0 text-primary"><i class="bi bi-card-list me-2"></i>Recibos Registrados</h5>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
@@ -151,7 +151,7 @@ include '../../controllers/historial_pago_paciente.php';
                             <a href="../../controllers/factura_ultimo_pago_paciente_pdf.php?cedula=<?php echo $cedula; ?>" 
                                 target="_blank" 
                                 class="btn btn-primary shadow-sm">
-                                    <i class="bi bi-file-earmark-pdf me-2"></i>Última Factura PDF
+                                    <i class="bi bi-file-earmark-pdf me-2"></i>Último Recibo PDF
                             </a>
 
                             <a href="../../controllers/factura_pago_enviar_correo.php?cedula=<?php echo $cedula; ?>" 

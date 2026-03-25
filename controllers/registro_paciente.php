@@ -14,9 +14,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['action']) && $_POST['action'] === 'edit_patient') {
         try {
             // Actualización con los campos nuevos de Instagram y Diabético
+            // Actualización con la Fecha de Nacimiento incluida
+           // Actualización inteligente: Si la fecha viene vacía, mantiene la que ya estaba
             $sql = "UPDATE pacientes SET 
                     primer_nombre = :n1, segundo_nombre = :n2, 
                     primer_apellido = :a1, segundo_apellido = :a2, 
+                    fecha_nac = COALESCE(NULLIF(:fecha_nac, ''), fecha_nac),
                     telefono = :tel, correo = :correo, instagram = :instagram, 
                     direccion = :dir, diabetico = :diabetico
                     WHERE cedula_id = :id";
@@ -27,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ':n2' => trim($_POST['segundo_nombre']),
                 ':a1' => trim($_POST['primer_apellido']),
                 ':a2' => trim($_POST['segundo_apellido']),
+                ':fecha_nac' => trim($_POST['fecha_nac'] ?? ''),
                 ':tel' => trim($_POST['telefono']),
                 ':correo' => trim($_POST['correo']),
                 ':instagram' => trim($_POST['instagram'] ?? ''),
@@ -34,7 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ':diabetico' => trim($_POST['diabetico'] ?? 'No'),
                 ':id' => trim($_POST['cedula_id'])
             ]);
-
             $_SESSION['mensaje'] = ["tipo" => "success", "texto" => "✅ Paciente actualizado con éxito."];
             
             // LA SOLUCIÓN: Forzamos el regreso exacto a la pantalla de búsqueda con la cartilla del paciente

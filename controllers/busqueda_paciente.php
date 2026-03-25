@@ -89,17 +89,15 @@ if (isset($_GET['cedula'])) {
                             </div>
                             
                             <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Fecha de Nacimiento</label>
+                                <input type="date" name="fecha_nac" id="edit_p_fecha" class="form-control">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold">Instagram (@)</label>
                                 <input type="text" name="instagram" id="edit_p_inst" class="form-control" placeholder="@usuario">
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold ">¿Es Diabético?</label>
-                                <select name="diabetico" id="edit_p_dia" class="form-select ">
-                                    <option value="No">No</option>
-                                    <option value="Si">Sí</option>
-                                </select>
-                            </div>
-
+                            
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold">Teléfono</label>
                                 <input type="text" name="telefono" id="edit_p_tel" class="form-control" required>
@@ -107,6 +105,14 @@ if (isset($_GET['cedula'])) {
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold">Correo</label>
                                 <input type="email" name="correo" id="edit_p_correo" class="form-control">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold ">¿Es Diabético?</label>
+                                <select name="diabetico" id="edit_p_dia" class="form-select ">
+                                    <option value="No">No</option>
+                                    <option value="Si">Sí</option>
+                                </select>
                             </div>
                             <div class="col-12 mb-3">
                                 <label class="form-label fw-bold">Dirección</label>

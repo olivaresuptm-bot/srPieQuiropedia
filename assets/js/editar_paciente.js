@@ -10,6 +10,7 @@ function abrirEditarPaciente(p) {
     document.getElementById('edit_p_dir').value = p.direccion || '';
     document.getElementById('edit_p_inst').value = p.instagram || '';
     document.getElementById('edit_p_dia').value = p.diabetico || 'No';
+    document.getElementById('edit_p_fecha').value = p.fecha_nac;
 
     // Mostrar el modal
     var myModal = new bootstrap.Modal(document.getElementById('modalEditarPaciente'));
