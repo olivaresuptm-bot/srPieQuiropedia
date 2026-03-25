@@ -10,13 +10,15 @@ require_once __DIR__ . '/../includes/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // --- CASO 1: EDICIÓN---
+    // --- CASO 1: EDICIÓN (Viene de la ventana Modal en busqueda_paciente.php) ---
     if (isset($_POST['action']) && $_POST['action'] === 'edit_patient') {
         try {
+            // Actualización con los campos nuevos de Instagram y Diabético
             $sql = "UPDATE pacientes SET 
                     primer_nombre = :n1, segundo_nombre = :n2, 
                     primer_apellido = :a1, segundo_apellido = :a2, 
-                    telefono = :tel, correo = :correo, direccion = :dir 
+                    telefono = :tel, correo = :correo, instagram = :instagram, 
+                    direccion = :dir, diabetico = :diabetico
                     WHERE cedula_id = :id";
             
             $stmt = $conexion->prepare($sql);
@@ -27,17 +29,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ':a2' => trim($_POST['segundo_apellido']),
                 ':tel' => trim($_POST['telefono']),
                 ':correo' => trim($_POST['correo']),
+                ':instagram' => trim($_POST['instagram'] ?? ''),
                 ':dir' => trim($_POST['direccion']),
+                ':diabetico' => trim($_POST['diabetico'] ?? 'No'),
                 ':id' => trim($_POST['cedula_id'])
             ]);
 
             $_SESSION['mensaje'] = ["tipo" => "success", "texto" => "✅ Paciente actualizado con éxito."];
-            // TRUCO 2: Recargamos la misma página donde estamos, evitando rutas locas.
-            header("Location: " . $_SERVER['PHP_SELF']);
+            
+            // LA SOLUCIÓN: Forzamos el regreso exacto a la pantalla de búsqueda con la cartilla del paciente
+            $cedula_busqueda = trim($_POST['cedula_id']);
+            header("Location: ../modulos/gestion_pacientes.php?busqueda=" . urlencode($cedula_busqueda));
             exit();
+            
         } catch (PDOException $e) {
             $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ Error al actualizar: " . $e->getMessage()];
-            header("Location: " . $_SERVER['PHP_SELF']);
+            
+            // Si hay error, también te devuelve a la cartilla
+            $cedula_busqueda = trim($_POST['cedula_id']);
+            header("Location: ../modulos/gestion_pacientes.php?busqueda=" . urlencode($cedula_busqueda));
             exit();
         }
     } 
@@ -52,8 +62,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ La cédula del paciente ya está registrada."];
             } else {
                 
-                $sql = "INSERT INTO pacientes (cedula_id, tipo_doc, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fecha_nac, genero, telefono, correo, direccion, registrado_por) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO pacientes (cedula_id, tipo_doc, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fecha_nac, genero, telefono, correo, instagram, direccion, diabetico, registrado_por) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 
                 $stmt = $conexion->prepare($sql);
                 $stmt->execute([
@@ -67,14 +77,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $_POST['genero'], 
                     $_POST['telefono'], 
                     $_POST['correo'], 
+                    $_POST['instagram'] ?? '',
                     $_POST['direccion'],
+                    $_POST['diabetico'] ?? 'No',
                     $_POST['registrado_por'] 
                 ]);
 
                 $_SESSION['mensaje'] = ["tipo" => "success", "texto" => "✅ Paciente registrado con éxito."];
             }
         } catch (PDOException $e) {
-            
             if (strpos($e->getMessage(), '1452') !== false || $e->getCode() == 23000) {
                 $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ Error: La cédula ingresada en 'Registrado Por' no corresponde a ningún usuario del sistema. Verifique la cédula del operador."];
             } else {
@@ -82,8 +93,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
         
-        // TRUCO 2 de nuevo
-        header("Location: " . $_SERVER['PHP_SELF']);
+        // Regresa al formulario de pacientes para limpiar los campos
+        header("Location: ../modulos/gestion_pacientes/pacientes.php");
         exit();
     }
 }

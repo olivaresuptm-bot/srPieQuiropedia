@@ -8,6 +8,9 @@ if (isset($_GET['cedula'])) {
     $p = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($p) {
+        $diabetico_badge = ($p['diabetico'] == 'Si') ? '<span class="badge bg-danger"><i class="bi bi-exclamation-triangle-fill me-1"></i>Sí (Precaución)</span>' : '<span class="badge bg-success">No</span>';
+        $instagram_val = !empty($p['instagram']) ? $p['instagram'] : 'N/A';
+
         echo '
         <div class="card border-0 bg-light">
             <div class="card-body">
@@ -17,7 +20,8 @@ if (isset($_GET['cedula'])) {
                     </div>
                     <div class="col-md-10">
                         <h3 class="fw-bold mb-0">' . $p['primer_nombre'] . ' ' . $p['segundo_nombre'] . ' ' .$p['primer_apellido'] . ' ' .$p['segundo_apellido']. '</h3>
-                        <p class="text-muted">C.I: ' . $p['tipo_doc'] . '-' . $p['cedula_id'] . ' | Teléfono: ' . $p['telefono'] . '</p>
+                        <p class="text-muted mb-1">C.I: ' . $p['tipo_doc'] . '-' . $p['cedula_id'] . ' | Teléfono: ' . $p['telefono'] . '</p>
+                        <p class="mb-0"><i class="bi bi-instagram text-danger me-1"></i> ' . $instagram_val . ' &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Diabético:</strong> ' . $diabetico_badge . '</p>
                     </div>
                 </div>
                 <hr>
@@ -83,6 +87,19 @@ if (isset($_GET['cedula'])) {
                                 <label class="form-label fw-bold">Segundo Apellido</label>
                                 <input type="text" name="segundo_apellido" id="edit_p_ape2" class="form-control">
                             </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Instagram (@)</label>
+                                <input type="text" name="instagram" id="edit_p_inst" class="form-control" placeholder="@usuario">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold ">¿Es Diabético?</label>
+                                <select name="diabetico" id="edit_p_dia" class="form-select ">
+                                    <option value="No">No</option>
+                                    <option value="Si">Sí</option>
+                                </select>
+                            </div>
+
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold">Teléfono</label>
                                 <input type="text" name="telefono" id="edit_p_tel" class="form-control" required>

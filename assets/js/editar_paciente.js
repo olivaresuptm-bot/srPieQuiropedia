@@ -8,6 +8,8 @@ function abrirEditarPaciente(p) {
     document.getElementById('edit_p_tel').value = p.telefono;
     document.getElementById('edit_p_correo').value = p.correo || '';
     document.getElementById('edit_p_dir').value = p.direccion || '';
+    document.getElementById('edit_p_inst').value = p.instagram || '';
+    document.getElementById('edit_p_dia').value = p.diabetico || 'No';
 
     // Mostrar el modal
     var myModal = new bootstrap.Modal(document.getElementById('modalEditarPaciente'));

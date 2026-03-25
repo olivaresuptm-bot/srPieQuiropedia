@@ -54,7 +54,12 @@ include '../../controllers/historial_pago_paciente.php';
                                                     ($paciente['segundo_apellido'] ?? '')); 
                                         ?>
                                     </h3>
-                                    <span class="text-muted"><i class="bi bi-person-vcard me-1"></i> C.I: <?php echo $paciente['cedula_id']; ?></span>
+                                   <span class="text-muted me-3"><i class="bi bi-person-vcard me-1"></i> C.I: <?php echo $paciente['cedula_id']; ?></span>
+                                        <span class="text-muted me-3"><i class="bi bi-instagram text-danger me-1"></i> <?php echo htmlspecialchars($paciente['instagram'] ?? 'N/A'); ?></span>
+                                        
+                                        <?php if(isset($paciente['diabetico']) && $paciente['diabetico'] == 'Si'): ?>
+                                            <span class="badge bg-danger shadow-sm py-2 px-3"><i class="bi bi-exclamation-triangle-fill me-1"></i>Paciente Diabético</span>
+                                        <?php endif; ?>
                                 </div>
                                 
                                 <div class="text-end">

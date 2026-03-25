@@ -2,18 +2,43 @@
     $stmt = $conexion->query("SELECT * FROM servicios ORDER BY precio DESC, nombre ASC");
     while ($s = $stmt->fetch(PDO::FETCH_ASSOC)):
         $precio_bs = $s['precio'] * $tasa_bcv;
-        $es_control = ($s['precio'] <= 0); // Costo 0 para que salga como gratis el subservicio
+        $es_control = ($s['precio'] <= 0); 
+        
+  
+        $texto_precio = '$' . number_format($s['precio'], 2);
+        $etiqueta_insignia = '';
+        
+        if ($es_control) {
+           
+            $nombre_lower = strtolower(trim($s['nombre']));
+            
+         
+            if (strpos($nombre_lower, 'revision') !== false || strpos($nombre_lower, 'revisión') !== false) {
+                $texto_precio = 'Garantía';
+                $etiqueta_insignia = 'GARANTÍA';
+            } 
+    
+            elseif (strpos($nombre_lower, 'cura') !== false) {
+                $texto_precio = 'Cura incluida';
+                $etiqueta_insignia = 'CURA INCLUIDA';
+            } 
+           
+            else {
+                $texto_precio = 'Gratis';
+                $etiqueta_insignia = 'CONTROL / SEGUIMIENTO';
+            }
+        }
     ?>
     <tr class="<?php echo $es_control ? 'table-light' : ''; ?>">
         <td class="ps-4">
             <strong><?php echo htmlspecialchars($s['nombre']); ?></strong>
             <?php if($es_control): ?>
-                <br><span class="badge bg-info text-dark" style="font-size: 0.7rem;">CONTROL / SEGUIMIENTO</span>
+                <br><span class="badge bg-info text-dark" style="font-size: 0.7rem;"><?php echo $etiqueta_insignia; ?></span>
             <?php endif; ?>
         </td>
         <td class="small text-muted"><?php echo htmlspecialchars($s['descripcion']); ?></td>
-        <td class="fw-bold <?php echo $es_control ? 'text-muted' : 'text-success'; ?>">
-            <?php echo $es_control ? 'GRATIS' : '$' . number_format($s['precio'], 2); ?>
+        <td class="fw-bold <?php echo $es_control ? 'text-primary' : 'text-success'; ?>">
+            <?php echo $texto_precio; ?>
         </td>
         <td class="text-secondary">
             <?php echo $es_control ? '-' : 'Bs. ' . number_format($precio_bs, 2, ',', '.'); ?>

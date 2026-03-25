@@ -61,6 +61,8 @@ require_once '../../controllers/historial.php';
                                     <p class="mb-2"><i class="bi bi-gender-ambiguous me-2 text-primary"></i> <strong>Género:</strong> <?php echo $paciente['genero'] == 'M' ? 'Masculino' : ($paciente['genero'] == 'F' ? 'Femenino' : 'Otro'); ?></p>
                                     <p class="mb-2"><i class="bi bi-telephone me-2 text-primary"></i> <strong>Tel:</strong> <?php echo $paciente['telefono']; ?></p>
                                     <p class="mb-0"><i class="bi bi-envelope me-2 text-primary"></i> <strong>Correo:</strong> <span class="small"><?php echo $paciente['correo']; ?></span></p>
+                                    <p class="mb-2"><i class="bi bi-instagram me-2 text-primary"></i> <strong>Instagram:</strong> <span class="small"><?php echo htmlspecialchars($paciente['instagram'] ?? 'N/A'); ?></span></p>
+                                    <p class="mb-0"><i class="bi bi-activity me-2 text-primary"></i> <strong>Diabético:</strong> <span class="small"><?php echo ($paciente['diabetico'] == 'Si') ? 'Sí' : 'No'; ?></span></p>
                                 </div>
                                 
                                

@@ -4,7 +4,6 @@ if (!isset($_SESSION['usuario_id'])) {
     header("Location: ../../index.php");
     exit;
 }
-// AQUÍ ESTABA EL ERROR: Necesitamos dos niveles (../../) para llegar a controllers
 include '../../controllers/registro_paciente.php'; 
 ?>
 <!DOCTYPE html>
@@ -29,7 +28,7 @@ include '../../controllers/registro_paciente.php';
         include '../../includes/titulo_modulo.php'; ?>
         
        <div class="container-fluid d-flex justify-content-center align-items-center bg-light">
-        <div class="card border-0 shadow-lg p-4" style="max-width: 600px; border-radius: 15px;">
+        <div class="card border-0 shadow-lg p-4" style="max-width: 700px; border-radius: 15px;">
         
             <div class="row g-0">
                 <div class="col-lg-12 panel-info text-center">
@@ -59,41 +58,41 @@ include '../../controllers/registro_paciente.php';
                     <?php endif; ?>
 
                     <form method="POST" class="row g-3">
-                        <div class="col-4">
+                        <div class="col-md-3">
                             <label class="form-label small fw-bold text-secondary">Tipo</label>
                             <select name="tipo_doc" class="form-select border-light-subtle shadow-sm">
                                 <option value="V">V</option>
                                 <option value="E">E</option>
                             </select>
                         </div>
-                        <div class="col-8">
+                        <div class="col-md-9">
                             <label class="form-label small fw-bold text-secondary">Cédula</label>
                             <input type="number" name="cedula_id" class="form-control border-light-subtle shadow-sm" required>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <label class="form-label small fw-bold text-secondary">Primer Nombre</label>
                             <input type="text" name="primer_nombre" class="form-control border-light-subtle shadow-sm" required>
                         </div>
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <label class="form-label small fw-bold text-secondary">Segundo Nombre</label>
                             <input type="text" name="segundo_nombre" class="form-control border-light-subtle shadow-sm">
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <label class="form-label small fw-bold text-secondary">Primer Apellido</label>
                             <input type="text" name="primer_apellido" class="form-control border-light-subtle shadow-sm" required>
                         </div>
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <label class="form-label small fw-bold text-secondary">Segundo Apellido</label>
                             <input type="text" name="segundo_apellido" class="form-control border-light-subtle shadow-sm">
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <label class="form-label small fw-bold text-secondary">Nacimiento</label>
-                            <input type="date" name="fecha_nac" class="form-control border-light-subtle shadow-sm" required>
+                            <input type="date" name="fecha_nac" class="form-control border-light-subtle shadow-sm" >
                         </div>
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <label class="form-label small fw-bold text-secondary">Género</label>
                             <select name="genero" class="form-select border-light-subtle shadow-sm">
                                 <option value="M">Masculino</option>
@@ -102,18 +101,29 @@ include '../../controllers/registro_paciente.php';
                             </select>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-4">
                             <label class="form-label small fw-bold text-secondary">Teléfono</label>
                             <input type="text" name="telefono" class="form-control border-light-subtle shadow-sm" required>
                         </div>
-                        <div class="col-6">
+                        <div class="col-md-4">
                             <label class="form-label small fw-bold text-secondary">Correo</label>
-                            <input type="email" name="correo" class="form-control border-light-subtle shadow-sm" required>
+                            <input type="email" name="correo" class="form-control border-light-subtle shadow-sm">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-secondary">Instagram (@)</label>
+                            <input type="text" name="instagram" class="form-control border-light-subtle shadow-sm" placeholder="Ej: @usuario">
                         </div>
 
-                        <div class="col-12">
+                        <div class="col-md-8">
                             <label class="form-label small fw-bold text-secondary">Dirección</label>
-                            <textarea name="direccion" class="form-control border-light-subtle shadow-sm" rows="1" required></textarea>
+                            <textarea name="direccion" class="form-control border-light-subtle shadow-sm" rows="1" ></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-secondary">¿Es Diabético?</label>
+                            <select name="diabetico" class="form-select shadow-sm">
+                                <option value="No">No</option>
+                                <option value="Si">Sí</option>
+                            </select>
                         </div>
 
                         <div class="col-12">
@@ -136,7 +146,6 @@ include '../../controllers/registro_paciente.php';
     </div>
 </div>     
     
-
     </div></div></div><?php include '../../includes/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../assets/js/hamburguesa.js"></script>

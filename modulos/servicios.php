@@ -25,16 +25,13 @@ include '../includes/tasa_BCV.php';
 
     <div class="d-flex" style="height: calc(100vh - 70px); overflow: hidden;">
         
-        <?php include '../includes/sidebar.php'; ?>
+        <?php include '../includes/sidebar.php'; 
+        include '../includes/titulo_modulo.php';?>
 
         <div class="flex-grow-1 d-flex flex-column contenedor-principal">
             
             <div class="p-4 flex-grow-1" style="overflow-y: auto;">
-                <?php 
-                $titulo_modulo = "Gestión de Servicios";
-                $icono_modulo = "bi-journal-medical";
-                include '../includes/titulo_modulo.php'; 
-                ?>
+                
 
                 <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
                    <div></div>
