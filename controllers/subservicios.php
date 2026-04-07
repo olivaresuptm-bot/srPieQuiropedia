@@ -43,6 +43,11 @@
         <td class="text-secondary">
             <?php echo $es_control ? '-' : 'Bs. ' . number_format($precio_bs, 2, ',', '.'); ?>
         </td>
+        
+        <td class="fw-bold text-info">
+            <?php echo $es_control ? '-' : floatval($s['comision_porcentaje'] ?? 40) . '%'; ?>
+        </td>
+
         <td>
             <span class="badge <?php echo $s['estatus'] ? 'bg-success' : 'bg-danger'; ?>">
                 <?php echo $s['estatus'] ? 'Activo' : 'Inactivo'; ?>

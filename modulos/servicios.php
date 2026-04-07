@@ -24,19 +24,17 @@ include '../includes/tasa_BCV.php';
     <?php include '../includes/header.php'; ?>
 
     <div class="d-flex" style="height: calc(100vh - 70px); overflow: hidden;">
-        
         <?php include '../includes/sidebar.php'; 
         include '../includes/titulo_modulo.php';?>
 
         <div class="flex-grow-1 d-flex flex-column contenedor-principal">
-            
             <div class="p-4 flex-grow-1" style="overflow-y: auto;">
-                
-
                 <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
                    <div></div>
                     <div class="text-end">
-                        <span class="badge bg-info text-dark mb-2 fs-5 shadow-sm">Tasa BCV: <?php echo number_format($tasa_bcv, 2, ',', '.'); ?> Bs.</span><br>
+                        <span class="badge bg-info text-dark mb-2 fs-5 shadow-sm">
+                            <i class="bi bi-currency-exchange me-1"></i> Tasa BCV: <?php echo number_format($tasa_bcv, 2, ',', '.'); ?> Bs.
+                        </span><br>
                         <button class="btn btn-primary mt-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalServicio" onclick="prepararNuevo()">
                             <i class="bi bi-plus-circle me-2"></i>Nuevo Servicio
                         </button>
@@ -53,6 +51,7 @@ include '../includes/tasa_BCV.php';
                                         <th>Descripción</th>
                                         <th>Precio ($)</th>
                                         <th>Precio (Bs.)</th>
+                                        <th>Comisión Quiropedista</th>
                                         <th>Estado</th>
                                         <th class="text-center">Acciones</th>
                                     </tr>
@@ -64,11 +63,14 @@ include '../includes/tasa_BCV.php';
                         </div>
                     </div>
                 </div>
-            </div> <div class="mt-auto">
-                <?php include '../includes/footer.php'; ?>
-            </div>
-
-        </div> </div> <div class="modal fade" id="modalServicio" tabindex="-1" aria-hidden="true">
+            </div> 
+            
+                
+           
+        </div> 
+    </div> 
+    </div></div></div><?php include '../includes/footer.php'; ?>
+    <div class="modal fade" id="modalServicio" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <form action="../controllers/servicios_controller.php" method="POST" class="modal-content shadow border-0">
                 <div class="modal-header bg-primary text-white border-0">
@@ -85,11 +87,17 @@ include '../includes/tasa_BCV.php';
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold text-secondary">Descripción</label>
-                        <textarea name="descripcion" id="serv_desc" class="form-control shadow-sm" rows="3"></textarea>
+                        <textarea name="descripcion" id="serv_desc" class="form-control shadow-sm" rows="2"></textarea>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold text-secondary">Precio ($)</label>
-                        <input type="number" step="0.01" name="precio" id="serv_precio" class="form-control shadow-sm" required>
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="form-label fw-bold text-secondary">Precio ($)</label>
+                            <input type="number" step="0.01" name="precio" id="serv_precio" class="form-control shadow-sm" required>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label fw-bold text-primary">Comisión (%)</label>
+                            <input type="number" step="0.01" name="comision_porcentaje" id="serv_comision" class="form-control shadow-sm border-primary" value="40" required>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer bg-light border-0">
@@ -103,6 +111,5 @@ include '../includes/tasa_BCV.php';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/hamburguesa.js"></script>
     <script src="../assets/js/servicios.js"></script>
-
 </body>
 </html>

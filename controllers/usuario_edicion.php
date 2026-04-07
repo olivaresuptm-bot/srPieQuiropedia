@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $n2 = trim($_POST['segundo_nombre']);
     $a1 = trim($_POST['primer_apellido']);
     $a2 = trim($_POST['segundo_apellido']);
+    $c = trim($_POST['correo']);
     $rol = $_POST['rol'];
 
     try {
@@ -22,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 segundo_nombre = :n2, 
                 primer_apellido = :a1, 
                 segundo_apellido = :a2,
+                correo = :c,
                 rol = :rol 
                 WHERE cedula_id = :id";
         
@@ -31,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             ':n2' => $n2,
             ':a1' => $a1,
             ':a2' => $a2,
+            ':c' => $c,
             ':rol' => $rol,
             ':id'  => $cedula
         ]);

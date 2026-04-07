@@ -39,6 +39,7 @@ include '../controllers/usuario_edicion.php';
                                 <tr>
                                     <th class="ps-3">Cédula</th>
                                     <th>Nombre Completo</th>
+                                    <th>Correo</th>
                                     <th>Rol</th>
                                     <th>Estado</th>
                                     <th class="text-center">Acciones</th>
@@ -53,6 +54,7 @@ include '../controllers/usuario_edicion.php';
                                 <tr>
                                     <td class="ps-3"><?php echo $row['cedula_id']; ?></td>
                                     <td><?php echo $row['primer_nombre'] . " " . $row['segundo_nombre']." " . $row['primer_apellido']." " . $row['segundo_apellido']; ?></td>
+                                    <td class="ps-3"><?php echo $row['correo']; ?></td>
                                     <td><span class="badge bg-secondary"><?php echo ucfirst($row['rol']); ?></span></td>
                                     <td>
                                         <?php if($row['estado'] == 1): ?>
@@ -99,24 +101,30 @@ include '../controllers/usuario_edicion.php';
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="action" value="edit_user"> <input type="hidden" name="cedula_id" id="edit_cedula">
+                    <input type="hidden" name="action" value="edit_user"> 
+                    <input type="hidden" name="cedula_id" id="edit_cedula">
                         
-                        <div class="mb-3">
-                            <label class="form-label">Primer Nombre</label>
-                            <input type="text" name="primer_nombre" id="edit_primer_nombre" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Segundo Nombre</label>
-                            <input type="text" name="segundo_nombre" id="edit_segundo_nombre" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Primer Apellido</label>
-                            <input type="text" name="primer_apellido" id="edit_primer_apellido" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Segundo Apellido</label>
-                            <input type="text" name="segundo_apellido" id="edit_segundo_apellido" class="form-control">
-                        </div>
+                    <div class="mb-3">
+                        <label class="form-label">Primer Nombre</label>
+                        <input type="text" name="primer_nombre" id="edit_primer_nombre" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Segundo Nombre</label>
+                        <input type="text" name="segundo_nombre" id="edit_segundo_nombre" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Primer Apellido</label>
+                        <input type="text" name="primer_apellido" id="edit_primer_apellido" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Segundo Apellido</label>
+                        <input type="text" name="segundo_apellido" id="edit_segundo_apellido" class="form-control">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Correo Electrónico</label>
+                        <input type="email" name="correo" id="edit_correo" class="form-control" required>
+                    </div>
                         
                     <div class="mb-3">
                         <label class="form-label fw-bold">Rol</label>

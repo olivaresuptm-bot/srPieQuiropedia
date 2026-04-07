@@ -16,6 +16,7 @@ function abrirEditar(servicio) {
     document.getElementById('serv_nombre').value = servicio.nombre;
     document.getElementById('serv_desc').value = servicio.descripcion;
     document.getElementById('serv_precio').value = servicio.precio;
+    document.getElementById('serv_comision').value = data.comision_porcentaje;
     
 
     document.getElementById('inputAccion').value = 'editar';
