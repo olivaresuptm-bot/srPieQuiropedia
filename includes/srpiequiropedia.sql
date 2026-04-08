@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-03-2026 a las 03:42:50
+-- Tiempo de generación: 08-04-2026 a las 22:49:00
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -38,6 +38,29 @@ CREATE TABLE `citas` (
   `aviso` char(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `citas`
+--
+
+INSERT INTO `citas` (`cita_id`, `paciente_cedula`, `quiropedista_cedula`, `servicio_id`, `fecha`, `hora`, `estatus`, `aviso`) VALUES
+(1, '26901499', '26901497', 1, '2026-03-26', '10:45:00', 'atendida', 'N'),
+(2, '26901499', '26901497', 4, '2026-04-04', '11:25:00', 'atendida', 'N'),
+(3, '26901499', '26901495', 1, '2026-03-26', '10:50:00', 'atendida', 'N'),
+(4, '26901499', '26901497', 1, '2026-03-26', '10:51:00', 'atendida', 'N'),
+(5, '26901499', '26901495', 1, '2026-04-03', '11:45:00', 'atendida', 'N'),
+(6, '26901499', '26901495', 1, '2026-03-16', '08:30:00', 'atendida', 'N'),
+(7, '26901499', '26901495', 2, '2026-03-21', '09:45:00', 'atendida', 'N'),
+(10, '8705197', '26901497', 1, '2026-03-21', '09:45:00', 'atendida', 'N'),
+(11, '26901499', '26901495', 1, '2026-03-27', '11:01:00', 'atendida', 'N'),
+(12, '26901499', '26901495', 1, '2026-03-18', '14:55:00', 'atendida', 'N'),
+(13, '26901499', '26901495', 1, '2026-03-18', '12:58:00', 'atendida', 'N'),
+(14, '26901499', '26901495', 1, '2026-03-23', '15:55:00', 'atendida', 'N'),
+(15, '8953348', '26901495', 2, '2026-03-23', '16:22:00', 'atendida', 'N'),
+(16, '26901499', '26901495', 1, '2026-04-09', '12:00:00', 'programada', 'N'),
+(17, '26901499', '26901495', 1, '2026-04-10', '16:55:00', 'programada', 'N'),
+(18, '26901499', '26901495', 1, '2026-04-09', '16:50:00', 'programada', 'N'),
+(19, '26901499', '26901495', 1, '2026-04-09', '04:45:00', 'programada', 'N');
+
 -- --------------------------------------------------------
 
 --
@@ -56,6 +79,14 @@ CREATE TABLE `historial_clinico` (
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `historial_clinico`
+--
+
+INSERT INTO `historial_clinico` (`historial_id`, `paciente_cedula`, `cita_id`, `quiropedista_cedula`, `motivo_consulta`, `diagnostico`, `tratamiento`, `observaciones`, `fecha_registro`) VALUES
+(1, '26901499', 12, '26901495', 'Perdida de uña ', 'Hongos', 'Crema', 'Debe volver para evolucion del hongo', '2026-03-23 20:05:59'),
+(2, '8953348', 15, '26901495', 'Dolor en uña', 'Uña encarnada', 'Corte de una, y tratamiento', 'Debe volver en 3 dias para cura, y evitar infeccion', '2026-03-23 20:19:24');
+
 -- --------------------------------------------------------
 
 --
@@ -64,7 +95,7 @@ CREATE TABLE `historial_clinico` (
 
 CREATE TABLE `pacientes` (
   `cedula_id` varchar(9) NOT NULL,
-  `tipo_doc` enum('V','E','J','P') NOT NULL,
+  `tipo_doc` enum('V','E') NOT NULL,
   `primer_nombre` varchar(50) NOT NULL,
   `segundo_nombre` varchar(50) DEFAULT NULL,
   `primer_apellido` varchar(50) NOT NULL,
@@ -73,10 +104,23 @@ CREATE TABLE `pacientes` (
   `genero` enum('M','F','O') NOT NULL,
   `telefono` varchar(15) NOT NULL,
   `correo` varchar(100) DEFAULT NULL,
+  `instagram` varchar(25) DEFAULT NULL,
   `direccion` text DEFAULT NULL,
+  `diabetico` varchar(2) NOT NULL DEFAULT 'No',
   `registrado_por` varchar(9) NOT NULL,
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pacientes`
+--
+
+INSERT INTO `pacientes` (`cedula_id`, `tipo_doc`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `fecha_nac`, `genero`, `telefono`, `correo`, `instagram`, `direccion`, `diabetico`, `registrado_por`, `fecha_registro`) VALUES
+('26901499', 'V', 'Angel', 'Luis', 'Olivares', 'Ramirez', '0000-00-00', 'M', '04248088865', 'kingdomofash01@gmail.com', '', 'Los Curos, El Entable, vereda 3, casa 20', 'No', '26901498', '2026-03-06 22:54:15'),
+('54725727', 'V', 'Javier', 'Luis', 'Jorge', 'Ramiro', '2026-01-01', 'M', '515262', 'luisangel@gmail.com', NULL, 'Los Curos, El Entable, vereda 3, casa 20', 'No', '26901498', '2026-03-13 22:24:02'),
+('8705197', 'V', 'Zaida', 'Elena', 'Ramirez', 'Araque', '1998-02-05', 'F', '0424082865', 'luis1@gmail.com', '', 'Los curos', 'No', '26901498', '2026-03-16 19:08:49'),
+('8953348', 'V', 'Luis', 'Jose', 'Olivares', 'Ramirez', '1989-10-19', 'M', '04248088866', 'olivaresuptm@gmail.com', NULL, 'Los Curos, El Entable, vereda 3, casa 19', 'No', '26901498', '2026-03-23 19:18:48'),
+('8953349', 'V', 'Javier', '', 'Romero', '', '2000-06-14', 'M', '04242088855', 'olivaresuptm@gmail.com', '@luisangel1415', 'Los Curos', 'No', '26901498', '2026-03-25 19:49:56');
 
 -- --------------------------------------------------------
 
@@ -88,10 +132,30 @@ CREATE TABLE `pagos` (
   `pago_id` int(10) UNSIGNED NOT NULL,
   `cita_id` int(10) UNSIGNED NOT NULL,
   `monto` decimal(10,2) NOT NULL,
-  `metodo_pago` enum('efectivo','transferencia','pago_movil','punto') NOT NULL,
+  `tasa_bcv` decimal(10,2) DEFAULT NULL,
+  `metodo_pago` enum('efectivo','efectivo_bs','transferencia','pago_movil','punto') NOT NULL,
   `fecha_pago` timestamp NOT NULL DEFAULT current_timestamp(),
   `referencia` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pagos`
+--
+
+INSERT INTO `pagos` (`pago_id`, `cita_id`, `monto`, `tasa_bcv`, `metodo_pago`, `fecha_pago`, `referencia`) VALUES
+(1, 6, 25.00, NULL, 'efectivo', '2026-03-17 22:32:34', NULL),
+(2, 10, 25.00, NULL, 'pago_movil', '2026-03-17 23:36:40', '963587'),
+(3, 7, 25.00, NULL, 'pago_movil', '2026-03-17 23:40:18', '986561'),
+(4, 1, 25.00, NULL, 'efectivo', '2026-03-17 23:46:22', NULL),
+(5, 3, 25.00, NULL, 'efectivo', '2026-03-18 00:14:30', NULL),
+(6, 4, 25.00, NULL, 'efectivo', '2026-03-18 01:38:24', NULL),
+(7, 5, 25.00, NULL, '', '2026-03-18 01:44:10', NULL),
+(8, 2, 0.00, NULL, 'efectivo_bs', '2026-03-18 01:52:16', NULL),
+(9, 11, 25.00, NULL, 'efectivo_bs', '2026-03-18 01:58:31', NULL),
+(10, 12, 20.00, NULL, 'efectivo', '2026-03-18 23:52:17', NULL),
+(11, 13, 20.00, 451.51, 'efectivo', '2026-03-19 00:26:49', NULL),
+(12, 14, 20.00, 457.08, 'efectivo', '2026-03-24 00:56:19', NULL),
+(13, 15, 25.00, 457.08, 'efectivo', '2026-03-24 01:18:11', NULL);
 
 -- --------------------------------------------------------
 
@@ -105,6 +169,14 @@ CREATE TABLE `quiropedistas` (
   `disponibilidad` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `quiropedistas`
+--
+
+INSERT INTO `quiropedistas` (`usuario_cedula`, `especialidad`, `disponibilidad`) VALUES
+('26901495', 'General', 1),
+('26901497', 'General', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -116,8 +188,19 @@ CREATE TABLE `servicios` (
   `nombre` varchar(100) NOT NULL,
   `descripcion` text DEFAULT NULL,
   `precio` decimal(10,2) NOT NULL,
+  `comision_porcentaje` decimal(5,2) NOT NULL DEFAULT 40.00,
   `estatus` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `servicios`
+--
+
+INSERT INTO `servicios` (`servicio_id`, `nombre`, `descripcion`, `precio`, `comision_porcentaje`, `estatus`) VALUES
+(1, 'Quiropedia', 'Tratamiento de hongos', 20.00, 40.00, 1),
+(2, 'Uña encarnada', 'Uña encarnada', 25.00, 40.00, 1),
+(3, 'Uña encarnada-Cura', 'Cura de la uña encarnada', 0.00, 0.00, 1),
+(4, 'Quiropedia-Revisión', 'Revisión', 0.00, 0.00, 1);
 
 -- --------------------------------------------------------
 
@@ -127,7 +210,7 @@ CREATE TABLE `servicios` (
 
 CREATE TABLE `usuarios` (
   `cedula_id` varchar(9) NOT NULL,
-  `tipo_doc` enum('V','E','J','P') NOT NULL,
+  `tipo_doc` enum('V','E') NOT NULL,
   `primer_nombre` varchar(50) NOT NULL,
   `segundo_nombre` varchar(50) DEFAULT NULL,
   `primer_apellido` varchar(50) NOT NULL,
@@ -146,10 +229,11 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`cedula_id`, `tipo_doc`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `correo`, `password`, `rol`, `fecha_registro`, `estado`, `token`, `token_recuperacion`) VALUES
-('26901498', 'V', 'Luis', 'Angel', 'Olivares', 'Ramirez', 'olivaresuptm@gmail.com', '$2y$10$XLXH/IWXzs7As1q8rhShKuvHZcr0gvCNtY9D1KnEqoGbuJ2A9pBHy', 'gerente', '2026-03-02 17:33:26', 1, NULL, NULL),
-('30451363', 'V', 'Sofia', 'Nathaly', 'Rojas', 'Bastidas', 'webdevelopervzla@gmail.com', '$2y$10$kADOkRWXIvv0zF6pP49BZ.6UNebi55Ky2dsE52Brj.mh6o8/BDRRm', 'quiropedista', '2026-03-02 21:07:25', 1, NULL, NULL),
-('31190339', 'V', 'José', 'Manuel', 'Mendez', 'Marquez', 'luisangel50089@gmail.com', '$2y$10$8fhTROk8ivgdNn6zeMpD8ehGSxjO/ulfu79pPWPovxFxt3l7nubOe', 'quiropedista', '2026-03-02 18:32:18', 1, NULL, NULL),
-('31190543', 'V', 'Dorianny', 'Andrea', 'Marcano', 'Araque', 'kingdomofash01@gmail.com', '$2y$10$D5Q.uft2okUiJpoAhFRk8.yK5sXdBF31SiOjhzvE/LIu2olD1/rm2', 'recepcionista', '2026-03-05 22:03:45', 1, NULL, NULL);
+('26262626', 'V', 'Pedro', 'Pepe', 'Quiñonez', 'Emiro', 'lllll@gmail.com', '$2y$10$kZaKwounych9Qqc/pdUQRuQFxIJQKb7BMpLXtE6MmxD1mYXH0sSmO', 'recepcionista', '2026-03-10 02:11:43', 1, '6229d4ca7869cf10cda8822da057bb5a', NULL),
+('26901495', 'V', 'Javier', 'Luis', 'Ramirez', 'Olivares', 'kingdomofash01@gmail.com', '$2y$10$aU1cr9xMPXlXbXhPl/iTKOSkToWlFDKWyA/KJrHUNL2lrdWl6EB7i', 'quiropedista', '2026-03-07 19:41:04', 1, '1891316d582721a1027d9358e6126a8f', NULL),
+('26901497', 'V', 'Dorianny', 'Luis', 'Ramirez', 'Olivares', 'webdevelopervzla@gmail.com', '$2y$10$FMcBObjid96e.ytNayroB.eQ2HgQ9MWoQ1hqdn291881eT7N26kkW', 'quiropedista', '2026-03-07 19:39:41', 1, 'a581f4985611069611cf416d26c26e68', NULL),
+('26901498', 'V', 'Luis', 'Angel', 'Olivares', 'Ramirez', 'olivaresuptm@gmail.com', '$2y$10$XLXH/IWXzs7As1q8rhShKuvHZcr0gvCNtY9D1KnEqoGbuJ2A9pBHy', 'gerente', '2026-03-02 17:33:26', 1, NULL, '15048c23f03f5fbf24d56ddf3735caa7'),
+('31190339', 'V', 'José', 'Manuel', 'Mendez', 'Marquez', 'luisangel50089@gmail.com', '$2y$10$8fhTROk8ivgdNn6zeMpD8ehGSxjO/ulfu79pPWPovxFxt3l7nubOe', 'recepcionista', '2026-03-02 18:32:18', 1, NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -214,25 +298,25 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `citas`
 --
 ALTER TABLE `citas`
-  MODIFY `cita_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `cita_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `historial_clinico`
 --
 ALTER TABLE `historial_clinico`
-  MODIFY `historial_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `historial_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `pago_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `pago_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  MODIFY `servicio_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `servicio_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
