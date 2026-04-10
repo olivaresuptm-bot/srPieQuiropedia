@@ -5,16 +5,14 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $msj = null;
 
-// TRUCO 1: __DIR__ ancla la ruta a la carpeta 'controllers', sin importar quién lo llame.
+
 require_once __DIR__ . '/../includes/db.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // --- CASO 1: EDICIÓN (Viene de la ventana Modal en busqueda_paciente.php) ---
+    // --- CASO 1: EDICIÓN ---
     if (isset($_POST['action']) && $_POST['action'] === 'edit_patient') {
         try {
-            // Actualización con los campos nuevos de Instagram y Diabético
-            // Actualización con la Fecha de Nacimiento incluida
            // Actualización inteligente: Si la fecha viene vacía, mantiene la que ya estaba
             $sql = "UPDATE pacientes SET 
                     primer_nombre = :n1, segundo_nombre = :n2, 
@@ -48,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } catch (PDOException $e) {
             $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ Error al actualizar: " . $e->getMessage()];
             
-            // Si hay error, también te devuelve a la cartilla
+           
             $cedula_busqueda = trim($_POST['cedula_id']);
             header("Location: ../modulos/gestion_pacientes.php?busqueda=" . urlencode($cedula_busqueda));
             exit();
@@ -96,8 +94,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
         
-        // Regresa al formulario de pacientes para limpiar los campos
-        header("Location: ../modulos/gestion_pacientes/pacientes.php");
+      
+        header("Location: pacientes.php");
         exit();
     }
 }
