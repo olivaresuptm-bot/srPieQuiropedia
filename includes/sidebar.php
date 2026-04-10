@@ -19,15 +19,21 @@ $nombres_modulos = [
 
 $titulo_modulo = $nombres_modulos[$pagina_actual] ?? 'Módulo';
 
-// DEFINIR RUTA BASE PARA EL SIDEBAR (Reemplaza al $path anterior)
+// DEFINIR RUTA BASE PARA EL SIDEBAR 
 $ruta = isset($ruta_base) ? $ruta_base : '../';
 ?>
 
 <nav id="sidebar">
-    <div id="header" class="sidebar-header p-4">
+    <div class="d-flex justify-content-end d-md-none p-2 pb-0">
+        <button id="btn-cerrar-sidebar" class="btn text-white border-0 fs-3">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+
+    <div id="header" class="sidebar-header p-4 pt-md-4 pt-0">
         <a href="<?php echo $ruta; ?>dashboard.php" class="nav-link" style="display: inline-block;">
-    <img src="<?php echo $ruta; ?>assets/img/logo_sr_pie.png" alt="Logo Sr. Pie" width="50">
-</a>
+            <img src="<?php echo $ruta; ?>assets/img/logo_sr_pie.png" alt="Logo Sr. Pie" width="50">
+        </a>
         <h4>Sr. Pie</h4>
     </div>
 

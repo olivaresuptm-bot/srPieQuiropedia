@@ -75,3 +75,27 @@
     box-shadow: 0 15px 35px rgba(74, 144, 226, 0.15);
 }
 
+/*  AJUSTES MÓVILES PARA EL DASHBOARD */
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden; 
+    }
+    
+    .modules-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 15px !important;
+        width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+    
+    .module-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+    }
+}
+

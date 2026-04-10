@@ -2,23 +2,78 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 40px 6%; 
-    background: rgba(255, 255, 255, 0.9);
+    padding: 0 6%; 
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(5px);
     margin-bottom: 0 !important; 
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     height: 95px; 
+    
+    /* Seguridad de ancho total */
+    width: 100%;
+    box-sizing: border-box;
+    
+    position: sticky;
+    top: 0;
+    z-index: 1040;
+}
+
+.header-left-container {
+    flex: 1; /* Permite que el texto tome el espacio sobrante */
+    min-width: 0; /* VITAL para que el texto largo se corte con ... */
+    margin-right: 15px;
+}
+
+.welcome-text {
+    min-width: 0; /* VITAL */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .welcome-text h1 {
-
     font-size: 1.8rem !important; 
     color: #333;
     font-weight: 700;
     margin: 0;
+    width: 100%;
 }
 
-.dash-header img {
-    height: 80px !important; 
+.logo-header {
+    height: 70px !important; 
     width: auto;
+    transition: all 0.3s ease;
+}
+
+.btn-logout {
+    transition: transform 0.2s;
+}
+
+.btn-logout:hover {
+    transform: scale(1.1);
+}
+
+
+@media (max-width: 768px) {
+    .dash-header {
+        height: 75px; 
+        padding: 0 15px; 
+    }
+    
+    .welcome-text h1 {
+        font-size: 1.1rem !important; 
+    }
+    
+    .welcome-text .badge {
+        font-size: 0.65rem; 
+        padding: 4px 8px !important;
+    }
+    
+    .logo-header {
+        height: 45px !important; 
+    }
+    
+    .header-right-container {
+        gap: 10px !important; 
+    }
 }
