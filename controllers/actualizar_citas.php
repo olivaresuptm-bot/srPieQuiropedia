@@ -9,7 +9,35 @@ $mensaje = "";
 $error = "";
 $search = "";
 
-// Procesar cambio de estatus 
+
+// EDICIÓN DE CITA 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'editar_cita') {
+    try {
+        $sql_edit = "UPDATE citas SET 
+                     quiropedista_cedula = :quiro, 
+                     servicio_id = :serv, 
+                     fecha = :fecha, 
+                     hora = :hora 
+                     WHERE cita_id = :id";
+                     
+        $stmt_edit = $conexion->prepare($sql_edit);
+        $stmt_edit->execute([
+            ':quiro' => $_POST['quiropedista_cedula'],
+            ':serv'  => $_POST['servicio_id'],
+            ':fecha' => $_POST['fecha'],
+            ':hora'  => $_POST['hora'],
+            ':id'    => $_POST['cita_id']
+        ]);
+        
+        $mensaje = "✅ Cita actualizada correctamente.";
+    } catch(PDOException $e) {
+        $error = "❌ Error al editar la cita: " . $e->getMessage();
+    }
+}
+
+
+// Cambio de estatus (Vía GET)
+
 if (isset($_GET['accion']) && isset($_GET['id'])) {
     $cita_id = $_GET['id'];
     $nuevo_estatus = $_GET['accion'] == 'atendida' ? 'atendida' : 'cancelada';
@@ -29,16 +57,29 @@ if (isset($_GET['accion']) && isset($_GET['id'])) {
 }
 
 
+try {
+    $stmt_quiro = $conexion->query("SELECT u.cedula_id as usuario_cedula, u.primer_nombre, u.primer_apellido FROM quiropedistas q JOIN usuarios u ON q.usuario_cedula = u.cedula_id WHERE u.estado = 1");
+    $quiropedistas = $stmt_quiro->fetchAll(PDO::FETCH_ASSOC);
+
+    $stmt_serv = $conexion->query("SELECT servicio_id, nombre FROM servicios WHERE estatus = 1");
+    $servicios = $stmt_serv->fetchAll(PDO::FETCH_ASSOC);
+} catch(PDOException $e) {
+    $quiropedistas = [];
+    $servicios = [];
+}
+
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
-
-// Construir consulta con búsqueda
+//
+// Construir consulta con búsqueda del listado
+// 
 try {
+  
     $sql = "SELECT 
                 c.cita_id, c.fecha, c.hora, c.estatus,
                 p.cedula_id as paciente_cedula, p.primer_nombre as paciente_nombre, p.primer_apellido as paciente_apellido, p.telefono as paciente_telefono,
                 u.cedula_id as quiropedista_cedula, u.primer_nombre as quiropedista_nombre, u.primer_apellido as quiropedista_apellido,
-                s.nombre as servicio_nombre, s.precio as servicio_precio,
+                s.servicio_id, s.nombre as servicio_nombre, s.precio as servicio_precio,
                 pg.pago_id 
             FROM citas c
             JOIN pacientes p ON c.paciente_cedula = p.cedula_id
