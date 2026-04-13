@@ -13,7 +13,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Este es el contenedos principal */
+/* Este es el contenedor principal */
 .main-wrapper {
     flex: 1; 
     display: flex;
@@ -118,30 +118,56 @@ body {
 }
 
 /*aprobar usuario*/
-        .status-card-success {
-            max-width: 500px; 
-            width: 100%;
-            border-top: 6px solid #28a745; /* Verde de éxito */
-            padding: 40px !important;
-            text-align: center;
-            flex-direction: column !important; /* Mantiene el flujo vertical */
-        }
-        .icon-circle-success {
-            width: 80px; 
-            height: 80px;
-            background-color: #d4edda; /* Fondo verde suave */
-            color: #28a745; /* Icono verde fuerte */
-            border-radius: 50%;
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            font-size: 40px; 
-            margin: 0 auto 20px;
-        }
-        .logo-small {
-            width: 70px;
-            margin-bottom: 20px;
-        }
+.status-card-success {
+    max-width: 500px; 
+    width: 100%;
+    border-top: 6px solid #28a745; /* Verde de éxito */
+    padding: 40px !important;
+    text-align: center;
+    flex-direction: column !important; /* Mantiene el flujo vertical */
+}
 
-     
-       
+.icon-circle-success {
+    width: 80px; 
+    height: 80px;
+    background-color: #d4edda; /* Fondo verde suave */
+    color: #28a745; /* Icono verde fuerte */
+    border-radius: 50%;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    font-size: 40px; 
+    margin: 0 auto 20px;
+}
+
+.logo-small {
+    width: 70px;
+    margin-bottom: 20px;
+}
+
+/* =========================================
+   MEDIA QUERIES (ADAPTACIÓN PARA MÓVILES)
+   ========================================= */
+@media (max-width: 768px) {
+    .login-card {
+        flex-direction: column; /* Apila el formulario y la sección azul verticalmente */
+        min-height: auto;
+        border-radius: 15px; /* Bordes un poco menos redondeados en móvil */
+    }
+
+    .form-side {
+        padding: 30px 20px; /* Menos espacio a los lados para aprovechar la pantalla */
+    }
+
+    .blue-side {
+        padding: 30px 20px;
+    }
+
+    .blue-side h2 {
+        font-size: 1.8rem; /* Título un poco más pequeño para que no desborde */
+    }
+
+    .logo-container img {
+        max-width: 75px; /* Achicamos ligeramente el logo */
+    }
+}
