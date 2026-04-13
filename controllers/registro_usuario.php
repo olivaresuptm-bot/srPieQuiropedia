@@ -1,6 +1,6 @@
 <?php
 include '../includes/db.php'; 
-include '../includes/mailer.php'; 
+// Eliminamos la inclusión de mailer.php ya que no enviaremos correos desde aquí
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cedula_id = $_POST['cedula'];
@@ -25,11 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         }
         $estado = 1; // El gerente se auto-activa
-        $token  = null;
     } else {
         $estado = 0; // Otros roles quedan pendientes de aprobación
-        $token  = bin2hex(random_bytes(16));
     }
+    
+    // Ya no generamos un token, lo dejamos como nulo
+    $token = null;
 
     $password_hash = password_hash($pass_raw, PASSWORD_BCRYPT);
 
@@ -47,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // 2. ACTUALIZACIÓN: Si el rol es quiropedista, insertar en la tabla 'quiropedistas'
         if (strtolower($rol) === 'quiropedista') {
-        // Se inserta con especialidad 'General' y disponibilidad 1 por defecto
+            // Se inserta con especialidad 'General' y disponibilidad 1 por defecto
             $sql_q = "INSERT INTO quiropedistas (usuario_cedula, especialidad, disponibilidad) VALUES (?, ?, ?)";
             $stmt_q = $conexion->prepare($sql_q);
             $stmt_q->execute([$cedula_id, 'General', 1]);
@@ -55,32 +56,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $conexion->commit();
 
-        // Lógica de notificaciones
+        // Mensajes de éxito directos
         if ($estado === 0) {
-            // Buscar correo del Gerente para avisarle de la nueva solicitud
-            $admin_email = $conexion->query("SELECT correo FROM usuarios WHERE rol = 'gerente' LIMIT 1")->fetchColumn();
-            
-            if ($admin_email) {
-                $link = "srpiequiropedia.com/controllers/aprobar_usuario.php?token=$token";
-                $cuerpo = "
-                    <div style='font-family: sans-serif;'>
-                        <h3>Nueva Solicitud de Registro</h3>
-                        <p>El usuario <b>$nombre</b> ha solicitado registrarse como <b>$rol</b>.</p>
-                        <p>Para habilitar este acceso, haga clic en el siguiente enlace:</p>
-                        <a href='$link' style='background: #0d6efd; color: white; padding: 10px; text-decoration: none; border-radius: 5px;'>Aprobar Usuario</a>
-                    </div>";
-                enviarEmail($admin_email, "Nueva solicitud de acceso - Sr. Pie", $cuerpo);
-            }
-            
-            echo "<script>alert('Registro enviado con éxito. El administrador debe aprobar su cuenta para poder iniciar sesión.'); window.location.href='../index.php';</script>";
+            echo "<script>alert('✅ Usuario creado exitosamente. Por favor, espere a que el gerente active su cuenta desde el panel administrativo para poder iniciar sesión.'); window.location.href='../index.php';</script>";
         } else {
-            echo "<script>alert('Gerente registrado y activado con éxito.'); window.location.href='../index.php';</script>";
+            echo "<script>alert('✅ Gerente registrado y activado con éxito.'); window.location.href='../index.php';</script>";
         }
 
     } catch (Exception $e) {
         // Si algo falla (ej: cédula duplicada), deshacemos todo
         $conexion->rollBack();
-        echo "<script>alert('Error en el registro: " . addslashes($e->getMessage()) . "'); window.history.back();</script>";
+        echo "<script>alert('❌ Error en el registro: " . addslashes($e->getMessage()) . "'); window.history.back();</script>";
     }
 }
 ?>

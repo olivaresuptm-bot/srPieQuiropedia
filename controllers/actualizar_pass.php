@@ -2,32 +2,43 @@
 include '../includes/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Limpiamos el token para evitar espacios accidentales
-    $token = isset($_POST['token']) ? trim($_POST['token']) : '';
-    $nueva = $_POST['nueva_clave'];
+    // Recibimos el token oculto y la nueva contraseña del formulario
+    $token = trim($_POST['token']);
+    $nueva_clave = $_POST['nueva_clave'];
 
-    if (empty($token)) {
-        echo "<script>alert('Token no recibido.'); window.location.href='../index.php';</script>";
+    // Validamos que la contraseña cumpla con tus requisitos de seguridad
+    $patron = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\/\*\$\%\!]).{8,}$/';
+    if (!preg_match($patron, $nueva_clave)) {
+        echo "<script>alert('La clave no cumple con los requisitos de seguridad (Mínimo 8 caracteres, mayúscula, minúscula, número y un carácter especial /*$%).'); window.history.back();</script>";
         exit;
     }
 
-    // Encriptamos la clave con BCRYPT (estándar actual)
-    $hash = password_hash($nueva, PASSWORD_BCRYPT);
-
     try {
-        // Buscamos el token en la columna correcta según tu SQL
-        $stmt = $conexion->prepare("UPDATE usuarios SET password = ?, token_recuperacion = NULL WHERE token_recuperacion = ?");
-        $stmt->execute([$hash, $token]);
+        // Verificamos si el token todavía existe y es válido
+        $stmt = $conexion->prepare("SELECT primer_nombre FROM usuarios WHERE token_recuperacion = ?");
+        $stmt->execute([$token]);
+        $user = $stmt->fetch();
 
-        // Si rowCount es mayor a 0, significa que el token existía y se actualizó
-        if ($stmt->rowCount() > 0) {
-            echo "<script>alert('¡Contraseña actualizada con éxito!'); window.location.href='../index.php';</script>";
+        if ($user) {
+            // Encriptamos la nueva contraseña
+            $password_hash = password_hash($nueva_clave, PASSWORD_BCRYPT);
+            
+            // Actualizamos la clave en la base de datos y BORRAMOS el token para que no se pueda volver a usar
+            $stmt_update = $conexion->prepare("UPDATE usuarios SET password = ?, token_recuperacion = NULL WHERE token_recuperacion = ?");
+            $stmt_update->execute([$password_hash, $token]);
+
+            // Redirigimos al login con mensaje de éxito (sin enviar correo)
+            echo "<script>
+                    alert('¡Excelente! Tu contraseña ha sido actualizada con éxito. Ya puedes iniciar sesión.'); 
+                    window.location.href='../index.php';
+                  </script>";
+                  
         } else {
-            // El token no existe o ya fue usado (ya es NULL en la BD)
-            echo "<script>alert('El enlace es inválido o ya ha sido utilizado.'); window.location.href='../index.php';</script>";
+            // Si el token no existe (alguien intentó entrar directo al link viejo)
+            echo "<script>alert('❌ El enlace de recuperación es inválido o ya fue utilizado.'); window.location.href='../index.php';</script>";
         }
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        echo "<script>alert('Error crítico: " . addslashes($e->getMessage()) . "'); window.history.back();</script>";
     }
 }
 ?>

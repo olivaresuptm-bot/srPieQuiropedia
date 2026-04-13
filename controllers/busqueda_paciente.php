@@ -12,7 +12,7 @@ if (isset($_GET['cedula'])) {
         $instagram_val = !empty($p['instagram']) ? $p['instagram'] : 'N/A';
 
         echo '
-        <div class="card border-0 bg-light">
+        <div class="card border-0 bg-light shadow-sm">
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-md-2 text-center">
@@ -41,20 +41,24 @@ if (isset($_GET['cedula'])) {
                 </div>
                 
                 <div class="mt-4 d-flex gap-2 flex-wrap">
-                    <a href="agregar_cita.php?id=' . $p['cedula_id'] . '" class="btn btn-primary btn-lg">
+                    <a href="agregar_cita.php?id=' . $p['cedula_id'] . '" class="btn btn-primary btn-lg shadow-sm">
                         <i class="bi bi-calendar-check me-2"></i>Agendar Cita
                     </a>
 
-                <a href="gestion_pacientes/historial.php?cedula=' . $p['cedula_id'] . '" class="btn btn-dark btn-lg">
+                    <a href="gestion_pacientes/historial.php?cedula=' . $p['cedula_id'] . '" class="btn btn-dark btn-lg shadow-sm">
                         <i class="bi bi-file-earmark-medical me-2"></i>Historial Clínico
                     </a>
 
-                    <button type="button" class="btn btn-outline-primary btn-lg" onclick=\'abrirEditarPaciente(' . json_encode($p) . ')\'>
+                    <button type="button" class="btn btn-outline-primary btn-lg shadow-sm" onclick=\'abrirEditarPaciente(' . json_encode($p) . ')\'>
                         <i class="bi bi-pencil-square me-2"></i>Editar Datos
                     </button>
 
                     <a href="gestion_pacientes/historial_pago_paciente.php?cedula=' . $p['cedula_id'] . '" class="btn btn-success btn-lg shadow-sm">
                         <i class="bi bi-cash-stack me-1"></i> Pagos
+                    </a>
+                    
+                    <a href="../controllers/descargar_justificativo.php?cedula=' . $p['cedula_id'] . '" target="_blank" class="btn btn-outline-danger btn-lg shadow-sm">
+                        <i class="bi bi-file-earmark-pdf-fill me-2"></i>Justificativo Médico
                     </a>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Caracas');
 // Conexion con la BD con Xampp
 $host     = "localhost";
 $db_name  = "srpiequiropedia"; 
