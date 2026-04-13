@@ -4,6 +4,17 @@ if (!isset($_SESSION['usuario_id'])) {
     header("Location: ../index.php");
     exit;
 }
+
+// 1. Incluimos la base de datos para poder consultar
+require_once '../includes/db.php';
+
+// 2. Hacemos el conteo total de pacientes registrados
+try {
+    $stmt_total = $conexion->query("SELECT COUNT(*) FROM pacientes");
+    $total_pacientes = $stmt_total->fetchColumn();
+} catch(PDOException $e) {
+    $total_pacientes = 0;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -73,6 +84,15 @@ if (!isset($_SESSION['usuario_id'])) {
                 </div>
             </div>
 
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-9 col-lg-8 text-center">
+                    <span class="badge bg-white text-secondary border px-4 py-2 fs-6 shadow-sm" style="border-radius: 20px;">
+                        <i class="bi bi-people-fill text-primary me-2"></i>
+                        Total de pacientes en el sistema: <strong class="text-dark fs-5"><?php echo number_format($total_pacientes); ?></strong>
+                    </span>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -82,23 +102,6 @@ if (!isset($_SESSION['usuario_id'])) {
     <script src="../assets/js/busqueda_paciente.js"></script>
     <script src="../assets/js/editar_paciente.js"></script>
     <script src="../assets/js/hamburguesa.js"></script>
-   <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const inputVal = document.getElementById("inputBusqueda").value;
-            
-            // Si hay algo escrito en la barra...
-            if (inputVal.trim() !== "") {
-                setTimeout(() => {
-                    // Buscamos el botón y simulamos un clic real
-                    const botonBuscar = document.getElementById("btnBuscar");
-                    if (botonBuscar) {
-                        botonBuscar.click(); 
-                    }
-                }, 200); // Le damos 200 milisegundos para que todo cargue bien
-            }
-        });
-    </script>
-</body>
-</html>
+    
 </body>
 </html>

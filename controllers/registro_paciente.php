@@ -5,7 +5,6 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $msj = null;
 
-
 require_once __DIR__ . '/../includes/db.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -38,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ]);
             $_SESSION['mensaje'] = ["tipo" => "success", "texto" => "✅ Paciente actualizado con éxito."];
             
-            // LA SOLUCIÓN: Forzamos el regreso exacto a la pantalla de búsqueda con la cartilla del paciente
+            // Regreso exacto a la pantalla de búsqueda con la cartilla del paciente editado
             $cedula_busqueda = trim($_POST['cedula_id']);
             header("Location: ../modulos/gestion_pacientes.php?busqueda=" . urlencode($cedula_busqueda));
             exit();
@@ -46,7 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } catch (PDOException $e) {
             $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ Error al actualizar: " . $e->getMessage()];
             
-           
             $cedula_busqueda = trim($_POST['cedula_id']);
             header("Location: ../modulos/gestion_pacientes.php?busqueda=" . urlencode($cedula_busqueda));
             exit();
@@ -56,11 +54,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // --- CASO 2: REGISTRO NUEVO ---
     else if (isset($_POST['cedula_id'])) {
         try {
+            // Verificar si la cédula ya existe
             $check = $conexion->prepare("SELECT COUNT(*) FROM pacientes WHERE cedula_id = ?");
             $check->execute([$_POST['cedula_id']]);
             
             if ($check->fetchColumn() > 0) {
                 $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ La cédula del paciente ya está registrada."];
+                header("Location: pacientes.php");
+                exit();
             } else {
                 
                 $sql = "INSERT INTO pacientes (cedula_id, tipo_doc, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fecha_nac, genero, telefono, correo, instagram, direccion, diabetico, registrado_por) 
@@ -85,6 +86,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ]);
 
                 $_SESSION['mensaje'] = ["tipo" => "success", "texto" => "✅ Paciente registrado con éxito."];
+                
+                // LA MAGIA AQUÍ: Redirigimos directamente al perfil en lugar de recargar la página
+                $cedula_nueva = trim($_POST['cedula_id']);
+                header("Location: ../gestion_pacientes.php?busqueda=" . urlencode($cedula_nueva));
+                exit();
             }
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), '1452') !== false || $e->getCode() == 23000) {
@@ -92,11 +98,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ Error: " . $e->getMessage()];
             }
+            // En caso de error, sí lo dejamos en el formulario para que corrija
+            header("Location: pacientes.php");
+            exit();
         }
-        
-      
-        header("Location: pacientes.php");
-        exit();
     }
 }
 

@@ -121,7 +121,7 @@ include '../controllers/registro_cita.php';
                                             <i class="bi bi-save me-2"></i>Guardar Cita
                                         </button>
                                         <a href="citas.php" class="btn btn-outline-secondary">
-                                            <i class="bi bi-arrow-left me-2"></i>Volver al menú
+                                            <i class="bi bi-arrow-left me-2"></i>Volver a gestión de citas
                                         </a>
                                     </div>
                                     

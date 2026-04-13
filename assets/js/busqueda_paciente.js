@@ -28,3 +28,20 @@
                 })
                 .catch(err => console.error("Error en la búsqueda:", err));
         }
+
+ 
+        document.addEventListener("DOMContentLoaded", function() {
+            const inputVal = document.getElementById("inputBusqueda").value;
+            
+            // Si hay algo escrito en la barra...
+            if (inputVal.trim() !== "") {
+                setTimeout(() => {
+                    // Buscamos el botón y simulamos un clic real
+                    const botonBuscar = document.getElementById("btnBuscar");
+                    if (botonBuscar) {
+                        botonBuscar.click(); 
+                    }
+                }, 200);
+            }
+        });
+
