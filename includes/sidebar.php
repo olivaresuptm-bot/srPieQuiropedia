@@ -44,17 +44,25 @@ $ruta = isset($ruta_base) ? $ruta_base : '../';
             </a>
         </li>
         
+        <li class="<?= ($pagina_actual == 'citas.php') ? 'current-page' : '' ?>">
+            <a href="<?= $ruta ?>modulos/citas.php" class="nav-link <?= ($pagina_actual == 'citas.php') ? 'active-link' : 'text-dark' ?>">
+                <i class="bi bi-calendar2-check me-2"></i> Citas
+            </a>
+        </li>
+
         <li class="<?= ($pagina_actual == 'gestion_pacientes.php') ? 'current-page' : '' ?>">
             <a href="<?= $ruta ?>modulos/gestion_pacientes.php" class="nav-link <?= ($pagina_actual == 'gestion_pacientes.php') ? 'active-link' : 'text-dark' ?>">
                 <i class="bi bi-person-vcard me-2"></i> Pacientes e historias
             </a>
         </li>
         
-        <li class="<?= ($pagina_actual == 'citas.php') ? 'current-page' : '' ?>">
-            <a href="<?= $ruta ?>modulos/citas.php" class="nav-link <?= ($pagina_actual == 'citas.php') ? 'active-link' : 'text-dark' ?>">
-                <i class="bi bi-calendar2-check me-2"></i> Citas
+        <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
+        <li class="<?= ($pagina_actual == 'usuarios.php') ? 'current-page' : '' ?>">
+            <a href="<?= $ruta ?>modulos/usuarios.php" class="nav-link <?= ($pagina_actual == 'usuarios.php') ? 'active-link' : 'text-dark' ?>">
+                <i class="bi bi-shield-lock me-2"></i> Gestion administrativa
             </a>
         </li>
+         <?php endif; ?>
 
          <li class="<?= ($pagina_actual == 'servicios.php') ? 'current-page' : '' ?>">
             <a href="<?= $ruta ?>modulos/servicios.php" class="nav-link <?= ($pagina_actual == 'servicios.php') ? 'active-link' : 'text-dark' ?>">
@@ -62,12 +70,6 @@ $ruta = isset($ruta_base) ? $ruta_base : '../';
             </a>
         </li>
         
-        <li class="<?= ($pagina_actual == 'usuarios.php') ? 'current-page' : '' ?>">
-            <a href="<?= $ruta ?>modulos/usuarios.php" class="nav-link <?= ($pagina_actual == 'usuarios.php') ? 'active-link' : 'text-dark' ?>">
-                <i class="bi bi-shield-lock me-2"></i> Gestion administrativa
-            </a>
-        </li>
-
         <li class="<?= ($pagina_actual == 'reportes.php') ? 'current-page' : '' ?>">
             <a href="<?= $ruta ?>modulos/reportes.php" class="nav-link <?= ($pagina_actual == 'reportes.php') ? 'active-link' : 'text-dark' ?>">
                 <i class="bi bi-bar-chart-line me-2"></i> Reportes y analítica
@@ -80,7 +82,7 @@ $ruta = isset($ruta_base) ? $ruta_base : '../';
             </a>
         </li>
 
-        <?php if(isset($_SESSION['rol']) && $_SESSION['rol'] == 'gerente'): ?>
+         <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
         <li class="<?= ($pagina_actual == 'mantenimiento.php') ? 'current-page' : '' ?>">
             <a href="<?= $ruta ?>modulos/mantenimiento.php" class="nav-link <?= ($pagina_actual == 'mantenimiento.php') ? 'active-link' : 'text-dark' ?>">
                 <i class="bi bi-database me-2"></i> Mantenimiento

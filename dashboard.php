@@ -31,7 +31,7 @@ require_once 'controllers/notificaciones_citas.php';
             <small>Agendar, reprogramar y controlar turnos diarios.</small>
         </a>
 
-        <a href="modulos/gestion_pacientes/pacientes.php" class="module-card">
+        <a href="modulos/gestion_pacientes.php" class="module-card">
             <i class="bi bi-person-vcard"></i>
             <span>Pacientes e Historias</span>
             <small>Búsqueda de fichas y acceso a historiales clínicos.</small>
@@ -49,13 +49,12 @@ require_once 'controllers/notificaciones_citas.php';
             </a>
         <?php endif; ?>
 
-        <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?> 
         <a href="modulos/servicios.php" class="module-card">
             <i class="bi bi-card-checklist"></i>
             <span>Servicios</span>
             <small>Acceso a servios ofrecidos.</small>
         </a>
-        <?php endif; ?>
+        
 <!-- ---------------------------------------------------------------------------------------- -->
         
 
