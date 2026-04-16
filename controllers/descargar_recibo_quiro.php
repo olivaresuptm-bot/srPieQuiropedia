@@ -8,6 +8,24 @@ require_once '../includes/tasa_BCV.php';
 $tasa_actual = ($tasa_bcv) ? $tasa_bcv : 0;
 
 $cedula = $_GET['cedula'] ?? '';
+// ========================================================
+// PROCESAR LIQUIDACIÓN DE NÓMINA (REINICIAR CONTADOR)
+// ========================================================
+if (isset($_GET['liquidar']) && $_GET['liquidar'] == '1') {
+    try {
+        // Cambiamos el estado_comision a 1 (Pagado) solo a las citas pendientes de este doctor
+        $sql_liquidar = "UPDATE citas SET estado_comision = 1 
+                         WHERE quiropedista_cedula = :cedula 
+                         AND estado_comision = 0 
+                         AND estatus = 'atendida'";
+                         
+        $stmt_liquidar = $conexion->prepare($sql_liquidar);
+        $stmt_liquidar->execute([':cedula' => $cedula]);
+    } catch(PDOException $e) {
+        die("Error al procesar la liquidación: " . $e->getMessage());
+    }
+}
+// ========================================================
 if (!$cedula) die("Error: Cédula no proporcionada.");
 
 $stmt_quiro = $conexion->prepare("SELECT * FROM usuarios WHERE cedula_id = ?");

@@ -4,58 +4,7 @@ if (!isset($_SESSION['usuario_id'])) {
     header("Location: ../index.php");
     exit;
 }
-
-require_once '../includes/db.php'; 
-require_once '../includes/tasa_BCV.php';
-
-$tasa_actual = ($tasa_bcv) ? $tasa_bcv : 0;
-
-// CONSULTA DE ESTADÍSTICAS: Ahora filtramos por el ENUM 'atendida' en la tabla citas
-$stats = $conexion->query("SELECT 
-    (SELECT COUNT(*) FROM citas WHERE estatus = 'atendida') as total_citas,
-    (SELECT COUNT(*) FROM pacientes) as total_pacientes,
-    (SELECT SUM(monto) FROM pagos) as total_ingresos")->fetch(PDO::FETCH_ASSOC);
-
-// Consulta de Comisiones (Variable por Servicio)
-$sql_comisiones = "SELECT 
-    u.cedula_id,
-    u.correo,
-    CONCAT(u.primer_nombre, ' ', u.primer_apellido) AS nombre_completo, 
-    SUM(p.monto) AS ventas_usd,
-    SUM(p.monto * p.tasa_bcv) AS ventas_bs,
-    SUM(p.monto * (s.comision_porcentaje / 100)) AS comision_usd,
-    SUM(p.monto * p.tasa_bcv * (s.comision_porcentaje / 100)) AS comision_bs
-    FROM pagos p
-    INNER JOIN citas c ON p.cita_id = c.cita_id
-    INNER JOIN usuarios u ON c.quiropedista_cedula = u.cedula_id
-    INNER JOIN servicios s ON c.servicio_id = s.servicio_id
-    GROUP BY u.cedula_id";
-$res_comisiones = $conexion->query($sql_comisiones);
-
-$sql_servicios = "SELECT 
-    c.quiropedista_cedula,
-    s.nombre AS servicio_nombre,
-    COUNT(c.cita_id) AS cantidad
-    FROM pagos p
-    INNER JOIN citas c ON p.cita_id = c.cita_id
-    INNER JOIN servicios s ON c.servicio_id = s.servicio_id
-    GROUP BY c.quiropedista_cedula, s.servicio_id";
-$res_servicios = $conexion->query($sql_servicios);
-
-$desglose_servicios = [];
-while ($s = $res_servicios->fetch(PDO::FETCH_ASSOC)) {
-    $desglose_servicios[$s['quiropedista_cedula']][] = $s['servicio_nombre'] . " (x" . $s['cantidad'] . ")";
-}
-
-$nombres_grafico = [];
-$ventas_grafico = [];
-$datos_tabla = [];
-
-while ($row = $res_comisiones->fetch(PDO::FETCH_ASSOC)) {
-    $datos_tabla[] = $row; 
-    $nombres_grafico[] = $row['nombre_completo']; 
-    $ventas_grafico[] = $row['ventas_usd']; 
-}
+require_once '../controllers/reportes.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -89,19 +38,19 @@ while ($row = $res_comisiones->fetch(PDO::FETCH_ASSOC)) {
         <div class="row g-3 mb-4">
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm p-3">
-                    <small class="text-muted fw-bold">CITAS ATENDIDAS</small>
+                    <small class="text-muted fw-bold">CITAS ATENDIDAS (HISTÓRICO)</small>
                     <h3 class="mb-0"><?php echo $stats['total_citas']; ?></h3>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm p-3">
-                    <small class="text-muted fw-bold">PACIENTES</small>
+                    <small class="text-muted fw-bold">PACIENTES (HISTÓRICO)</small>
                     <h3 class="mb-0"><?php echo $stats['total_pacientes']; ?></h3>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm p-3 border-start border-success border-4">
-                    <small class="text-muted fw-bold">INGRESOS BRUTOS</small>
+                    <small class="text-muted fw-bold">INGRESOS BRUTOS (HISTÓRICO)</small>
                     <h3 class="mb-0 text-success"><?php echo number_format($stats['total_ingresos'] ?? 0, 2); ?> $</h3>
                     <span class="text-muted small fw-bold"> <?php echo number_format(($stats['total_ingresos'] ?? 0) * $tasa_actual, 2, ',', '.'); ?> Bs</span>
                 </div>
@@ -109,8 +58,8 @@ while ($row = $res_comisiones->fetch(PDO::FETCH_ASSOC)) {
         </div>
 
         <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-white py-3">
-                <h6 class="mb-0 text-primary fw-bold"><i class="bi bi-cash-stack me-2"></i>Pago de Comisiones (Variable por Servicio)</h6>
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 text-primary fw-bold"><i class="bi bi-cash-stack me-2"></i>Nómina Pendiente (Comisiones de la Semana)</h6>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -118,13 +67,22 @@ while ($row = $res_comisiones->fetch(PDO::FETCH_ASSOC)) {
                         <thead class="table-light">
                             <tr>
                                 <th class="ps-4">Quiropedista</th>
-                                <th>Servicios Realizados</th>
-                                <th>Total Atendido</th>
+                                <th>Servicios de la Semana</th>
+                                <th>Producido</th>
                                 <th>Comisión a Pagar</th>
-                                <th class="text-center">Recibo</th>
+                                <th class="text-center">Acción</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php if(empty($datos_tabla)): ?>
+                                <tr>
+                                    <td colspan="5" class="text-center py-4 text-muted">
+                                        <i class="bi bi-check2-all fs-2 d-block mb-2"></i>
+                                        No hay comisiones pendientes por pagar esta semana.
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+
                             <?php foreach($datos_tabla as $fila): ?>
                             <tr>
                                 <td class="ps-4 fw-bold text-secondary"><?php echo $fila['nombre_completo']; ?></td>
@@ -135,26 +93,21 @@ while ($row = $res_comisiones->fetch(PDO::FETCH_ASSOC)) {
                                         foreach($desglose_servicios[$cedula_quiro] as $detalle) {
                                             echo "<span class='badge bg-info text-dark me-1 mb-1 shadow-sm'>$detalle</span> ";
                                         }
-                                    } else {
-                                        echo "<span class='text-muted small'>Sin servicios pagos</span>";
                                     }
                                     ?>
                                 </td>
                                 <td>
                                     <span class="d-block"><?php echo number_format($fila['ventas_usd'], 2); ?> $</span>
-                                    <small class="text-muted">Histórico: <?php echo number_format($fila['ventas_bs'], 2, ',', '.'); ?> Bs.</small>
                                 </td>
                                 <td class="fw-bold text-success fs-6">
                                     <span class="d-block"><?php echo number_format($fila['comision_usd'], 2); ?> $</span>
                                     <small class="text-muted fw-normal fs-6">A Pagar: <?php echo number_format($fila['comision_bs'], 2, ',', '.'); ?> Bs.</small>
                                 </td>
                                 <td class="text-center">
-                                    <a href="../controllers/descargar_recibo_quiro.php?cedula=<?php echo $cedula_quiro; ?>" target="_blank" class="btn btn-sm btn-outline-danger shadow-sm me-1" title="Ver Recibo PDF">
-                                        <i class="bi bi-file-pdf"></i>
-                                    </a>
-                                    <a href="../controllers/enviar_recibo_quiro.php?cedula=<?php echo $cedula_quiro; ?>" target="_blank" class="btn btn-sm btn-outline-primary shadow-sm" title="Enviar al Correo">
-                                        <i class="bi bi-envelope-paper"></i>
-                                    </a>
+                                    <button class="btn btn-success shadow-sm fw-bold px-3" 
+                                            onclick="abrirModalPago('<?php echo $cedula_quiro; ?>', '<?php echo addslashes($fila['nombre_completo']); ?>', '<?php echo number_format($fila['comision_usd'], 2); ?>')">
+                                        <i class="bi bi-wallet2 me-1"></i> Pagar Semana
+                                    </button>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
@@ -166,7 +119,7 @@ while ($row = $res_comisiones->fetch(PDO::FETCH_ASSOC)) {
 
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white py-3">
-                <h6 class="mb-0 text-primary fw-bold"><i class="bi bi-bar-chart-line me-2"></i>Rendimiento por Personal <i class="bi bi-currency-exchange me-1"></i></h6>
+                <h6 class="mb-0 text-primary fw-bold"><i class="bi bi-bar-chart-line me-2"></i>Rendimiento Pendiente <i class="bi bi-currency-exchange me-1"></i></h6>
             </div>
             <div class="card-body">
                 <canvas id="graficoIngresos" style="max-height: 350px;"></canvas>
@@ -176,9 +129,38 @@ while ($row = $res_comisiones->fetch(PDO::FETCH_ASSOC)) {
     </div>
 </div> 
 
+<div class="modal fade" id="modalPago" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-success text-white border-0">
+                <h5 class="modal-title"><i class="bi bi-wallet2 me-2"></i>Procesar Pago de Comisión</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 text-center">
+                <i class="bi bi-exclamation-circle text-warning" style="font-size: 3rem;"></i>
+                <h4 class="mt-3" id="nombre_pago_modal">Quiropedista</h4>
+                <p class="text-muted">Monto a liquidar: <strong class="text-success fs-4" id="monto_pago_modal">0.00 $</strong></p>
+                <p class="small text-secondary mb-4">Al confirmar, el contador de este quiropedista se reiniciará a cero para la próxima semana.</p>
+                
+                <div class="d-grid gap-3">
+                    <a id="btn_enviar_pago" href="#" target="_blank" class="btn btn-outline-primary btn-lg" onclick="recargarPagina()">
+                        <i class="bi bi-envelope-paper-fill me-2"></i> Enviar Pago al Correo
+                    </a>    
+                
+                    <a id="btn_descargar_pago" href="#" target="_blank" class="btn btn-outline-danger btn-lg" onclick="recargarPagina()">
+                        <i class="bi bi-file-pdf-fill me-2"></i>Registrar Pago y Descargar PDF
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php include '../includes/footer.php'; ?>
 
 <script>
+    // Gráfico
     const ctx = document.getElementById('graficoIngresos').getContext('2d');
     new Chart(ctx, {
         type: 'bar',
@@ -197,6 +179,26 @@ while ($row = $res_comisiones->fetch(PDO::FETCH_ASSOC)) {
             scales: { y: { beginAtZero: true } }
         }
     });
+
+    // Función para abrir el modal y configurar los botones
+    function abrirModalPago(cedula, nombre, monto) {
+        document.getElementById('nombre_pago_modal').innerText = nombre;
+        document.getElementById('monto_pago_modal').innerText = monto + " $";
+        
+        // Aquí le decimos a los botones qué archivo ejecutar y le mandamos el parámetro liquidar=1
+        document.getElementById('btn_descargar_pago').href = "../controllers/descargar_recibo_quiro.php?cedula=" + cedula + "&liquidar=1";
+        document.getElementById('btn_enviar_pago').href = "../controllers/enviar_recibo_quiro.php?cedula=" + cedula + "&liquidar=1";
+        
+        var myModal = new bootstrap.Modal(document.getElementById('modalPago'));
+        myModal.show();
+    }
+
+    // Recargar la página después de generar el recibo para ver el contador en 0
+    function recargarPagina() {
+        setTimeout(function() {
+            window.location.reload();
+        }, 1500); // Espera 1.5 seg a que se descargue el PDF y luego refresca
+    }
 </script>
 
 <script src="../assets/js/hamburguesa.js"></script>

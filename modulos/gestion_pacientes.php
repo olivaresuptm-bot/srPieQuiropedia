@@ -5,10 +5,8 @@ if (!isset($_SESSION['usuario_id'])) {
     exit;
 }
 
-// 1. Incluimos la base de datos para poder consultar
 require_once '../includes/db.php';
 
-// 2. Hacemos el conteo total de pacientes registrados
 try {
     $stmt_total = $conexion->query("SELECT COUNT(*) FROM pacientes");
     $total_pacientes = $stmt_total->fetchColumn();
