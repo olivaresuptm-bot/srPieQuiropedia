@@ -20,16 +20,17 @@ require_once '../controllers/calendario_citas.php';
     <link rel="stylesheet" href="../assets/css/footer.css">
     <link rel="stylesheet" href="../assets/css/calendario.css">
 </head>
-<body class="bg-light m-0 p-0">
+
+<body class="bg-light m-0 p-0 d-flex flex-column" style="height: 100vh; overflow: hidden;">
 
     <?php include '../includes/header.php'; ?>
     
-    <div class="d-flex" style="min-height: calc(100vh - 145px);">
+    <div class="d-flex flex-grow-1" style="min-height: 0; overflow: hidden;">
         
         <?php include '../includes/sidebar.php'; 
         include '../includes/titulo_modulo.php'; ?>
         
-        <div class="flex-grow-1 p-4" style="background-color: #f8f9fa;">
+        <div class="flex-grow-1 p-4" style="overflow-y: auto; background-color: #f8f9fa;">
             
             <?php if (isset($error) && $error): ?>
                 <div class="alert alert-danger alert-dismissible fade show">
@@ -61,8 +62,8 @@ require_once '../controllers/calendario_citas.php';
                     <div id="calendar"></div>
                 </div>
             </div>
-        </div>
-    </div> <div class="w-100 p-0 m-0 border-top bg-dark" style="position: relative; z-index: 1200;">
+            
+        </div> </div> <div class="w-100 p-0 m-0 border-top bg-dark" style="position: relative; z-index: 1200;">
         <?php include '../includes/footer.php'; ?>
     </div>
 

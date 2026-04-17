@@ -25,36 +25,61 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     });
 
+    // 1. DETECTAMOS SI ES UN CELULAR (Pantalla <= 768px)
+    const esMovil = window.innerWidth <= 768;
+
     var calendarEl = document.getElementById('calendar');
-        calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                locale: 'es',
-                displayEventTime: false, 
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,dayGridWeek,dayGridDay'
+    calendar = new FullCalendar.Calendar(calendarEl, {
+        
+        // Vista inicial inteligente
+        initialView: esMovil ? 'listMonth' : 'dayGridMonth',
+        locale: 'es',
+        displayEventTime: false, 
+        
+        // MAGIA 2: Botones dinámicos
+        // Si es móvil, los botones de Semana y Día cargan las vistas de "Lista". 
+        // Si es PC, cargan la vista de "Grilla/Horario" clásica.
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: esMovil ? 'listMonth,listWeek,listDay' : 'dayGridMonth,timeGridWeek,timeGridDay'
         },
-        buttonText: { today: 'Hoy', month: 'Mes', week: 'Semana', day: 'Día' },
+        
+        // Forzamos los nombres de los botones para que siempre sean cortos
+        buttonText: { 
+            today: 'Hoy', 
+            dayGridMonth: 'Mes', 
+            timeGridWeek: 'Semana', 
+            timeGridDay: 'Día',
+            listMonth: 'Mes',
+            listWeek: 'Semana',
+            listDay: 'Día'
+        },
+
+        // MEJORAS DE HORARIO (Solo afectan a la PC cuando se ve en vista de columnas)
+        slotMinTime: '07:00:00', // El calendario empieza a las 7 AM (Ajusta según tu clínica)
+        slotMaxTime: '20:00:00', // Termina a las 8 PM
+        allDaySlot: false,       // Oculta la fila inútil de "Todo el día" que quita espacio
+
         events: eventos,
         height: 'auto',
         eventDisplay: 'block',
-        eventTimeFormat: { hour: '2-digit', minute: '2-digit', hour12: false },
+        
         eventDidMount: function(info) {
             info.el.setAttribute('title', 
                 `${info.event.extendedProps.hora} - ${info.event.extendedProps.paciente}\nQuiropedista: ${info.event.extendedProps.quiropedista}\nServicio: ${info.event.extendedProps.servicio}\nEstatus: ${info.event.extendedProps.estatus}`
             );
+            // Que el texto no se corte
             info.el.style.whiteSpace = 'normal';
             info.el.style.wordWrap = 'break-word';
             info.el.style.overflow = 'hidden';
             info.el.style.lineHeight = '1.2';
         },
+        
         dateClick: function(info) {
             mostrarCitasDelDia(info.dateStr);
         },
-        eventClick: function(info) {
-            // Puedes dejar esto o abrir un modal más estilizado
-        },
+        
         dayCellDidMount: function(info) {
             const fecha = info.date.toISOString().split('T')[0];
             const citasDelDia = citasData.filter(c => c.fecha === fecha);
@@ -66,11 +91,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 const atendidas = citasDelDia.filter(c => c.estatus === 'atendida').length;
                 const canceladas = citasDelDia.filter(c => c.estatus === 'cancelada').length;
                 
-                if (programadas > 0) { const dot = document.createElement('span'); dot.className = 'cita-indicador programada'; dot.setAttribute('title', `${programadas} programada(s)`); indicadores.appendChild(dot); }
-                if (atendidas > 0) { const dot = document.createElement('span'); dot.className = 'cita-indicador atendida'; dot.setAttribute('title', `${atendidas} atendida(s)`); indicadores.appendChild(dot); }
-                if (canceladas > 0) { const dot = document.createElement('span'); dot.className = 'cita-indicador cancelada'; dot.setAttribute('title', `${canceladas} cancelada(s)`); indicadores.appendChild(dot); }
+                if (programadas > 0) { const dot = document.createElement('span'); dot.className = 'cita-indicador programada'; indicadores.appendChild(dot); }
+                if (atendidas > 0) { const dot = document.createElement('span'); dot.className = 'cita-indicador atendida'; indicadores.appendChild(dot); }
+                if (canceladas > 0) { const dot = document.createElement('span'); dot.className = 'cita-indicador cancelada'; indicadores.appendChild(dot); }
                 
-                info.el.querySelector('.fc-daygrid-day-frame').appendChild(indicadores);
+                const frame = info.el.querySelector('.fc-daygrid-day-frame');
+                if (frame) {
+                    frame.appendChild(indicadores);
+                }
             }
         }
     });
@@ -78,14 +106,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function mostrarCitasDelDia(fecha) {
-        const citasDelDia = citasData.filter(c => c.fecha === fecha);
-        const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
-            timeZone: 'UTC', // <--- ¡ESTA ES LA LÍNEA MÁGICA!
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
+    const citasDelDia = citasData.filter(c => c.fecha === fecha);
+    const fechaFormateada = new Date(fecha).toLocaleDateString('es-ES', {
+        timeZone: 'UTC', 
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
     document.getElementById('fechaSeleccionada').textContent = fechaFormateada;
     
     const listaCitas = document.getElementById('listaCitasDia');
