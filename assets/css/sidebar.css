@@ -40,18 +40,27 @@
 /* =========================================
    MEDIA QUERIES (MAGIA PARA CELULARES) 
    ========================================= */
+/* =========================================
+   MEDIA QUERIES (MAGIA PARA CELULARES) 
+   ========================================= */
 @media (max-width: 768px) {
+    
     #sidebar {
-        position: fixed; /* Se superpone al resto de la página */
+        position: fixed; 
         top: 0;
         left: 0;
         height: 100%;
-        margin-left: -250px; /* Oculto por defecto en el celular */
-        box-shadow: 5px 0 15px rgba(0,0,0,0.5); /* Sombra para que resalte al abrirse */
+        margin-left: -250px; 
+        box-shadow: 5px 0 15px rgba(0,0,0,0.5); 
     }
 
-    /* Esta es la clase que el Javascript le pondrá al tocar la hamburguesa */
     #sidebar.abierto-movil {
         margin-left: 0; 
     }
-}
+
+    /* Ocultamos la hamburguesa de computadora SOLO en el celular */
+    #sidebarCollapse {
+        display: none !important;
+    }
+
+} /* <--- ESTA LLAVE CIERRA EL MODO CELULAR. SI SE BORRA, AFECTA A LA PC */

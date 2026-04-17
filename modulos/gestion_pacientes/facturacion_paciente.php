@@ -10,6 +10,7 @@ include '../../controllers/facturacion_paciente.php';
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facturación - Sr. Pie</title>
     <link rel="icon" type="image/png" href="../../assets/img/logo_sr_pie.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -20,11 +21,13 @@ include '../../controllers/facturacion_paciente.php';
 </head>
 <body class="bg-light">
 
-    <?php include '../../includes/header.php'; ?>
+   <?php $ruta_base = '../../';
+        include '../../includes/header.php'; ?>
 
     <div class="d-flex" style="height: calc(100vh - 70px); overflow: hidden;">
         
-        <?php include '../../includes/sidebar.php'; 
+        <?php $ruta_base = '../../';
+            include '../../includes/sidebar.php'; 
         include '../../includes/titulo_modulo.php'; ?>
 
         <div class="flex-grow-1 d-flex flex-column contenedor-principal">

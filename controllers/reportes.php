@@ -14,10 +14,28 @@ require_once '../includes/tasa_BCV.php';
 $tasa_actual = ($tasa_bcv) ? $tasa_bcv : 0;
 
 // ESTADÍSTICAS GLOBALES
-$stats = $conexion->query("SELECT 
-    (SELECT COUNT(*) FROM citas WHERE estatus = 'atendida') as total_citas,
-    (SELECT COUNT(*) FROM pacientes) as total_pacientes,
-    (SELECT SUM(monto) FROM pagos) as total_ingresos")->fetch(PDO::FETCH_ASSOC);
+$sql_stats = "SELECT 
+    -- HISTÓRICO TOTAL
+    (SELECT COUNT(*) FROM citas WHERE estatus = 'atendida') as citas_hist,
+    (SELECT COUNT(*) FROM pacientes) as pac_hist,
+    (SELECT COALESCE(SUM(monto), 0) FROM pagos) as ing_hist,
+    
+    -- ESTE AÑO (ANUAL)
+    (SELECT COUNT(*) FROM citas WHERE estatus = 'atendida' AND YEAR(fecha) = YEAR(CURDATE())) as citas_anual,
+    (SELECT COUNT(*) FROM pacientes WHERE YEAR(fecha_registro) = YEAR(CURDATE())) as pac_anual,
+    (SELECT COALESCE(SUM(monto), 0) FROM pagos WHERE YEAR(fecha_pago) = YEAR(CURDATE())) as ing_anual,
+    
+    -- ESTE MES (MENSUAL)
+    (SELECT COUNT(*) FROM citas WHERE estatus = 'atendida' AND YEAR(fecha) = YEAR(CURDATE()) AND MONTH(fecha) = MONTH(CURDATE())) as citas_mensual,
+    (SELECT COUNT(*) FROM pacientes WHERE YEAR(fecha_registro) = YEAR(CURDATE()) AND MONTH(fecha_registro) = MONTH(CURDATE())) as pac_mensual,
+    (SELECT COALESCE(SUM(monto), 0) FROM pagos WHERE YEAR(fecha_pago) = YEAR(CURDATE()) AND MONTH(fecha_pago) = MONTH(CURDATE())) as ing_mensual,
+    
+    -- ESTA SEMANA (SEMANAL)
+    (SELECT COUNT(*) FROM citas WHERE estatus = 'atendida' AND YEARWEEK(fecha, 1) = YEARWEEK(CURDATE(), 1)) as citas_semanal,
+    (SELECT COUNT(*) FROM pacientes WHERE YEARWEEK(fecha_registro, 1) = YEARWEEK(CURDATE(), 1)) as pac_semanal,
+    (SELECT COALESCE(SUM(monto), 0) FROM pagos WHERE YEARWEEK(fecha_pago, 1) = YEARWEEK(CURDATE(), 1)) as ing_semanal
+";
+$stats = $conexion->query($sql_stats)->fetch(PDO::FETCH_ASSOC);
 
 // ========================================================
 // NUEVO: SOLO SUMAMOS LOS PAGOS PENDIENTES (estado_comision = 0)

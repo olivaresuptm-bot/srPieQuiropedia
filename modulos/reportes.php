@@ -36,25 +36,76 @@ require_once '../controllers/reportes.php';
         </div>
 
         <div class="row g-3 mb-4">
+            <div class="row g-3 mb-4">
+            
             <div class="col-md-4">
-                <div class="card border-0 shadow-sm p-3">
-                    <small class="text-muted fw-bold">CITAS ATENDIDAS (HISTÓRICO)</small>
-                    <h3 class="mb-0"><?php echo $stats['total_citas']; ?></h3>
+                <div class="card border-0 shadow-sm p-3 h-100">
+                    <h6 class="text-primary fw-bold mb-3"><i class="bi bi-calendar2-check me-2"></i>CITAS ATENDIDAS</h6>
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span class="small text-secondary">Esta Semana:</span> <strong class="text-dark fs-5"><?php echo $stats['citas_semanal']; ?></strong>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span class="small text-secondary">Este Mes:</span> <strong class="text-dark fs-5"><?php echo $stats['citas_mensual']; ?></strong>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span class="small text-secondary">Este Año:</span> <strong class="text-dark fs-5"><?php echo $stats['citas_anual']; ?></strong>
+                    </div>
+                    <div class="d-flex justify-content-between pt-1">
+                        <span class="small text-muted fw-bold">Histórico Total:</span> <strong class="text-muted"><?php echo $stats['citas_hist']; ?></strong>
+                    </div>
                 </div>
             </div>
+
             <div class="col-md-4">
-                <div class="card border-0 shadow-sm p-3">
-                    <small class="text-muted fw-bold">PACIENTES (HISTÓRICO)</small>
-                    <h3 class="mb-0"><?php echo $stats['total_pacientes']; ?></h3>
+                <div class="card border-0 shadow-sm p-3 h-100">
+                    <h6 class="text-info fw-bold mb-3"><i class="bi bi-people-fill me-2"></i>PACIENTES NUEVOS</h6>
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span class="small text-secondary">Esta Semana:</span> <strong class="text-dark fs-5"><?php echo $stats['pac_semanal']; ?></strong>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span class="small text-secondary">Este Mes:</span> <strong class="text-dark fs-5"><?php echo $stats['pac_mensual']; ?></strong>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span class="small text-secondary">Este Año:</span> <strong class="text-dark fs-5"><?php echo $stats['pac_anual']; ?></strong>
+                    </div>
+                    <div class="d-flex justify-content-between pt-1">
+                        <span class="small text-muted fw-bold">Histórico Total:</span> <strong class="text-muted"><?php echo $stats['pac_hist']; ?></strong>
+                    </div>
                 </div>
             </div>
+
             <div class="col-md-4">
-                <div class="card border-0 shadow-sm p-3 border-start border-success border-4">
-                    <small class="text-muted fw-bold">INGRESOS BRUTOS (HISTÓRICO)</small>
-                    <h3 class="mb-0 text-success"><?php echo number_format($stats['total_ingresos'] ?? 0, 2); ?> $</h3>
-                    <span class="text-muted small fw-bold"> <?php echo number_format(($stats['total_ingresos'] ?? 0) * $tasa_actual, 2, ',', '.'); ?> Bs</span>
+                <div class="card border-0 shadow-sm p-3 h-100 border-start border-success border-4">
+                    <h6 class="text-success fw-bold mb-3"><i class="bi bi-cash-coin me-2"></i>INGRESOS BRUTOS</h6>
+                    
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span class="small text-secondary">Esta Semana:</span> 
+                        <div class="text-end">
+                            <strong class="text-success fs-5"><?php echo number_format($stats['ing_semanal'], 2); ?> $</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span class="small text-secondary">Este Mes:</span> 
+                        <div class="text-end">
+                            <strong class="text-success fs-5"><?php echo number_format($stats['ing_mensual'], 2); ?> $</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span class="small text-secondary">Este Año:</span> 
+                        <div class="text-end">
+                            <strong class="text-success fs-5"><?php echo number_format($stats['ing_anual'], 2); ?> $</strong>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between pt-1">
+                        <span class="small text-muted fw-bold">Histórico Total:</span> <strong class="text-muted"><?php echo number_format($stats['ing_hist'], 2); ?> $</strong>
+                    </div>
                 </div>
             </div>
+            
+        </div>
         </div>
 
         <div class="card border-0 shadow-sm mb-4">
@@ -157,7 +208,7 @@ require_once '../controllers/reportes.php';
     </div>
 </div>
 
-<?php include '../includes/footer.php'; ?>
+</div></div></div><?php include '../includes/footer.php'; ?>
 
 <script>
     // Gráfico

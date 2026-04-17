@@ -1,9 +1,13 @@
 .footer-srpie {
     background-color: #1a1a1a;
     color: #ffffff;
-    padding: 8px 0; 
-    width: 100%;
+    padding: 8px 0 !important; 
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
     font-size: 0.75rem;
+    z-index: 1060;
+    display: block !important;
 }
 
 .footer-content {
@@ -19,6 +23,7 @@
 .license-text {
     color: #888;
     font-size: 0.7rem;
+    margin-bottom: 0 !important;
 }
 
 .footer-links a {
@@ -29,4 +34,13 @@
 
 .footer-links a:hover {
     text-decoration: underline;
+}
+
+/* Quitar los bordes invisibles del contenedor interno de Bootstrap */
+.footer-srpie .container-fluid {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin: 0 !important;
 }
