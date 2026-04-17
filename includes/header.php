@@ -29,7 +29,7 @@ $es_dashboard = ($pagina_actual == 'dashboard.php');
         <?php endif; ?>
         
         <div class="welcome-text">
-            <h1 class="mb-0 text-truncate">Bienvenido, <?php echo htmlspecialchars($nombre_completo); ?></h1>
+            <h1 class="mb-0 text-truncate">Bienvenida, <?php echo htmlspecialchars($nombre_completo); ?></h1>
             <span class="badge bg-primary rounded-pill px-3"><?php echo strtoupper($rol_usuario); ?></span>
         </div>
     </div>
