@@ -96,8 +96,8 @@ try {
             </div>
 
         </div> </div> <div class="w-100 p-0 m-0 border-top bg-dark" style="position: relative; z-index: 1200;">
-        <?php include '../includes/footer.php'; ?>
-    </div>
+       </div> </div></div><?php include '../includes/footer.php'; ?>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/busqueda_paciente.js"></script>
