@@ -33,12 +33,17 @@ $sql_stats = "SELECT
     -- ESTA SEMANA (SEMANAL)
     (SELECT COUNT(*) FROM citas WHERE estatus = 'atendida' AND YEARWEEK(fecha, 1) = YEARWEEK(CURDATE(), 1)) as citas_semanal,
     (SELECT COUNT(*) FROM pacientes WHERE YEARWEEK(fecha_registro, 1) = YEARWEEK(CURDATE(), 1)) as pac_semanal,
-    (SELECT COALESCE(SUM(monto), 0) FROM pagos WHERE YEARWEEK(fecha_pago, 1) = YEARWEEK(CURDATE(), 1)) as ing_semanal
+    (SELECT COALESCE(SUM(monto), 0) FROM pagos WHERE YEARWEEK(fecha_pago, 1) = YEARWEEK(CURDATE(), 1)) as ing_semanal,
+
+    -- ESTE DÍA (DIARIO)
+    (SELECT COUNT(*) FROM citas WHERE estatus = 'atendida' AND DATE(fecha) = CURDATE()) as citas_diario,
+    (SELECT COUNT(*) FROM pacientes WHERE DATE(fecha_registro) = CURDATE()) as pac_diario,
+    (SELECT COALESCE(SUM(monto), 0) FROM pagos WHERE DATE(fecha_pago) = CURDATE()) as ing_diario
 ";
 $stats = $conexion->query($sql_stats)->fetch(PDO::FETCH_ASSOC);
 
 // ========================================================
-// NUEVO: SOLO SUMAMOS LOS PAGOS PENDIENTES (estado_comision = 0)
+// SOLO SUMAMOS LOS PAGOS PENDIENTES (estado_comision = 0)
 // ========================================================
 $sql_comisiones = "SELECT 
     u.cedula_id,

@@ -42,6 +42,9 @@ require_once '../controllers/reportes.php';
                 <div class="card border-0 shadow-sm p-3 h-100">
                     <h6 class="text-primary fw-bold mb-3"><i class="bi bi-calendar2-check me-2"></i>CITAS ATENDIDAS</h6>
                     <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span class="small text-secondary">Hoy:</span> <strong class="text-dark fs-5"><?php echo $stats['citas_diario']; ?></strong>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
                         <span class="small text-secondary">Esta Semana:</span> <strong class="text-dark fs-5"><?php echo $stats['citas_semanal']; ?></strong>
                     </div>
                     <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
@@ -59,6 +62,9 @@ require_once '../controllers/reportes.php';
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm p-3 h-100">
                     <h6 class="text-info fw-bold mb-3"><i class="bi bi-people-fill me-2"></i>PACIENTES NUEVOS</h6>
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span class="small text-secondary">Hoy:</span> <strong class="text-dark fs-5"><?php echo $stats['pac_diario']; ?></strong>
+                    </div>
                     <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
                         <span class="small text-secondary">Esta Semana:</span> <strong class="text-dark fs-5"><?php echo $stats['pac_semanal']; ?></strong>
                     </div>
@@ -78,6 +84,13 @@ require_once '../controllers/reportes.php';
                 <div class="card border-0 shadow-sm p-3 h-100 border-start border-success border-4">
                     <h6 class="text-success fw-bold mb-3"><i class="bi bi-cash-coin me-2"></i>INGRESOS BRUTOS</h6>
                     
+                     <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span class="small text-secondary">Hoy:</span> 
+                        <div class="text-end">
+                            <strong class="text-success fs-5"><?php echo number_format($stats['ing_diario'], 2); ?> $</strong>
+                        </div>
+                    </div>
+
                     <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
                         <span class="small text-secondary">Esta Semana:</span> 
                         <div class="text-end">
@@ -121,7 +134,9 @@ require_once '../controllers/reportes.php';
                                 <th>Servicios de la Semana</th>
                                 <th>Producido</th>
                                 <th>Comisión a Pagar</th>
+                                <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
                                 <th class="text-center">Acción</th>
+                                <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody>
@@ -154,12 +169,14 @@ require_once '../controllers/reportes.php';
                                     <span class="d-block"><?php echo number_format($fila['comision_usd'], 2); ?> $</span>
                                     <small class="text-muted fw-normal fs-6">A Pagar: <?php echo number_format($fila['comision_bs'], 2, ',', '.'); ?> Bs.</small>
                                 </td>
+                                 <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
                                 <td class="text-center">
                                     <button class="btn btn-success shadow-sm fw-bold px-3" 
                                             onclick="abrirModalPago('<?php echo $cedula_quiro; ?>', '<?php echo addslashes($fila['nombre_completo']); ?>', '<?php echo number_format($fila['comision_usd'], 2); ?>')">
                                         <i class="bi bi-wallet2 me-1"></i> Pagar Semana
                                     </button>
                                 </td>
+                                <?php endif; ?>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
