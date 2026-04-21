@@ -20,6 +20,9 @@ if (!$quiro || empty($quiro['correo'])) {
 }
 
 // Totales usando la Tasa Histórica y la Comisión Dinámica de cada servicio
+// ========================================================
+// 1. OBTENER TOTALES (SOLO PENDIENTES)
+// ========================================================
 $stmt_totales = $conexion->prepare("
     SELECT 
         SUM(p.monto) AS total_ventas_usd, 
@@ -29,12 +32,16 @@ $stmt_totales = $conexion->prepare("
     FROM pagos p
     INNER JOIN citas c ON p.cita_id = c.cita_id
     INNER JOIN servicios s ON c.servicio_id = s.servicio_id
-    WHERE c.quiropedista_cedula = ?
+    WHERE c.quiropedista_cedula = ? 
+    AND c.estado_comision = 0 
+    AND c.estatus = 'atendida'
 ");
 $stmt_totales->execute([$cedula]);
 $totales = $stmt_totales->fetch(PDO::FETCH_ASSOC);
 
-// Desglose cronológico usando Tasa Histórica y Comisión Dinámica
+// ========================================================
+// 2. DESGLOSE CRONOLÓGICO (SOLO PENDIENTES)
+// ========================================================
 $stmt_servicios = $conexion->prepare("
     SELECT 
         c.fecha AS fecha_cita,
@@ -50,11 +57,18 @@ $stmt_servicios = $conexion->prepare("
     INNER JOIN citas c ON p.cita_id = c.cita_id
     INNER JOIN servicios s ON c.servicio_id = s.servicio_id
     INNER JOIN pacientes pa ON c.paciente_cedula = pa.cedula_id
-    WHERE c.quiropedista_cedula = ?
+    WHERE c.quiropedista_cedula = ? 
+    AND c.estado_comision = 0 
+    AND c.estatus = 'atendida'
     ORDER BY c.fecha ASC
 ");
 $stmt_servicios->execute([$cedula]);
 $servicios = $stmt_servicios->fetchAll(PDO::FETCH_ASSOC);
+
+// Verificación de seguridad: Si no hay nada que pagar, detenemos el proceso
+if (empty($servicios)) {
+    die("<script>alert('Aviso: Este especialista no tiene comisiones pendientes por cobrar.'); window.close();</script>");
+}
 
 class PDF extends FPDF {
     function Header() {
@@ -154,6 +168,23 @@ $texto_comision = '$' . number_format($totales['total_comision_usd'], 2) . '  = 
 $pdf->Cell(90, 10, $texto_comision, 0, 1, 'R');
 
 $pdf_en_memoria = $pdf->Output('S'); 
+
+// ... (Aquí está todo tu código que dibuja el PDF) ...
+$pdf_en_memoria = $pdf->Output('S'); 
+
+// ========================================================
+// ¡AHORA SÍ! LIQUIDAMOS (REINICIAMOS EL CONTADOR A CERO)
+// ========================================================
+if (isset($_GET['liquidar']) && $_GET['liquidar'] == '1') {
+    $sql_liquidar = "UPDATE citas SET estado_comision = 1 
+                     WHERE quiropedista_cedula = :cedula 
+                     AND estado_comision = 0 
+                     AND estatus = 'atendida'";
+    $stmt_liquidar = $conexion->prepare($sql_liquidar);
+    $stmt_liquidar->execute([':cedula' => $cedula]);
+}
+
+// ... (Aquí envías el correo con las funciones que hicimos antes) ...
 
 // Configuración del correo
 $asunto = 'Recibo de Pago de Comisiones - Sr. Pie Quiropedia';

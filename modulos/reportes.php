@@ -208,16 +208,12 @@ require_once '../controllers/reportes.php';
                 <i class="bi bi-exclamation-circle text-warning" style="font-size: 3rem;"></i>
                 <h4 class="mt-3" id="nombre_pago_modal">Quiropedista</h4>
                 <p class="text-muted">Monto a liquidar: <strong class="text-success fs-4" id="monto_pago_modal">0.00 $</strong></p>
-                <p class="small text-secondary mb-4">Al confirmar, el contador de este quiropedista se reiniciará a cero para la próxima semana.</p>
+                <p class="small text-secondary mb-4">Al confirmar, el contador de este quiropedista se reiniciará a cero para el proximo pago.</p>
                 
                 <div class="d-grid gap-3">
                     <a id="btn_enviar_pago" href="#" target="_blank" class="btn btn-outline-primary btn-lg" onclick="recargarPagina()">
-                        <i class="bi bi-envelope-paper-fill me-2"></i> Enviar Pago al Correo
+                        <i class="bi bi-envelope-paper-fill me-2"></i> Registrar Pago y Enviar al Correo
                     </a>    
-                
-                    <a id="btn_descargar_pago" href="#" target="_blank" class="btn btn-outline-danger btn-lg" onclick="recargarPagina()">
-                        <i class="bi bi-file-pdf-fill me-2"></i>Registrar Pago y Descargar PDF
-                    </a>
                     
                 </div>
             </div>
@@ -254,7 +250,6 @@ require_once '../controllers/reportes.php';
         document.getElementById('monto_pago_modal').innerText = monto + " $";
         
         // Aquí le decimos a los botones qué archivo ejecutar y le mandamos el parámetro liquidar=1
-        document.getElementById('btn_descargar_pago').href = "../controllers/descargar_recibo_quiro.php?cedula=" + cedula + "&liquidar=1";
         document.getElementById('btn_enviar_pago').href = "../controllers/enviar_recibo_quiro.php?cedula=" + cedula + "&liquidar=1";
         
         var myModal = new bootstrap.Modal(document.getElementById('modalPago'));
