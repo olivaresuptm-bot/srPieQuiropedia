@@ -261,11 +261,11 @@ require_once '../controllers/reportes.php';
         myModal.show();
     }
 
-    // Recargar la página después de generar el recibo para ver el contador en 0
+   
     function recargarPagina() {
         setTimeout(function() {
             window.location.reload();
-        }, 1500); // Espera 1.5 seg a que se descargue el PDF y luego refresca
+        }, 1500); 
     }
 </script>
 
