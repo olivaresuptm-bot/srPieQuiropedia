@@ -31,7 +31,7 @@ require_once '../controllers/reportes.php';
 
         <div class="d-flex justify-content-end mb-3">
             <span class="badge bg-info text-dark fs-6 shadow-sm px-3 py-2">
-                <i class="bi bi-currency-exchange me-1"></i> Tasa BCV Actual: <?php echo number_format($tasa_actual, 2, ',', '.'); ?> Bs.
+                <i class="bi bi-currency-exchange me-1"></i> Tasa BCV: <?php echo number_format($tasa_actual, 2, ',', '.'); ?> Bs.
             </span>
         </div>
 
