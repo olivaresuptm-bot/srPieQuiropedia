@@ -42,9 +42,8 @@ $sql_stats = "SELECT
 ";
 $stats = $conexion->query($sql_stats)->fetch(PDO::FETCH_ASSOC);
 
-// ========================================================
 // SOLO SUMAMOS LOS PAGOS PENDIENTES (estado_comision = 0)
-// ========================================================
+
 $sql_comisiones = "SELECT 
     u.cedula_id,
     u.correo,

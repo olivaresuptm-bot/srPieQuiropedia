@@ -157,10 +157,11 @@ $pdf_en_memoria = $pdf->Output('S');
 
 // Configuración del correo
 $asunto = 'Recibo de Pago de Comisiones - Sr. Pie Quiropedia';
-$cuerpo = 'Hola <b>' . $quiro['primer_nombre'] . '</b>,<br><br>Adjunto enviamos el detalle de los servicios que realizaste y el cálculo de tu pago de comisión correspondiente a la fecha.<br><br>¡Gracias por tu excelente labor en la clínica!<br><br><b>La Gerencia - Sr. Pie Quiropedia</b>';
+$cuerpo = 'Hola <b>' . $quiro['primer_nombre'] . '</b>,<br><br>Adjunto enviamos el detalle de los servicios que realizaste y el cálculo de tu pago de comisión correspondiente a la fecha.<br><br>¡Gracias por tu excelente labor en la clínica!<br><br><b>La Gerencia - Quiropedia Sr. Pie </b>';
 $nombre_archivo = 'Recibo_Comisiones_' . $quiro['cedula_id'] . '.pdf';
 
-$envio_exitoso = enviarEmailConPDF(
+// 1.Al Quiropedista
+$envio_quiro = enviarEmailConPDF(
     $quiro['correo'], 
     $quiro['primer_nombre'] . ' ' . $quiro['primer_apellido'], 
     $asunto, 
@@ -169,8 +170,23 @@ $envio_exitoso = enviarEmailConPDF(
     $nombre_archivo
 );
 
-if ($envio_exitoso) {
-    echo "<script>alert('✅ Recibo enviado exitosamente al correo del especialista.'); window.close();</script>";
+// 2. Copia a la Gerencia 
+$correo_clinica = 'srpiequiropedia4@gmail.com'; // <-- Pon aquí el correo real de la clínica
+$asunto_gerencia = 'COPIA RESPALDO: ' . $asunto;
+$cuerpo_gerencia = 'Se ha generado y enviado el pago de comisiones para <b>' . $quiro['primer_nombre'] . ' ' . $quiro['primer_apellido'] . '</b>.<br>Adjunto el comprobante en PDF para los registros de la clínica.';
+
+$envio_gerencia = enviarEmailConPDF(
+    $correo_clinica, 
+    'Gerencia Sr. Pie', 
+    $asunto_gerencia, 
+    $cuerpo_gerencia, 
+    $pdf_en_memoria, 
+    $nombre_archivo
+);
+
+// Verificamos que al menos el principal se haya enviado
+if ($envio_quiro) {
+    echo "<script>alert('✅ Recibo enviado exitosamente al especialista y la copia a la gerencia.'); window.close();</script>";
 } else {
     echo "<script>alert('❌ Error al enviar el correo. Verifica tu configuración o conexión.'); window.close();</script>";
 }
