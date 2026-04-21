@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-04-2026 a las 22:49:00
+-- Tiempo de generación: 16-04-2026 a las 04:36:37
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -35,31 +35,34 @@ CREATE TABLE `citas` (
   `fecha` date NOT NULL,
   `hora` time NOT NULL,
   `estatus` enum('programada','atendida','cancelada') DEFAULT 'programada',
-  `aviso` char(1) NOT NULL
+  `aviso` char(1) NOT NULL,
+  `estado_comision` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `citas`
 --
 
-INSERT INTO `citas` (`cita_id`, `paciente_cedula`, `quiropedista_cedula`, `servicio_id`, `fecha`, `hora`, `estatus`, `aviso`) VALUES
-(1, '26901499', '26901497', 1, '2026-03-26', '10:45:00', 'atendida', 'N'),
-(2, '26901499', '26901497', 4, '2026-04-04', '11:25:00', 'atendida', 'N'),
-(3, '26901499', '26901495', 1, '2026-03-26', '10:50:00', 'atendida', 'N'),
-(4, '26901499', '26901497', 1, '2026-03-26', '10:51:00', 'atendida', 'N'),
-(5, '26901499', '26901495', 1, '2026-04-03', '11:45:00', 'atendida', 'N'),
-(6, '26901499', '26901495', 1, '2026-03-16', '08:30:00', 'atendida', 'N'),
-(7, '26901499', '26901495', 2, '2026-03-21', '09:45:00', 'atendida', 'N'),
-(10, '8705197', '26901497', 1, '2026-03-21', '09:45:00', 'atendida', 'N'),
-(11, '26901499', '26901495', 1, '2026-03-27', '11:01:00', 'atendida', 'N'),
-(12, '26901499', '26901495', 1, '2026-03-18', '14:55:00', 'atendida', 'N'),
-(13, '26901499', '26901495', 1, '2026-03-18', '12:58:00', 'atendida', 'N'),
-(14, '26901499', '26901495', 1, '2026-03-23', '15:55:00', 'atendida', 'N'),
-(15, '8953348', '26901495', 2, '2026-03-23', '16:22:00', 'atendida', 'N'),
-(16, '26901499', '26901495', 1, '2026-04-09', '12:00:00', 'programada', 'N'),
-(17, '26901499', '26901495', 1, '2026-04-10', '16:55:00', 'programada', 'N'),
-(18, '26901499', '26901495', 1, '2026-04-09', '16:50:00', 'programada', 'N'),
-(19, '26901499', '26901495', 1, '2026-04-09', '04:45:00', 'programada', 'N');
+INSERT INTO `citas` (`cita_id`, `paciente_cedula`, `quiropedista_cedula`, `servicio_id`, `fecha`, `hora`, `estatus`, `aviso`, `estado_comision`) VALUES
+(2, '26901499', '26901497', 4, '2026-04-04', '11:25:00', 'atendida', 'N', 1),
+(3, '26901499', '26901495', 1, '2026-03-26', '10:50:00', 'atendida', 'N', 1),
+(4, '26901499', '26901497', 1, '2026-03-26', '10:51:00', 'atendida', 'N', 1),
+(5, '26901499', '26901495', 1, '2026-04-03', '11:45:00', 'atendida', 'N', 1),
+(6, '26901499', '26901495', 1, '2026-03-16', '08:30:00', 'atendida', 'N', 1),
+(7, '26901499', '26901495', 2, '2026-03-21', '09:45:00', 'atendida', 'N', 1),
+(10, '8705197', '26901497', 1, '2026-03-21', '09:45:00', 'atendida', 'N', 1),
+(11, '26901499', '26901495', 1, '2026-03-27', '11:01:00', 'atendida', 'N', 1),
+(12, '26901499', '26901495', 1, '2026-03-18', '14:55:00', 'atendida', 'N', 1),
+(13, '26901499', '26901495', 1, '2026-03-18', '12:58:00', 'atendida', 'N', 1),
+(14, '26901499', '26901495', 1, '2026-03-23', '15:55:00', 'atendida', 'N', 1),
+(15, '8953348', '26901495', 2, '2026-03-23', '16:22:00', 'atendida', 'N', 1),
+(16, '26901499', '26901495', 1, '2026-04-09', '12:00:00', 'cancelada', 'S', 0),
+(23, '26901499', '26901497', 1, '2026-04-09', '05:53:00', 'cancelada', 'S', 0),
+(24, '26901499', '26901497', 1, '2026-04-09', '22:53:00', 'cancelada', 'S', 0),
+(25, '26901499', '26901495', 1, '2026-04-09', '06:00:00', 'cancelada', 'S', 0),
+(26, '26901499', '26901495', 1, '2026-04-09', '12:00:00', 'programada', 'S', 0),
+(27, '26901499', '26901497', 2, '2026-04-10', '12:00:00', 'programada', 'S', 0),
+(28, '26901499', '26901495', 1, '2026-04-11', '17:00:00', 'atendida', 'S', 1);
 
 -- --------------------------------------------------------
 
@@ -116,9 +119,13 @@ CREATE TABLE `pacientes` (
 --
 
 INSERT INTO `pacientes` (`cedula_id`, `tipo_doc`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `fecha_nac`, `genero`, `telefono`, `correo`, `instagram`, `direccion`, `diabetico`, `registrado_por`, `fecha_registro`) VALUES
+('11111111', 'V', 'Luis', 'Luis', 'Spiro', 'Ramirez', '2006-02-01', 'M', '04242088865', 'luisangel50089@gmail.com', '@luissss', 'Los Curos, El Entable, vereda 3, casa 19', 'No', '26901498', '2026-04-13 22:54:39'),
+('26901496', 'V', 'Luis', 'jjj', 'Spiro', 'Ramirez', '2002-02-28', 'M', '04248088866', 'kingdomofash01@gmail.com', '', 'Los Curos, El Entable, vereda 3, casa 19', 'No', '26901498', '2026-04-10 02:19:02'),
+('26901497', 'V', 'Luis', 'Petro', 'Perez', 'Ramirez', '2001-03-01', 'M', '04248088866', 'kingdomofash01@gmail.com', '', 'Los Curos, El Entable, vereda 3, casa 19', 'No', '26901498', '2026-04-10 02:12:11'),
 ('26901499', 'V', 'Angel', 'Luis', 'Olivares', 'Ramirez', '0000-00-00', 'M', '04248088865', 'kingdomofash01@gmail.com', '', 'Los Curos, El Entable, vereda 3, casa 20', 'No', '26901498', '2026-03-06 22:54:15'),
 ('54725727', 'V', 'Javier', 'Luis', 'Jorge', 'Ramiro', '2026-01-01', 'M', '515262', 'luisangel@gmail.com', NULL, 'Los Curos, El Entable, vereda 3, casa 20', 'No', '26901498', '2026-03-13 22:24:02'),
 ('8705197', 'V', 'Zaida', 'Elena', 'Ramirez', 'Araque', '1998-02-05', 'F', '0424082865', 'luis1@gmail.com', '', 'Los curos', 'No', '26901498', '2026-03-16 19:08:49'),
+('8709422', 'V', 'Dolly', 'Milangi', 'Olivares', 'Ramirez', '1995-06-14', 'F', '04242088865', 'dolly@gmail.com', '@dollymila', 'Los Curos, El Entable, vereda 3, casa 19', 'No', '26901498', '2026-04-13 22:48:27'),
 ('8953348', 'V', 'Luis', 'Jose', 'Olivares', 'Ramirez', '1989-10-19', 'M', '04248088866', 'olivaresuptm@gmail.com', NULL, 'Los Curos, El Entable, vereda 3, casa 19', 'No', '26901498', '2026-03-23 19:18:48'),
 ('8953349', 'V', 'Javier', '', 'Romero', '', '2000-06-14', 'M', '04242088855', 'olivaresuptm@gmail.com', '@luisangel1415', 'Los Curos', 'No', '26901498', '2026-03-25 19:49:56');
 
@@ -146,7 +153,6 @@ INSERT INTO `pagos` (`pago_id`, `cita_id`, `monto`, `tasa_bcv`, `metodo_pago`, `
 (1, 6, 25.00, NULL, 'efectivo', '2026-03-17 22:32:34', NULL),
 (2, 10, 25.00, NULL, 'pago_movil', '2026-03-17 23:36:40', '963587'),
 (3, 7, 25.00, NULL, 'pago_movil', '2026-03-17 23:40:18', '986561'),
-(4, 1, 25.00, NULL, 'efectivo', '2026-03-17 23:46:22', NULL),
 (5, 3, 25.00, NULL, 'efectivo', '2026-03-18 00:14:30', NULL),
 (6, 4, 25.00, NULL, 'efectivo', '2026-03-18 01:38:24', NULL),
 (7, 5, 25.00, NULL, '', '2026-03-18 01:44:10', NULL),
@@ -155,7 +161,8 @@ INSERT INTO `pagos` (`pago_id`, `cita_id`, `monto`, `tasa_bcv`, `metodo_pago`, `
 (10, 12, 20.00, NULL, 'efectivo', '2026-03-18 23:52:17', NULL),
 (11, 13, 20.00, 451.51, 'efectivo', '2026-03-19 00:26:49', NULL),
 (12, 14, 20.00, 457.08, 'efectivo', '2026-03-24 00:56:19', NULL),
-(13, 15, 25.00, 457.08, 'efectivo', '2026-03-24 01:18:11', NULL);
+(13, 15, 25.00, 457.08, 'efectivo', '2026-03-24 01:18:11', NULL),
+(14, 28, 20.00, 476.43, 'efectivo', '2026-04-11 03:03:43', NULL);
 
 -- --------------------------------------------------------
 
@@ -231,9 +238,9 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`cedula_id`, `tipo_doc`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `correo`, `password`, `rol`, `fecha_registro`, `estado`, `token`, `token_recuperacion`) VALUES
 ('26262626', 'V', 'Pedro', 'Pepe', 'Quiñonez', 'Emiro', 'lllll@gmail.com', '$2y$10$kZaKwounych9Qqc/pdUQRuQFxIJQKb7BMpLXtE6MmxD1mYXH0sSmO', 'recepcionista', '2026-03-10 02:11:43', 1, '6229d4ca7869cf10cda8822da057bb5a', NULL),
 ('26901495', 'V', 'Javier', 'Luis', 'Ramirez', 'Olivares', 'kingdomofash01@gmail.com', '$2y$10$aU1cr9xMPXlXbXhPl/iTKOSkToWlFDKWyA/KJrHUNL2lrdWl6EB7i', 'quiropedista', '2026-03-07 19:41:04', 1, '1891316d582721a1027d9358e6126a8f', NULL),
-('26901497', 'V', 'Dorianny', 'Luis', 'Ramirez', 'Olivares', 'webdevelopervzla@gmail.com', '$2y$10$FMcBObjid96e.ytNayroB.eQ2HgQ9MWoQ1hqdn291881eT7N26kkW', 'quiropedista', '2026-03-07 19:39:41', 1, 'a581f4985611069611cf416d26c26e68', NULL),
+('26901497', 'V', 'Dorianny', 'Luis', 'Ramirez', 'Olivares', 'webdevelopervzla@gmail.com', '$2y$10$j3xzHoG8rV.EgE0kDfMRWuOBJ5M7UoN4vH5gucb.PjVHu9QRG8aoe', 'quiropedista', '2026-03-07 19:39:41', 1, 'a581f4985611069611cf416d26c26e68', NULL),
 ('26901498', 'V', 'Luis', 'Angel', 'Olivares', 'Ramirez', 'olivaresuptm@gmail.com', '$2y$10$XLXH/IWXzs7As1q8rhShKuvHZcr0gvCNtY9D1KnEqoGbuJ2A9pBHy', 'gerente', '2026-03-02 17:33:26', 1, NULL, '15048c23f03f5fbf24d56ddf3735caa7'),
-('31190339', 'V', 'José', 'Manuel', 'Mendez', 'Marquez', 'luisangel50089@gmail.com', '$2y$10$8fhTROk8ivgdNn6zeMpD8ehGSxjO/ulfu79pPWPovxFxt3l7nubOe', 'recepcionista', '2026-03-02 18:32:18', 1, NULL, NULL);
+('31190339', 'V', 'José', 'Manuel', 'Mendez', 'Marquez', 'luisangel50089@gmail.com', '$2y$10$5m.zGLKhPwHKcbl5JLcdTuMchX3hz.R/C5tjEcDeAZPv8bfRAM2/G', 'recepcionista', '2026-03-02 18:32:18', 1, NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -298,7 +305,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `citas`
 --
 ALTER TABLE `citas`
-  MODIFY `cita_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `cita_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `historial_clinico`
@@ -310,7 +317,7 @@ ALTER TABLE `historial_clinico`
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `pago_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `pago_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `servicios`
