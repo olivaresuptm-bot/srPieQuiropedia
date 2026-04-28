@@ -28,6 +28,30 @@ try {
     $total_pacientes = 0;
     $total_paginas = 1;
 }
+
+    if (isset($_GET['ajax_filtro'])) {
+        $query = $_GET['ajax_filtro'] . '%';
+        $stmt = $conexion->prepare("SELECT cedula_id, primer_nombre, primer_apellido FROM pacientes WHERE cedula_id LIKE ? ORDER BY primer_nombre ASC LIMIT 10");
+        $stmt->execute([$query]);
+        $pacientes_ajax = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($pacientes_ajax)) {
+            echo '<tr><td colspan="3" class="text-center text-muted py-4">No hay coincidencias.</td></tr>';
+        } else {
+            foreach ($pacientes_ajax as $p) {
+                echo '<tr class="fila-paciente">
+                        <td class="fw-bold col-cedula">'.htmlspecialchars($p['cedula_id']).'</td>
+                        <td>'.htmlspecialchars($p['primer_nombre'] . " " . $p['primer_apellido']).'</td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-primary" onclick="document.getElementById(\'inputBusqueda\').value = \''.$p['cedula_id'].'\'; realizarBusqueda();">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+                      </tr>';
+            }
+        }
+        exit;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -185,30 +209,38 @@ try {
     <?php include '../includes/footer.php'; ?>
 
     <script>
-   function filtrarPacientes(event) {
-    let input = document.getElementById("inputBusqueda").value;
-    let filas = document.getElementsByClassName("fila-paciente");
+let timeoutBusqueda = null;
 
-    // 1. Hace el filtrado en vivo en la tabla
-    for (let i = 0; i < filas.length; i++) {
-        let cedula = filas[i].querySelector(".col-cedula").innerText;
-        if (cedula.includes(input)) {
-            filas[i].style.display = "";
-        } else {
-            filas[i].style.display = "none";
-        }
-    }
+function filtrarPacientes(event) {
+    let input = document.getElementById("inputBusqueda").value.trim();
+    let tablaCuerpo = document.getElementById("tablaCuerpo");
+    let paginacion = document.querySelector('.card-footer');
 
-    // 2. NUEVO: Si la tecla presionada fue "Enter", ejecuta la búsqueda
+    // Manejo de Enter para búsqueda completa (ficha)
     if (event && event.key === 'Enter') {
-        // Previene que el formulario recargue la página si estuviera dentro de uno
-        event.preventDefault(); 
-        
-        // Llama a la misma función del botón azul
-        if (typeof realizarBusqueda === 'function') {
-            realizarBusqueda();
-        }
+        event.preventDefault();
+        if (typeof realizarBusqueda === 'function') realizarBusqueda();
+        return;
     }
+
+    clearTimeout(timeoutBusqueda);
+
+    if (input === "") {
+        location.reload(); 
+        return;
+    }
+
+    // Esperar 250ms antes de consultar a la BD
+    timeoutBusqueda = setTimeout(() => {
+        fetch(`gestion_pacientes.php?ajax_filtro=${input}`)
+            .then(response => response.text())
+            .then(html => {
+                tablaCuerpo.innerHTML = html;
+                // Aqui se oculta la paginación mientras se filtra para evitar confusión
+                if (paginacion) paginacion.style.display = 'none';
+            })
+            .catch(error => console.error('Error en filtro dinámico:', error));
+    }, 250);
 }
     </script>
 
