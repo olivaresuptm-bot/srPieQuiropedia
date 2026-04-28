@@ -32,6 +32,43 @@ include '../controllers/usuario_edicion.php';
 
         <div class="flex-grow-1 p-4 overflow-auto">
 
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+        <div class="card border-0 shadow-sm p-1">
+            <div class="card-body">
+                <div class="row g-3 align-items-center">
+
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center gap-3 p-2">
+                            <div class="icon-container flex-shrink-0" style="background: rgba(13,110,253,0.1); padding: 15px; border-radius: 50%;">
+                                <i class="bi bi-person-plus-fill text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-1">¿Usuario Nuevo?</h6>
+                                <p class="text-muted">Registra un nuevo usuario. <a href="../registro.php" class="btn btn-primary  px-4 shadow-sm ms-4">Registrar</a></p>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 border-start">
+                        <div class="d-flex align-items-center gap-3 p-2">
+                            <div class="icon-container flex-shrink-0" style="background: rgba(25,135,84,0.1); padding: 15px; border-radius: 50%;">
+                                <i class="bi bi-database text-success" ></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-1">Mantenimiento</h6>
+                                <p class="text-muted " >Respaldo y bitácora. <a href="mantenimiento.php" class="btn btn-success  px-4 shadow-sm ms-4">Ver</a></p>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
             <div class="card shadow-sm border-0 mt-3">
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -91,10 +128,14 @@ include '../controllers/usuario_edicion.php';
                     </div>
                 </div>
             </div>
+<br><br><br>
+            
+            </div>
+
         </div> 
     </div>
 
-    <div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-hidden="true" style="z-index: 9999;">
         <div class="modal-dialog">
             <form action="usuarios.php" method="POST" class="modal-content">
                 <div class="modal-header bg-primary text-white">

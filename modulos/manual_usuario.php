@@ -34,18 +34,15 @@ if (!isset($_SESSION['usuario_id'])) {
                     <h2 class="mb-2">Manual de Usuario - Sr. Pie</h2>
                     <p class="text-muted mb-2">Haz clic en la imagen para descargar</p>
                     
-            <a href="../assets/docs/Manual_Usuario_SrPie.pdf" download="Manual_Usuario_SrPie.pdf" 
-                    class="manual-download-link">
-                <img src="../assets/img/portada_manual.png" 
-                     alt="Descargar Manual de Usuario" 
-                     style="max-width: 300px; transition: transform 0.3s ease;">
-             </a>
+            <a href="../assets/docs/Manual_Usuario_SrPie.pdf" target="_blank" class="manual-download-link">
+        <img src="../assets/img/portada_manual.png" 
+             alt="Ver Manual de Usuario" 
+             style="max-width: 300px; transition: transform 0.3s ease;">
+     </a>
              <div>
-                    <a href="../assets/docs/Manual_Usuario_SrPie.pdf" 
-                        download="Manual_Usuario_SrPie.pdf" 
-                        class="btn btn-primary ">
-                        <i class="bi bi-file-earmark-pdf-fill me-2"></i>Descargar PDF
-                    </a>
+                    <a href="../assets/docs/Manual_Usuario_SrPie.pdf" target="_blank" class="btn btn-primary">
+                <i class="bi bi-eye-fill me-2"></i>Descargar PDF
+            </a>
              </div>
         </div>
     </div>

@@ -11,10 +11,10 @@ $nombres_modulos = [
     'facturacion_paciente.php'      => 'Gestión de Pacientes e historia',
     'pacientes.php'                 => 'Gestión de Pacientes e historia',
     'servicios.php'                 => 'Gestion de Servicios',
-    'usuarios.php'                  => 'Gestion administrativa',
+    'usuarios.php'                  => 'Gestion administrativa y Mantenimiento del Sistema',
     'reportes.php'                  => 'Reportes y analítica',
     'manual_usuario.php'            => 'Manual de sistema',
-    'mantenimiento.php'             => 'Configuración y Sistema'
+    'mantenimiento.php'             => 'Mantenimiento del Sistema'
 ];
 
 $titulo_modulo = $nombres_modulos[$pagina_actual] ?? 'Módulo';
@@ -23,7 +23,7 @@ $titulo_modulo = $nombres_modulos[$pagina_actual] ?? 'Módulo';
 $ruta = isset($ruta_base) ? $ruta_base : '../';
 ?>
 
-<nav id="sidebar">
+<nav id="sidebar" class="overflow-auto">
     <div class="d-flex justify-content-end d-md-none p-2 pb-0">
         <button id="btn-cerrar-sidebar" class="btn text-white border-0 fs-3">
             <i class="bi bi-x-lg"></i>
@@ -31,16 +31,17 @@ $ruta = isset($ruta_base) ? $ruta_base : '../';
     </div>
 
     <div id="header" class="sidebar-header p-4 pt-md-4 pt-0">
-        <a href="<?php echo $ruta; ?>dashboard.php" class="nav-link" style="display: inline-block;">
+        <a href="<?php echo $ruta; ?>../modulos/gestion_pacientes.php" class="nav-link" style="display: inline-block;">
             <img src="<?php echo $ruta; ?>assets/img/logo_sr_pie.png" alt="Logo Sr. Pie" width="50">
         </a>
         <h4>Sr. Pie</h4>
     </div>
 
     <ul class="list-unstyled components">
-        <li class="<?= ($pagina_actual == 'dashboard.php') ? 'current-page' : '' ?>">
-            <a href="<?= $ruta ?>dashboard.php" class="nav-link <?= ($pagina_actual == 'dashboard.php') ? 'active-link' : 'text-dark' ?>">
-                <i class="bi bi-house-door me-2"></i> Pagina principal
+        
+         <li class="<?= ($pagina_actual == 'gestion_pacientes.php') ? 'current-page' : '' ?>">
+            <a href="<?= $ruta ?>modulos/gestion_pacientes.php" class="nav-link <?= ($pagina_actual == 'gestion_pacientes.php') ? 'active-link' : 'text-dark' ?>">
+                <i class="bi bi-person-vcard me-2"></i> Pacientes e historias
             </a>
         </li>
         
@@ -50,23 +51,10 @@ $ruta = isset($ruta_base) ? $ruta_base : '../';
             </a>
         </li>
 
-        <li class="<?= ($pagina_actual == 'gestion_pacientes.php') ? 'current-page' : '' ?>">
-            <a href="<?= $ruta ?>modulos/gestion_pacientes.php" class="nav-link <?= ($pagina_actual == 'gestion_pacientes.php') ? 'active-link' : 'text-dark' ?>">
-                <i class="bi bi-person-vcard me-2"></i> Pacientes e historias
-            </a>
-        </li>
-        
-        <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
-        <li class="<?= ($pagina_actual == 'usuarios.php') ? 'current-page' : '' ?>">
-            <a href="<?= $ruta ?>modulos/usuarios.php" class="nav-link <?= ($pagina_actual == 'usuarios.php') ? 'active-link' : 'text-dark' ?>">
-                <i class="bi bi-shield-lock me-2"></i> Gestion administrativa
-            </a>
-        </li>
-         <?php endif; ?>
 
          <li class="<?= ($pagina_actual == 'servicios.php') ? 'current-page' : '' ?>">
             <a href="<?= $ruta ?>modulos/servicios.php" class="nav-link <?= ($pagina_actual == 'servicios.php') ? 'active-link' : 'text-dark' ?>">
-                <i class="bi bi-card-checklist me-2"></i> Servicios
+                <i class="bi bi-card-checklist me-2"></i> Servicios Quiropedia
             </a>
         </li>
         
@@ -76,19 +64,23 @@ $ruta = isset($ruta_base) ? $ruta_base : '../';
             </a>
         </li>
 
+        
+         <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
+        <li class="<?= ($pagina_actual == 'usuarios.php') ? 'current-page' : '' ?>">
+            <a href="<?= $ruta ?>modulos/usuarios.php" class="nav-link <?= ($pagina_actual == 'usuarios.php') ? 'active-link' : 'text-dark' ?>">
+                <i class="bi bi-database me-2"></i> Mantenimiento
+            </a>
+        </li>
+        <?php endif; ?>
+        
+        
         <li class="<?= ($pagina_actual == 'manual_usuario.php') ? 'current-page' : '' ?>">
             <a href="<?= $ruta ?>modulos/manual_usuario.php" class="nav-link <?= ($pagina_actual == 'manual_usuario.php') ? 'active-link' : 'text-dark' ?>">
                 <i class="bi bi-journal-bookmark me-2"></i> Manual de Usuario
             </a>
         </li>
 
-         <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
-        <li class="<?= ($pagina_actual == 'mantenimiento.php') ? 'current-page' : '' ?>">
-            <a href="<?= $ruta ?>modulos/mantenimiento.php" class="nav-link <?= ($pagina_actual == 'mantenimiento.php') ? 'active-link' : 'text-dark' ?>">
-                <i class="bi bi-database me-2"></i> Mantenimiento
-            </a>
-        </li>
-        <?php endif; ?>
+        
 
         <li>
             <a href="<?= $ruta ?>controllers/logout.php" class="nav-link"><i class="bi bi-box-arrow-right me-2"></i> Salir</a>

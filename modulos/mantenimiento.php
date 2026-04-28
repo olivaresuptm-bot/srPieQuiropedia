@@ -11,6 +11,7 @@ if (!isset($_SESSION['usuario_id'])) {
 
 // Incluir conexión a BD
 require_once __DIR__ . '/../includes/db.php';
+include '../controllers/usuario_edicion.php';
 
 // Verificar que la conexión existe
 global $conexion, $conn;
@@ -319,7 +320,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $rol_usuario == 'gerente') {
 
 // Paginación para bitácora
 $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-$por_pagina = 50;
+$por_pagina = 10;
 $offset = ($pagina - 1) * $por_pagina;
 $total_bitacora = total_bitacora($conn);
 $total_paginas = ceil($total_bitacora / $por_pagina);
@@ -379,7 +380,8 @@ $registros_bitacora = obtener_bitacora($conn, $por_pagina, $offset);
 
     <div class="d-flex" style="min-height: calc(100vh - 70px);">
         
-        <?php include '../includes/sidebar.php'; ?>
+        <?php include '../includes/sidebar.php'; 
+         include '../includes/titulo_modulo.php'; ?>
 
         <div class="flex-grow-1" style="overflow-x: auto;">
             
@@ -392,6 +394,11 @@ $registros_bitacora = obtener_bitacora($conn, $por_pagina, $offset);
                     </h2>
                     <small class="text-muted">Usuario: <?php echo $_SESSION['usuario_id']; ?> (<?php echo $rol_usuario; ?>)</small>
                 </div>
+                
+
+
+
+
                 
                 <!-- Alertas -->
                 <?php if ($mensaje): ?>
@@ -416,9 +423,91 @@ $registros_bitacora = obtener_bitacora($conn, $por_pagina, $offset);
                 <?php endif; ?>
                 
                 <div class="row">
-                    
+                   
+                
+<!-- ==================== COLUMNA 2: BITÁCORA ==================== -->
+                    <div class="col-lg-12 mb-4">
+                        <div class="card shadow">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="bi bi-journal-bookmark-fill me-2"></i>Bitácora del Sistema</h5>
+                            </div>
+                            <div class="card-body">
+                                
+                                <div class="table-responsive" style="max-height: 500px;">
+                                    <table class="table table-sm table-hover table-bitacora">
+                                        <thead class="table-light sticky-top">
+                                            <tr>
+                                                <th>Fecha/Hora</th>
+                                                <th>Usuario</th>
+                                                <th>Acción</th>
+                                                <th>Detalle</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php if (empty($registros_bitacora)): ?>
+                                                <tr>
+                                                    <td colspan="4" class="text-center text-muted py-3">
+                                                        <i class="bi bi-inbox"></i> No hay registros en la bitácora
+                                                    </td>
+                                                </tr>
+                                            <?php else: ?>
+                                                <?php foreach ($registros_bitacora as $reg): ?>
+                                                    <tr>
+                                                        <td class="small"><?php echo date('d/m/Y H:i:s', strtotime($reg['fecha'])); ?></td>
+                                                        <td class="small"><?php echo htmlspecialchars($reg['usuario']); ?></td>
+                                                        <td>
+                                                            <?php
+                                                            $badge = '';
+                                                            if (strpos($reg['accion'], 'RESPALDO') !== false) $badge = 'badge-backup';
+                                                            elseif ($reg['accion'] == 'RESTAURAR') $badge = 'badge-restore';
+                                                            else $badge = 'bg-secondary';
+                                                            ?>
+                                                            <span class="badge <?php echo $badge; ?>"><?php echo $reg['accion']; ?></span>
+                                                        </td>
+                                                        <td class="small"><?php echo htmlspecialchars(substr($reg['detalle'] ?? '', 0, 100)); ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <!-- Paginación -->
+                                <?php if ($total_paginas > 1): ?>
+                                <nav class="mt-3">
+                                    <ul class="pagination pagination-sm justify-content-end">
+                                        <li class="page-item <?php echo $pagina == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?pagina=1"><<</a>
+                                        </li>
+                                        <li class="page-item <?php echo $pagina == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?pagina=<?php echo $pagina - 1; ?>"><</a>
+                                        </li>
+                                        <li class="page-item active">
+                                            <span class="page-link"><?php echo $pagina; ?> / <?php echo $total_paginas; ?></span>
+                                        </li>
+                                        <li class="page-item <?php echo $pagina == $total_paginas ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?pagina=<?php echo $pagina + 1; ?>">></a>
+                                        </li>
+                                        <li class="page-item <?php echo $pagina == $total_paginas ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?pagina=<?php echo $total_paginas; ?>">>></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <?php endif; ?>
+                                
+                                <div class="alert alert-secondary mt-3 small mb-0">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    Total de eventos registrados: <strong><?php echo number_format($total_bitacora); ?></strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
                     <!-- ==================== COLUMNA 1: RESPALDOS ==================== -->
-                    <div class="col-lg-6 mb-4">
+                    <div class="col-lg-12 mb-4">
                         <div class="card shadow">
                             <div class="card-header bg-primary text-white">
                                 <h5 class="mb-0"><i class="bi bi-database-check me-2"></i>Gestión de Respaldos</h5>
@@ -518,84 +607,7 @@ $registros_bitacora = obtener_bitacora($conn, $por_pagina, $offset);
                         </div>
                     </div>
                     
-                    <!-- ==================== COLUMNA 2: BITÁCORA ==================== -->
-                    <div class="col-lg-6 mb-4">
-                        <div class="card shadow">
-                            <div class="card-header bg-info text-white">
-                                <h5 class="mb-0"><i class="bi bi-journal-bookmark-fill me-2"></i>Bitácora del Sistema</h5>
-                            </div>
-                            <div class="card-body">
-                                
-                                <div class="table-responsive" style="max-height: 500px;">
-                                    <table class="table table-sm table-hover table-bitacora">
-                                        <thead class="table-light sticky-top">
-                                            <tr>
-                                                <th>Fecha/Hora</th>
-                                                <th>Usuario</th>
-                                                <th>Acción</th>
-                                                <th>Detalle</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php if (empty($registros_bitacora)): ?>
-                                                <tr>
-                                                    <td colspan="4" class="text-center text-muted py-3">
-                                                        <i class="bi bi-inbox"></i> No hay registros en la bitácora
-                                                    </td>
-                                                </tr>
-                                            <?php else: ?>
-                                                <?php foreach ($registros_bitacora as $reg): ?>
-                                                    <tr>
-                                                        <td class="small"><?php echo date('d/m/Y H:i:s', strtotime($reg['fecha'])); ?></td>
-                                                        <td class="small"><?php echo htmlspecialchars($reg['usuario']); ?></td>
-                                                        <td>
-                                                            <?php
-                                                            $badge = '';
-                                                            if (strpos($reg['accion'], 'RESPALDO') !== false) $badge = 'badge-backup';
-                                                            elseif ($reg['accion'] == 'RESTAURAR') $badge = 'badge-restore';
-                                                            else $badge = 'bg-secondary';
-                                                            ?>
-                                                            <span class="badge <?php echo $badge; ?>"><?php echo $reg['accion']; ?></span>
-                                                        </td>
-                                                        <td class="small"><?php echo htmlspecialchars(substr($reg['detalle'] ?? '', 0, 100)); ?></td>
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                
-                                <!-- Paginación -->
-                                <?php if ($total_paginas > 1): ?>
-                                <nav class="mt-3">
-                                    <ul class="pagination pagination-sm justify-content-center">
-                                        <li class="page-item <?php echo $pagina == 1 ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?pagina=1"><<</a>
-                                        </li>
-                                        <li class="page-item <?php echo $pagina == 1 ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?pagina=<?php echo $pagina - 1; ?>"><</a>
-                                        </li>
-                                        <li class="page-item active">
-                                            <span class="page-link"><?php echo $pagina; ?> / <?php echo $total_paginas; ?></span>
-                                        </li>
-                                        <li class="page-item <?php echo $pagina == $total_paginas ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?pagina=<?php echo $pagina + 1; ?>">></a>
-                                        </li>
-                                        <li class="page-item <?php echo $pagina == $total_paginas ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?pagina=<?php echo $total_paginas; ?>">>></a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                                <?php endif; ?>
-                                
-                                <div class="alert alert-secondary mt-3 small mb-0">
-                                    <i class="bi bi-info-circle me-2"></i>
-                                    Total de eventos registrados: <strong><?php echo number_format($total_bitacora); ?></strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    
                 
                 <!-- Recomendaciones -->
                 <div class="row">
@@ -616,7 +628,7 @@ $registros_bitacora = obtener_bitacora($conn, $por_pagina, $offset);
         </div>
     </div>
     
-    <?php include '../includes/footer.php'; ?>
+    </div></div></div><?php include '../includes/footer.php'; ?>
     
     <script src="../assets/js/hamburguesa.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

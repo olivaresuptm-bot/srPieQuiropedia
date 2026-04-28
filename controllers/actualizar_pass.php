@@ -1,44 +1,40 @@
 <?php
+session_start();
+
+// Validamos que el usuario pasó por el proceso correctamente
+if (!isset($_SESSION['reset_autorizado']) || !isset($_SESSION['reset_cedula'])) {
+    die("Acceso denegado.");
+}
+
 include '../includes/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Recibimos el token oculto y la nueva contraseña del formulario
-    $token = trim($_POST['token']);
     $nueva_clave = $_POST['nueva_clave'];
+    $cedula_id = $_SESSION['reset_cedula'];
 
-    // Validamos que la contraseña cumpla con tus requisitos de seguridad
+    // 1. Doble validación en el servidor
     $patron = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\/\*\$\%\!]).{8,}$/';
     if (!preg_match($patron, $nueva_clave)) {
-        echo "<script>alert('La clave no cumple con los requisitos de seguridad (Mínimo 8 caracteres, mayúscula, minúscula, número y un carácter especial /*$%).'); window.history.back();</script>";
+        echo "<script>alert('La clave no cumple con los requisitos de seguridad.'); window.history.back();</script>";
         exit;
     }
 
+    // 2. Encriptamos la nueva clave
+    $password_hash = password_hash($nueva_clave, PASSWORD_BCRYPT);
+
     try {
-        // Verificamos si el token todavía existe y es válido
-        $stmt = $conexion->prepare("SELECT primer_nombre FROM usuarios WHERE token_recuperacion = ?");
-        $stmt->execute([$token]);
-        $user = $stmt->fetch();
+        // 3. Actualizamos en la Base de Datos
+        $stmt = $conexion->prepare("UPDATE usuarios SET password = ? WHERE cedula_id = ?");
+        $stmt->execute([$password_hash, $cedula_id]);
 
-        if ($user) {
-            // Encriptamos la nueva contraseña
-            $password_hash = password_hash($nueva_clave, PASSWORD_BCRYPT);
-            
-            // Actualizamos la clave en la base de datos y BORRAMOS el token para que no se pueda volver a usar
-            $stmt_update = $conexion->prepare("UPDATE usuarios SET password = ?, token_recuperacion = NULL WHERE token_recuperacion = ?");
-            $stmt_update->execute([$password_hash, $token]);
+        // 4. DESTRUIMOS EL PASE VIP. El proceso ha terminado.
+        unset($_SESSION['reset_autorizado']);
+        unset($_SESSION['reset_cedula']);
 
-            // Redirigimos al login con mensaje de éxito (sin enviar correo)
-            echo "<script>
-                    alert('¡Excelente! Tu contraseña ha sido actualizada con éxito. Ya puedes iniciar sesión.'); 
-                    window.location.href='../index.php';
-                  </script>";
-                  
-        } else {
-            // Si el token no existe (alguien intentó entrar directo al link viejo)
-            echo "<script>alert('❌ El enlace de recuperación es inválido o ya fue utilizado.'); window.location.href='../index.php';</script>";
-        }
+        echo "<script>alert('✅ Contraseña actualizada con éxito. Ya puedes iniciar sesión con tu nueva clave.'); window.location.href='../index.php';</script>";
+
     } catch (PDOException $e) {
-        echo "<script>alert('Error crítico: " . addslashes($e->getMessage()) . "'); window.history.back();</script>";
+        echo "<script>alert('❌ Error de base de datos: " . addslashes($e->getMessage()) . "'); window.history.back();</script>";
     }
 }
 ?>

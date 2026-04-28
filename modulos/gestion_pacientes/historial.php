@@ -48,7 +48,7 @@ require_once '../../controllers/historial.php';
                 <?php endif; ?>
 
                 <div class="row">
-                    <div class="col-md-4 mb-4">
+                    <div class="col-12 mb-4">
                         <div class="card shadow-sm border-0 card-paciente h-100">
                             <div class="card-body text-center pt-4">
                                 <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
@@ -57,7 +57,7 @@ require_once '../../controllers/historial.php';
                                 <h4 class="fw-bold"><?php echo $paciente['primer_nombre'] . ' ' . $paciente['segundo_nombre'] . ' ' . $paciente['primer_apellido'] . ' ' . $paciente['segundo_apellido']; ?></h4>
                                 <p class="text-muted mb-1">C.I: <?php echo $paciente['tipo_doc'] . '-' . $paciente['cedula_id']; ?></p>
                                 <hr>
-                                <div class="text-start">
+                                <div class="text-start text-center">
                                     <p class="mb-2"><i class="bi bi-calendar-event me-2 text-primary"></i> <strong>Edad:</strong> <?php echo $edad; ?> años</p>
                                     <p class="mb-2"><i class="bi bi-gender-ambiguous me-2 text-primary"></i> <strong>Género:</strong> <?php echo $paciente['genero'] == 'M' ? 'Masculino' : ($paciente['genero'] == 'F' ? 'Femenino' : 'Otro'); ?></p>
                                     <p class="mb-2"><i class="bi bi-telephone me-2 text-primary"></i> <strong>Tel:</strong> <?php echo $paciente['telefono']; ?></p>
@@ -72,7 +72,7 @@ require_once '../../controllers/historial.php';
                         </div>
                     </div>
 
-                    <div class="col-md-8 mb-4">
+                    <div class="col-12 mb-4">
                         <div class="card shadow-sm border-0 h-100">
                             <div class="card-body p-4">
                                 <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
@@ -169,11 +169,11 @@ require_once '../../controllers/historial.php';
                                             </div>
                                         </div>
                                       
-                                <div class="d-grid gap-2 mt-3">
-                                    <a href="../../controllers/descargar_historial_pdf.php?cedula=<?php echo $cedula; ?>" target="_blank" class="btn btn-outline-danger shadow-sm">
+                                <div class="d-grid gap-2 mt-3 col-md-4 mx-auto">
+                                    <a href="../../controllers/descargar_historial_pdf.php?cedula=<?php echo $cedula; ?>" target="_blank" class="btn btn-danger shadow-sm">
                                         <i class="bi bi-file-pdf me-2"></i>Historial Clínico PDF
                                     </a>
-                                    <a href="../../controllers/enviar_historial_correo.php?cedula=<?php echo $cedula; ?>" target="_blank" class="btn btn-outline-success shadow-sm">
+                                    <a href="../../controllers/enviar_historial_correo.php?cedula=<?php echo $cedula; ?>" target="_blank" class="btn btn-success shadow-sm">
                                         <i class="bi bi-envelope-paper me-2"></i>Enviar al Correo
                                     </a>
                                 </div>

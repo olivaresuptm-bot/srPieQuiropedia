@@ -17,12 +17,12 @@ $ruta = isset($ruta_base) ? $ruta_base : '../';
 
 // Detectar si estamos en el dashboard para ocultar la hamburguesa
 $pagina_actual = basename($_SERVER['PHP_SELF']);
-$es_dashboard = ($pagina_actual == 'dashboard.php');
+$es_pacientes = ($pagina_actual == '../modulos/gestion_pacientes.php');
 ?>
 <header class="dash-header shadow-sm">
     <div class="d-flex align-items-center header-left-container">
         
-        <?php if(!$es_dashboard): ?>
+        <?php if(!$es_pacientes): ?>
         <button id="btn-menu-movil" class="btn btn-outline-primary d-md-none me-3 border-0">
             <i class="bi bi-list fs-2"></i>
         </button>
@@ -35,7 +35,7 @@ $es_dashboard = ($pagina_actual == 'dashboard.php');
     </div>
     
     <div class="d-flex align-items-center gap-2 gap-md-4 header-right-container">
-         <a href="<?php echo $ruta; ?>dashboard.php">
+         <a href="<?php echo $ruta; ?>../modulos/gestion_pacientes.php">
                 <img src="<?php echo $ruta; ?>assets/img/logo_sr_pie.png" class="logo-header" alt="Logo">
         </a>
         <a href="<?php echo $ruta; ?>controllers/logout.php" class="btn-logout text-danger fs-4" title="Cerrar Sesión">

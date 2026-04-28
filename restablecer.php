@@ -1,4 +1,12 @@
-<?php include 'includes/db.php'; ?>
+<?php 
+session_start();
+// CANDADO DE SEGURIDAD: Si alguien intenta entrar aquí directo por la URL sin validar sus datos, lo expulsamos.
+if (!isset($_SESSION['reset_autorizado']) || $_SESSION['reset_autorizado'] !== true) {
+    header("Location: index.php");
+    exit();
+}
+include 'includes/db.php'; 
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -22,7 +30,6 @@
         </div>
 
         <form action="controllers/actualizar_pass.php" method="POST">
-            <input type="hidden" name="token" value="<?php echo htmlspecialchars($_GET['token'] ?? ''); ?>">
             
             <div class="mb-3">
                  <div class="input-group">
@@ -36,13 +43,12 @@
                 </div>
             </div>
 
-            <div class="form-text" style="font-size: 0.7rem;">
-            Mínimo 8 caracteres: Mayúscula, Minúscula, Número y Símbolo (/*$%)
+            <div class="form-text mb-4" style="font-size: 0.75rem;">
+                Mínimo 8 caracteres: Mayúscula, Minúscula, Número y Símbolo (/*$%)
             </div>
-            
 
-            <button type="submit" class="btn btn-entrar text-white">
-                Actualizar Contraseña
+            <button type="submit" class="btn btn-entrar text-white w-100 py-2 fs-5">
+                Guardar Contraseña
             </button>
 
         </form>
@@ -50,7 +56,6 @@
     </div>
     
     <?php include 'includes/footer.php'; ?>
-    <!-- este es el ojito de oculta contraseña -->
     <script src="assets/js/login.js"></script>
    
 </body>

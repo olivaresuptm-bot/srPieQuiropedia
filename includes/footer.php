@@ -6,9 +6,7 @@
             </p>
             <p class="license-text">
                 Software con Licencia de Uso. Todos los derechos reservados. 
-                <span class="footer-links">
-                    <a href="#">Contrato de Licencia</a> | <a href="#">Términos de Uso</a>
-                </span>
+                
             </p>
         </div>
     </div>

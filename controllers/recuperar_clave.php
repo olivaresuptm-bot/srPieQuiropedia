@@ -1,8 +1,6 @@
 <?php
+session_start();
 include '../includes/db.php';
-
-// Establecemos la zona horaria para que coincida con Mérida
-date_default_timezone_set('America/Caracas');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $correo = trim($_POST['correo']);
@@ -14,19 +12,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $stmt->fetch();
 
     if ($user) {
-        // Generamos el token de seguridad
-        $token = bin2hex(random_bytes(16));
-        
-        // Guardamos el token temporal en la base de datos para validar el cambio
-        $stmt_update = $conexion->prepare("UPDATE usuarios SET token_recuperacion = ? WHERE correo = ?");
-        $stmt_update->execute([$token, $correo]);
+        // COMO YA NO HAY TOKENS EN LA BD:
+        // Creamos una autorización temporal en la memoria del navegador (Sesión)
+        $_SESSION['reset_autorizado'] = true;
+        $_SESSION['reset_cedula'] = $cedula;
 
-        // Redirección directa y automática a la página de restablecer
-        header("Location: ../restablecer.php?token=$token");
+        // Redirigimos a la pantalla de cambio de clave
+        header("Location: ../restablecer.php");
         exit();
               
     } else {
-        // En caso de error, mantenemos la alerta para informar que los datos son incorrectos
         echo "<script>alert('Los datos ingresados no coinciden con ninguna cuenta activa en el sistema.'); window.history.back();</script>";
     }
 }

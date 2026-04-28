@@ -71,7 +71,7 @@ include '../includes/tasa_BCV.php';
         </div> 
     </div> 
     </div></div></div><?php include '../includes/footer.php'; ?>
-    <div class="modal fade" id="modalServicio" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="modalServicio" tabindex="-1" aria-hidden="true" style="z-index: 9999;">
         <div class="modal-dialog">
             <form action="../controllers/servicios_controller.php" method="POST" class="modal-content shadow border-0">
                 <div class="modal-header bg-primary text-white border-0">

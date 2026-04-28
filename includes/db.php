@@ -38,5 +38,23 @@ if (isset($_SESSION['usuario_id'])) {
     $conexion->exec("SET @usuario_actual = NULL");
     $conexion->exec("SET @ip_actual = NULL");
 }
-// ============================================
+
+
+
+// Función global para registrar eventos en la bitácora
+if (!function_exists('registrar_bitacora')) {
+    function registrar_bitacora($conn, $accion, $tabla, $registro_id = null, $detalle = null) {
+        $usuario = $_SESSION['usuario_id'] ?? 'sistema';
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+        
+        try {
+            $sql = "INSERT INTO bitacora (usuario, accion, tabla, registro_id, detalle, ip) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([$usuario, $accion, $tabla, $registro_id, $detalle, $ip]);
+        } catch (PDOException $e) {
+            // Manejo silencioso en caso de que la tabla bitacora no exista localmente aún
+            error_log("Error en bitácora: " . $e->getMessage());
+        }
+    }
+}
 ?>

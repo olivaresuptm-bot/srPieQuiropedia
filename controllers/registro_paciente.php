@@ -12,13 +12,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // --- CASO 1: EDICIÓN ---
     if (isset($_POST['action']) && $_POST['action'] === 'edit_patient') {
         try {
-           // Actualización inteligente: Si la fecha viene vacía, mantiene la que ya estaba
+           // Actualización inteligente: Se añaden los datos del representante
             $sql = "UPDATE pacientes SET 
                     primer_nombre = :n1, segundo_nombre = :n2, 
                     primer_apellido = :a1, segundo_apellido = :a2, 
                     fecha_nac = COALESCE(NULLIF(:fecha_nac, ''), fecha_nac),
                     telefono = :tel, correo = :correo, instagram = :instagram, 
-                    direccion = :dir, diabetico = :diabetico
+                    direccion = :dir, diabetico = :diabetico,
+                    cedula_rep = :cedula_rep, nombre_rep = :nombre_rep, parentesco_rep = :parentesco_rep
                     WHERE cedula_id = :id";
             
             $stmt = $conexion->prepare($sql);
@@ -33,11 +34,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ':instagram' => trim($_POST['instagram'] ?? ''),
                 ':dir' => trim($_POST['direccion']),
                 ':diabetico' => trim($_POST['diabetico'] ?? 'No'),
+                // Si vienen vacíos, se guardan como NULL en la base de datos
+                ':cedula_rep' => !empty($_POST['cedula_rep']) ? trim($_POST['cedula_rep']) : null,
+                ':nombre_rep' => !empty($_POST['nombre_rep']) ? trim($_POST['nombre_rep']) : null,
+                ':parentesco_rep' => !empty($_POST['parentesco_rep']) ? trim($_POST['parentesco_rep']) : null,
                 ':id' => trim($_POST['cedula_id'])
             ]);
             $_SESSION['mensaje'] = ["tipo" => "success", "texto" => "✅ Paciente actualizado con éxito."];
             
-            // Regreso exacto a la pantalla de búsqueda con la cartilla del paciente editado
             $cedula_busqueda = trim($_POST['cedula_id']);
             header("Location: ../modulos/gestion_pacientes.php?busqueda=" . urlencode($cedula_busqueda));
             exit();
@@ -63,9 +67,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: pacientes.php");
                 exit();
             } else {
-                
-                $sql = "INSERT INTO pacientes (cedula_id, tipo_doc, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fecha_nac, genero, telefono, correo, instagram, direccion, diabetico, registrado_por) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                // Se añadieron los 3 campos del representante al final del INSERT
+                $sql = "INSERT INTO pacientes (cedula_id, tipo_doc, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fecha_nac, genero, telefono, correo, instagram, direccion, diabetico, registrado_por, cedula_rep, nombre_rep, parentesco_rep) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 
                 $stmt = $conexion->prepare($sql);
                 $stmt->execute([
@@ -82,12 +86,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $_POST['instagram'] ?? '',
                     $_POST['direccion'],
                     $_POST['diabetico'] ?? 'No',
-                    $_POST['registrado_por'] 
+                    $_POST['registrado_por'],
+                    // Lógica NULL para los representantes
+                    !empty($_POST['cedula_rep']) ? trim($_POST['cedula_rep']) : null,
+                    !empty($_POST['nombre_rep']) ? trim($_POST['nombre_rep']) : null,
+                    !empty($_POST['parentesco_rep']) ? trim($_POST['parentesco_rep']) : null
                 ]);
 
                 $_SESSION['mensaje'] = ["tipo" => "success", "texto" => "✅ Paciente registrado con éxito."];
                 
-                // LA MAGIA AQUÍ: Redirigimos directamente al perfil en lugar de recargar la página
                 $cedula_nueva = trim($_POST['cedula_id']);
                 header("Location: ../gestion_pacientes.php?busqueda=" . urlencode($cedula_nueva));
                 exit();
@@ -98,7 +105,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 $_SESSION['mensaje'] = ["tipo" => "error", "texto" => "❌ Error: " . $e->getMessage()];
             }
-            // En caso de error, sí lo dejamos en el formulario para que corrija
             header("Location: pacientes.php");
             exit();
         }

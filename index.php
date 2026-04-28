@@ -9,55 +9,65 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="assets/css/login.css">
     <link rel="stylesheet" href="assets/css/footer.css">
+    
+       
+      
+    
 </head>
 <body>
 
 <div class="main-wrapper">
-    <div class="login-card">
-        <div class="form-side">
-            <div class="logo-container">
-                <img src="assets/img/logo_sr_pie.png" alt="Logo Sr. Pie">
+    <div class="login-card shadow-lg">
+        <div class="form-side p-5">
+            <div class="logo-container text-center">
+                <img src="assets/img/logo_sr_pie.png" alt="Logo Sr. Pie" style="max-width: 200px;">
             </div>
                 
-            <h1>Iniciar Sesión</h1>
+            <h2 class="text-center mb-4 text-primary fw-bold">Iniciar Sesión</h2>
                 
             <form action="controllers/login.php" method="POST" class="w-100">
-                <div class="mb-3">
-                    <input type="text" name="usuario" class="form-control custom-input" placeholder="Usuario/C.I." required>
+                <div class="mb-3 position-relative">
+                    <label class="form-label text-muted small fw-bold">Cédula de Identidad</label>
+                    <input type="text" name="usuario" id="cedula_login" class="form-control custom-input" placeholder="Ej: 26123456" required maxlength="9" title="Ingrese únicamente números">
+                    <div id="cedula-warning" class="text-danger small mt-1" style="display: none;">
+                        <i class="bi bi-exclamation-circle"></i> Solo se permiten números.
+                    </div>
                 </div>
-                    <div class="mb-4 input-group">
-                        <input type="password" name="password" id="password" class="form-control custom-input" placeholder="Contraseña" required>
-                        <span class="input-group-text" style="background: #4a90e2; color: white; border: none; cursor: pointer;" id="togglePass">
+
+                <div class="mb-4">
+                    <label class="form-label text-muted small fw-bold">Contraseña</label>
+                    <div class="input-group">
+                        <input type="password" name="password" id="password" class="form-control custom-input border-end-0" placeholder="********" required>
+                        <span class="input-group-text bg-white border-start-0" style="color: #4a90e2; cursor: pointer;" id="togglePass">
                             <i class="bi bi-eye"></i>
                         </span>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-entrar">Entrar</button>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-entrar w-100 py-2 fs-5 shadow-sm">Entrar</button>
                     
             </form>
-                <a href="recuperar.php" class="text-decoration-none small text-primary fw-bold mt-3">
-                    <i class="bi bi-exclamation-triangle"></i> ¿Olvidaste tu clave? <i class="bi bi-exclamation-triangle"></i>
+            <div class="text-center mt-4">
+                <a href="recuperar.php" class="text-decoration-none small text-muted">
+                    ¿Olvidaste tu clave? <span class="text-primary fw-bold">Recupérala aquí</span>
                 </a>
-        </div>
-
-            <div class="blue-side">
-                <h2>¿Aún no tienes una cuenta?</h2>
-                <p>Regístrate para que inicies sesión en el sistema de gestión.</p>
-                <a href="registro.php" class="btn btn-registrate">Regístrate</a>
             </div>
-
         </div>
+    </div>
 </div>
     
 <?php if (isset($_GET['error']) && $_GET['error'] == 'cuenta_desactivada'): ?>
-    <div class="alert alert-warning" style="font-size: 0.8rem;">
-        Tu cuenta ha sido desactivada. Contacta al administrador.
+    <div class="position-absolute top-0 end-0 p-3">
+        <div class="alert alert-warning alert-dismissible fade show shadow" role="alert">
+            <strong>Atención:</strong> Tu cuenta ha sido desactivada. Contacta al administrador.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
     </div>
 <?php endif; ?>
 
-    <!-- Aqui inclui el footer -->
 <?php include 'includes/footer.php'; ?>
-   <!-- este es el ojito de oculta contraseña -->
 <script src="assets/js/login.js"></script>
-    
+
+
 </body>
 </html>

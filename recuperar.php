@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recuperar Contraseña - Sr. Pie</title>
     <link rel="icon" type="image/png" href="assets/img/logo_sr_pie.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -23,17 +22,20 @@
 
             <form action="controllers/recuperar_clave.php" method="POST">
                 <div class="mb-3">
-                    <label class="form-label small">Cédula de Identidad</label>
-                    <input type="text" name="cedula" class="form-control" placeholder="Ej: 26123456" required>
+                    <label class="form-label small fw-bold">Cédula de Identidad</label>
+                    <input type="text" name="cedula" class="form-control" placeholder="Ej: 26123456" required maxlength="9" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label small">Correo Electrónico</label>
-                    <input type="email" name="correo" class="form-control" placeholder="correo@ejemplo.com" required>
+                <div class="mb-3 position-relative">
+                    <label class="form-label small fw-bold">Correo Electrónico</label>
+                    <input type="email" name="correo" id="correoInput" class="form-control" placeholder="correo@ejemplo.com" required>
+                    <div id="avisoCorreo" class="text-warning small mt-1 fw-bold" style="display: none;">
+                        <i class="bi bi-envelope-exclamation"></i> Se requiere un "@" para que sea válido
+                    </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
-                    Actualizar Contraseña
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold mt-2">
+                    Validar Datos
                 </button>
 
                 <div class="text-center mt-4">
@@ -46,6 +48,16 @@
 </div>
 
 <?php include 'includes/footer.php'; ?>
+
+<script>
+    document.getElementById('correoInput').addEventListener('input', function() {
+        if (this.value.length > 0 && !this.value.includes('@')) {
+            document.getElementById('avisoCorreo').style.display = 'block';
+        } else {
+            document.getElementById('avisoCorreo').style.display = 'none';
+        }
+    });
+</script>
     
 </body>
 </html>

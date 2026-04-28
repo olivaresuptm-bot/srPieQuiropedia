@@ -80,7 +80,7 @@ require_once '../controllers/actualizar_citas.php';
                             <i class="bi bi-table me-2"></i>
                             Listado de Citas
                         </h5>
-                        <span class="badge bg-primary">Total: <?php echo count($citas); ?> citas</span>
+                        <span class="badge bg-primary">Total: <?php echo $total_registros; ?> citas</span>
                     </div>
                      <div class="px-3 pb-2">
                                 <i class="bi bi-info-circle text-muted me-2"></i>
@@ -200,11 +200,39 @@ require_once '../controllers/actualizar_citas.php';
                         </div>
                     </div>
                     <div class="card-footer bg-white border-0 py-3">
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                            
                             <a href="citas.php" class="btn btn-outline-secondary btn-sm shadow-sm">
                                 <i class="bi bi-arrow-left me-2"></i>Volver
                             </a>
+
+                             <?php if (isset($total_paginas) && $total_paginas > 1): ?>
+<nav class="mt-3">
+    <ul class="pagination pagination-sm justify-content-end shadow-sm">
+        
+        <li class="page-item <?php echo $pagina <= 1 ? 'disabled' : ''; ?>">
+            <a class="page-link" href="?search=<?php echo urlencode($search); ?>&p=1"><<</a>
+        </li>
+        
+        <li class="page-item <?php echo $pagina <= 1 ? 'disabled' : ''; ?>">
+            <a class="page-link" href="?search=<?php echo urlencode($search); ?>&p=<?php echo $pagina - 1; ?>"><</a>
+        </li>
+        
+        <li class="page-item active">
+            <span class="page-link"><?php echo $pagina; ?> / <?php echo $total_paginas; ?></span>
+        </li>
+        
+        <li class="page-item <?php echo $pagina >= $total_paginas ? 'disabled' : ''; ?>">
+            <a class="page-link" href="?search=<?php echo urlencode($search); ?>&p=<?php echo $pagina + 1; ?>">></a>
+        </li>
+        
+        <li class="page-item <?php echo $pagina >= $total_paginas ? 'disabled' : ''; ?>">
+            <a class="page-link" href="?search=<?php echo urlencode($search); ?>&p=<?php echo $total_paginas; ?>">>></a>
+        </li>
+        
+    </ul>
+</nav>
+<?php endif; ?>
                         </div>
                     </div>
                 </div>
