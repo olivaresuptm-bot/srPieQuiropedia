@@ -70,6 +70,7 @@ try {
 
 <body class="bg-light m-0 p-0 d-flex flex-column" style="height: 100vh; overflow: hidden;">
     <h1>Holaaa </h1>
+    <p>Soy sofia</p>
    
     <?php include '../includes/header.php'; ?>
 
