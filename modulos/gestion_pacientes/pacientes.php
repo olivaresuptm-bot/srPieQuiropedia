@@ -72,7 +72,11 @@ include '../../controllers/registro_paciente.php';
                                 </div>
                                 <div class="col-md-9">
                                     <label class="form-label small fw-bold text-secondary">Cédula <span class="text-danger">*</span></label>
-                                    <input type="number" name="cedula_id" class="form-control" required>
+                                    <input type="number" 
+                                    name="cedula_id" class="form-control" 
+                                    onkeypress="if(this.value.length == 10) return false;" 
+                                    oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);"
+                                    required>
                                 </div>
 
                                 <div class="col-md-6">
