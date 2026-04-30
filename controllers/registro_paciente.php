@@ -40,7 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ':parentesco_rep' => !empty($_POST['parentesco_rep']) ? trim($_POST['parentesco_rep']) : null,
                 ':id' => trim($_POST['cedula_id'])
             ]);
-            $_SESSION['mensaje'] = ["tipo" => "success", "texto" => "✅ Paciente actualizado con éxito."];
             
             $cedula_busqueda = trim($_POST['cedula_id']);
             header("Location: ../modulos/gestion_pacientes.php?busqueda=" . urlencode($cedula_busqueda));
@@ -93,7 +92,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     !empty($_POST['parentesco_rep']) ? trim($_POST['parentesco_rep']) : null
                 ]);
 
-                $_SESSION['mensaje'] = ["tipo" => "success", "texto" => "✅ Paciente registrado con éxito."];
                 
                 $cedula_nueva = trim($_POST['cedula_id']);
                 header("Location: ../gestion_pacientes.php?busqueda=" . urlencode($cedula_nueva));
