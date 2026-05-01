@@ -19,7 +19,6 @@ if (!$quiro || empty($quiro['correo'])) {
     die("<script>alert('Error: Este quiropedista no tiene un correo electrónico registrado en su perfil de usuario.'); window.close();</script>");
 }
 
-// Totales usando la Tasa Histórica y la Comisión Dinámica de cada servicio
 // ========================================================
 // 1. OBTENER TOTALES (SOLO PENDIENTES)
 // ========================================================
@@ -160,38 +159,24 @@ $pdf->Cell(100, 10, 'Total Ingresos Generados:', 0, 0, 'R');
 $texto_ventas = '$' . number_format($totales['total_ventas_usd'], 2) . '  =  ' . number_format($totales['total_ventas_bs'], 2, ',', '.') . ' Bs';
 $pdf->Cell(90, 10, $texto_ventas, 0, 1, 'R');
 
-$pdf->SetTextColor(13, 110, 253); // Letra azul
+$pdf->SetTextColor(13, 110, 253);
 
 $pdf->Cell(100, 10, utf8_decode('TOTAL COMISIÓN A PAGAR:'), 0, 0, 'R');
 $pdf->SetFont('Arial', 'B', 14);
 $texto_comision = '$' . number_format($totales['total_comision_usd'], 2) . '  =  ' . number_format($totales['total_comision_bs'], 2, ',', '.') . ' Bs';
 $pdf->Cell(90, 10, $texto_comision, 0, 1, 'R');
 
-$pdf_en_memoria = $pdf->Output('S'); 
-
-// ... (Aquí está todo tu código que dibuja el PDF) ...
+// Guardamos el PDF en memoria
 $pdf_en_memoria = $pdf->Output('S'); 
 
 // ========================================================
-// ¡AHORA SÍ! LIQUIDAMOS (REINICIAMOS EL CONTADOR A CERO)
+// PRIMERO ENVIAMOS EL CORREO
 // ========================================================
-if (isset($_GET['liquidar']) && $_GET['liquidar'] == '1') {
-    $sql_liquidar = "UPDATE citas SET estado_comision = 1 
-                     WHERE quiropedista_cedula = :cedula 
-                     AND estado_comision = 0 
-                     AND estatus = 'atendida'";
-    $stmt_liquidar = $conexion->prepare($sql_liquidar);
-    $stmt_liquidar->execute([':cedula' => $cedula]);
-}
-
-// ... (Aquí envías el correo con las funciones que hicimos antes) ...
-
-// Configuración del correo
 $asunto = 'Recibo de Pago de Comisiones - Sr. Pie Quiropedia';
 $cuerpo = 'Hola <b>' . $quiro['primer_nombre'] . '</b>,<br><br>Adjunto enviamos el detalle de los servicios que realizaste y el cálculo de tu pago de comisión correspondiente a la fecha.<br><br>¡Gracias por tu excelente labor en la clínica!<br><br><b>La Gerencia - Quiropedia Sr. Pie </b>';
 $nombre_archivo = 'Recibo_Comisiones_' . $quiro['cedula_id'] . '.pdf';
 
-// 1.Al Quiropedista
+// 1. Enviar al Quiropedista
 $envio_quiro = enviarEmailConPDF(
     $quiro['correo'], 
     $quiro['primer_nombre'] . ' ' . $quiro['primer_apellido'], 
@@ -201,24 +186,28 @@ $envio_quiro = enviarEmailConPDF(
     $nombre_archivo
 );
 
-// 2. Copia a la Gerencia 
-$correo_clinica = 'srpiequiropedia4@gmail.com'; // <-- Pon aquí el correo real de la clínica
-$asunto_gerencia = 'COPIA RESPALDO: ' . $asunto;
-$cuerpo_gerencia = 'Se ha generado y enviado el pago de comisiones para <b>' . $quiro['primer_nombre'] . ' ' . $quiro['primer_apellido'] . '</b>.<br>Adjunto el comprobante en PDF para los registros de la clínica.';
-
-$envio_gerencia = enviarEmailConPDF(
-    $correo_clinica, 
-    'Gerencia Sr. Pie', 
-    $asunto_gerencia, 
-    $cuerpo_gerencia, 
-    $pdf_en_memoria, 
-    $nombre_archivo
-);
-
-// Verificamos que al menos el principal se haya enviado
+// ========================================================
+// SEGUNDO: SOLO SI EL CORREO SE ENVIÓ, LIQUIDAMOS EN BD
+// ========================================================
 if ($envio_quiro) {
-    echo "<script>alert('✅ Recibo enviado exitosamente al especialista y la copia a la gerencia.'); window.close();</script>";
+    
+    if (isset($_GET['liquidar']) && $_GET['liquidar'] == '1') {
+        $sql_liquidar = "UPDATE citas SET estado_comision = 1 
+                         WHERE quiropedista_cedula = :cedula 
+                         AND estado_comision = 0 
+                         AND estatus = 'atendida'";
+        $stmt_liquidar = $conexion->prepare($sql_liquidar);
+        $stmt_liquidar->execute([':cedula' => $cedula]);
+    }
+    
+    // Enviar copia a gerencia (opcional, si falla no rompe el proceso porque ya le llegó al quiro)
+    $correo_clinica = 'srpiequiropedia4@gmail.com'; 
+    $cuerpo_gerencia = 'Se ha generado y enviado el pago de comisiones para <b>' . $quiro['primer_nombre'] . ' ' . $quiro['primer_apellido'] . '</b>.<br>Adjunto el comprobante en PDF para los registros de la clínica.';
+    enviarEmailConPDF($correo_clinica, 'Gerencia Sr. Pie', 'COPIA RESPALDO: ' . $asunto, $cuerpo_gerencia, $pdf_en_memoria, $nombre_archivo);
+
+    echo "<script>alert('✅ Recibo enviado exitosamente. El contador se ha reiniciado.'); window.close();</script>";
 } else {
-    echo "<script>alert('❌ Error al enviar el correo. Verifica tu configuración o conexión.'); window.close();</script>";
+    // Si el correo falló, NO se actualiza la BD, permitiendo volver a intentarlo
+    echo "<script>alert('❌ Error al conectar con el servidor de correo. El pago NO fue procesado para que puedas intentarlo de nuevo.'); window.close();</script>";
 }
 ?>
