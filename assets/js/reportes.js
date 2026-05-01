@@ -21,16 +21,15 @@
 
     // Función para abrir el modal y configurar los botones
     function abrirModalPago(cedula, nombre, monto) {
-        document.getElementById('nombre_pago_modal').innerText = nombre;
-        document.getElementById('monto_pago_modal').innerText = monto + " $";
-        
-        // Aquí le decimos a los botones qué archivo ejecutar y le mandamos el parámetro liquidar=1
-        document.getElementById('btn_descargar_pago').href = "../controllers/descargar_recibo_quiro.php?cedula=" + cedula + "&liquidar=1";
-        document.getElementById('btn_enviar_pago').href = "../controllers/enviar_recibo_quiro.php?cedula=" + cedula + "&liquidar=1";
-        
-        var myModal = new bootstrap.Modal(document.getElementById('modalPago'));
-        myModal.show();
-    }
+    document.getElementById('nombre_pago_modal').innerText = nombre;
+    document.getElementById('monto_pago_modal').innerText = monto + " $";
+    
+    // IMPORTANTE: Asegúrate de que la ruta sea exactamente esta
+    document.getElementById('btn_enviar_pago').href = "../controllers/enviar_recibo_quiro.php?cedula=" + cedula + "&liquidar=1";
+    
+    var myModal = new bootstrap.Modal(document.getElementById('modalPago'));
+    myModal.show();
+}
 
     // Recargar la página después de generar el recibo para ver el contador en 0
     function recargarPagina() {
