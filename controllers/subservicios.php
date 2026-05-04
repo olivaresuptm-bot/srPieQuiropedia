@@ -53,6 +53,7 @@
                 <?php echo $s['estatus'] ? 'Activo' : 'Inactivo'; ?>
             </span>
         </td>
+        <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
         <td class="text-center">
             <button class="btn btn-sm btn-warning shadow-sm" onclick="abrirEditar(<?php echo htmlspecialchars(json_encode($s), ENT_QUOTES, 'UTF-8'); ?>)">
                 <i class="bi bi-pencil"></i>
@@ -65,5 +66,6 @@
                 </button>
             </form>
         </td>
+           <?php endif; ?>
     </tr>
 <?php endwhile; ?>

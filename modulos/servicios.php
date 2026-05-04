@@ -36,9 +36,11 @@ include '../includes/tasa_BCV.php';
                         <span class="badge bg-info text-dark mb-2 fs-5 shadow-sm">
                             <i class="bi bi-currency-exchange me-1"></i> Tasa BCV: <?php echo number_format($tasa_bcv, 2, ',', '.'); ?> Bs.
                         </span><br>
+                       <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
                         <button class="btn btn-primary mt-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalServicio" onclick="prepararNuevo()">
                             <i class="bi bi-plus-circle me-2"></i>Nuevo Servicio
                         </button>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -54,9 +56,12 @@ include '../includes/tasa_BCV.php';
                                         <th>Precio (Bs.)</th>
                                         <th>Comisión Quiropedista</th>
                                         <th>Estado</th>
+                                        <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
                                         <th class="text-center">Acciones</th>
+                                           <?php endif; ?>
                                     </tr>
                                 </thead>
+                               
                                 <tbody>
                                    <?php include '../controllers/subservicios.php'; ?>
                                 </tbody>
