@@ -32,7 +32,6 @@ if(inputFecha) {
         var nRep = document.getElementsByName('nombre_rep')[0];
         var pRep = document.getElementsByName('parentesco_rep')[0];
 
-        // AQUÍ ESTÁ LA MAGIA: Menor de 18 o Mayor/Igual a 65 años
         if (edad < 18 || edad >= 65) {
             if(seccion) seccion.style.display = 'block';
             if(cRep) cRep.required = true;

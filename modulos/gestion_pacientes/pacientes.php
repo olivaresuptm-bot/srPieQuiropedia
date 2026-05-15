@@ -19,6 +19,7 @@ include '../../controllers/registro_paciente.php';
     <link rel="stylesheet" href="../../assets/css/sidebar.css">
     <link rel="stylesheet" href="../../assets/css/header.css">
     <link rel="stylesheet" href="../../assets/css/footer.css">
+    <link rel="stylesheet" href="../../assets/css/formulario_pacientes.css">
 </head>
 <body class="bg-light">
     <?php $ruta_base = '../../'; include '../../includes/header.php'; ?>
@@ -74,8 +75,8 @@ include '../../controllers/registro_paciente.php';
                                     <label class="form-label small fw-bold text-secondary">Cédula <span class="text-danger">*</span></label>
                                     <input type="number" 
                                     name="cedula_id" class="form-control" 
-                                    onkeypress="if(this.value.length == 10) return false;" 
-                                    oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);"
+                                    onkeypress="if(this.value.length == 9) return false;" 
+                                    oninput="if(this.value.length > 10) this.value = this.value.slice(0, 9);"
                                     required>
                                 </div>
 
@@ -141,7 +142,7 @@ include '../../controllers/registro_paciente.php';
                                 <div id="seccion_representante" class="col-12 mt-4 p-3 border rounded bg-white shadow-sm" style="display:none;">
                                     <h6 class="form-label small fw-bold text-secondary">Datos del Representante</h6>
                                     <div class="row g-3">
-                                        <div class="col-md-4"><label class="form-label small fw-bold text-secondary">Cédula Rep. <span class="text-danger">*</span></label><input type="number" name="cedula_rep" class="form-control"></div>
+                                        <div class="col-md-4"><label class="form-label small fw-bold text-secondary">Cédula Rep. <span class="text-danger">*</span></label><input type="number" name="cedula_rep" class="form-control" onkeypress="if(this.value.length == 10) return false;" oninput="if(this.value.length > 9) this.value = this.value.slice(0, 9);"></div>
                                         <div class="col-md-8"><label class="form-label small fw-bold text-secondary">Nombre Completo Rep. <span class="text-danger">*</span></label><input type="text" name="nombre_rep" class="form-control"></div>
                                         <div class="col-md-12"><label class="form-label small fw-bold text-secondary">Parentesco <span class="text-danger">*</span></label><input type="text" name="parentesco_rep" class="form-control"></div>
                                     </div>
@@ -172,20 +173,5 @@ include '../../controllers/registro_paciente.php';
 
 
 
-<style>
-.tooltip-error .tooltip-inner {
-    background-color: #d9534f ;
-    color: white ;
-    font-weight: bold;
-    border: 1px solid white;
-}
-.tooltip-error .tooltip-arrow::before {
-    border-top-color: #d9534f ;
-}
-.is-invalid {
-    border: 2px solid #d9534f ;
-    background-color: #fff2f2 ;
-}
-</style>
 </body>
 </html>

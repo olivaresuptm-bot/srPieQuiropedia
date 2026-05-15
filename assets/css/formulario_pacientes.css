@@ -1,0 +1,14 @@
+
+.tooltip-error .tooltip-inner {
+    background-color: #d9534f ;
+    color: white ;
+    font-weight: bold;
+    border: 1px solid white;
+}
+.tooltip-error .tooltip-arrow::before {
+    border-top-color: #d9534f ;
+}
+.is-invalid {
+    border: 2px solid #d9534f ;
+    background-color: #fff2f2 ;
+}
