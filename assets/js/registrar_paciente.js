@@ -130,7 +130,7 @@ if(form) {
     };
 }
 
-// --- MAGIA DE LA ALERTA PROGRESIVA (AHORA AFUERA DEL ONSUBMIT) ---
+// --- ALERTA PROGRESIVA (AHORA AFUERA DEL ONSUBMIT) ---
 document.addEventListener('DOMContentLoaded', function() {
     const alerta = document.getElementById('alertaObligatorios');
     const inputs = document.querySelectorAll('.form-panel input, .form-panel select, .form-panel textarea');
