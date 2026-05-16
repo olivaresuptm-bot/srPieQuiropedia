@@ -82,7 +82,7 @@ require_once '../controllers/reportes.php';
             </div>
 
             <div class="col-md-4">
-                <div class="card border-0 shadow-sm p-3 h-100 border-start border-success border-4">
+                <div class="card border-0 shadow-sm p-3 h-100 ">
                     <h6 class="text-success fw-bold mb-3"><i class="bi bi-cash-coin me-2"></i>INGRESOS BRUTOS</h6>
                     
                      <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
