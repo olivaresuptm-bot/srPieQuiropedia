@@ -131,7 +131,7 @@ require_once '../../controllers/historial.php';
                                             </div>
                                         </div>
 
-                                        <div class="modal fade" id="modalEditar<?php echo $registro['historial_id']; ?>" tabindex="-1">
+                                        <div class="modal fade" style="z-index: 9999;" id="modalEditar<?php echo $registro['historial_id']; ?>" tabindex="-1">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header bg-primary text-white">
@@ -194,7 +194,7 @@ require_once '../../controllers/historial.php';
         </div>
     </div>
 
-    <div class="modal fade" id="modalNuevoHistorial" tabindex="-1">
+    <div class="modal fade" id="modalNuevoHistorial" style="z-index: 9999;" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
