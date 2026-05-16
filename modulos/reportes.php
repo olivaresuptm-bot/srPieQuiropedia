@@ -188,7 +188,7 @@ require_once '../controllers/reportes.php';
 
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white py-3">
-                <h6 class="mb-0 text-primary fw-bold"><i class="bi bi-bar-chart-line me-2"></i>Rendimiento Pendiente <i class="bi bi-currency-exchange me-1"></i></h6>
+                <h6 class="mb-0 text-primary fw-bold"><i class="bi bi-bar-chart-line me-2"></i>Rendimiento por Quiropedista<i class="bi bi-currency-exchange me-1"></i></h6>
             </div>
             <div class="card-body">
                 <canvas id="graficoIngresos" style="max-height: 350px;"></canvas>
