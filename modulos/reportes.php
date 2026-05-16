@@ -82,7 +82,7 @@ require_once '../controllers/reportes.php';
             </div>
 
             <div class="col-md-4">
-                <div class="card border-0 shadow-sm p-3 h-100 border-start border-success border-4">
+                <div class="card border-0 shadow-sm p-3 h-100 ">
                     <h6 class="text-success fw-bold mb-3"><i class="bi bi-cash-coin me-2"></i>INGRESOS BRUTOS</h6>
                     
                      <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
@@ -124,7 +124,7 @@ require_once '../controllers/reportes.php';
 
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                <h6 class="mb-0 text-primary fw-bold"><i class="bi bi-cash-stack me-2"></i>Nómina Pendiente (Comisiones de la Semana)</h6>
+                <h6 class="mb-0 text-primary fw-bold"><i class="bi bi-cash-stack me-2"></i>Comisión Pendiente (Comisiones de la Semana)</h6>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -188,7 +188,7 @@ require_once '../controllers/reportes.php';
 
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white py-3">
-                <h6 class="mb-0 text-primary fw-bold"><i class="bi bi-bar-chart-line me-2"></i>Rendimiento Pendiente <i class="bi bi-currency-exchange me-1"></i></h6>
+                <h6 class="mb-0 text-primary fw-bold"><i class="bi bi-bar-chart-line me-2"></i>Rendimiento por Quiropedista<i class="bi bi-currency-exchange me-1"></i></h6>
             </div>
             <div class="card-body">
                 <canvas id="graficoIngresos" style="max-height: 350px;"></canvas>

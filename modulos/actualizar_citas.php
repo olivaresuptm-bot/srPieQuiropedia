@@ -247,7 +247,7 @@ require_once '../controllers/actualizar_citas.php';
         </div>
     </div>
 
-    <div class="modal fade" id="modalEditarCita" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="modalEditarCita" style="z-index: 9999;" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <form action="" method="POST" class="modal-content shadow border-0">
                 <div class="modal-header bg-warning border-0">
