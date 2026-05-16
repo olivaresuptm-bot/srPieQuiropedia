@@ -65,7 +65,7 @@ $ruta = isset($ruta_base) ? $ruta_base : '../';
         </li>
 
         
-         <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
+         <?php if($rol_usuario == 'gerente' ): ?>
         <li class="<?= ($pagina_actual == 'usuarios.php') ? 'current-page' : '' ?>">
             <a href="<?= $ruta ?>modulos/usuarios.php" class="nav-link <?= ($pagina_actual == 'usuarios.php') ? 'active-link' : 'text-dark' ?>">
                 <i class="bi bi-database me-2"></i> Mantenimiento
