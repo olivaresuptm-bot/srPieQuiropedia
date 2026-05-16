@@ -47,6 +47,10 @@ require_once '../controllers/actualizar_citas.php';
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 <?php endif; ?>
+
+                <a href="citas.php" class="btn btn-outline-secondary btn-sm shadow-sm mb-3">
+                                <i class="bi bi-arrow-left me-2"></i>Volver
+                            </a>
                 
                 <div class="card shadow-sm border-0 mb-4">
                     <div class="card-body">
@@ -202,9 +206,7 @@ require_once '../controllers/actualizar_citas.php';
                     <div class="card-footer bg-white border-0 py-3">
                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                            
-                            <a href="citas.php" class="btn btn-outline-secondary btn-sm shadow-sm">
-                                <i class="bi bi-arrow-left me-2"></i>Volver
-                            </a>
+                            
 
                              <?php if (isset($total_paginas) && $total_paginas > 1): ?>
 <nav class="mt-3">
@@ -238,10 +240,10 @@ require_once '../controllers/actualizar_citas.php';
                 </div>
             </div> 
             
+            
             <div class="mt-auto">
                 <?php include '../includes/footer.php'; ?>
             </div>
-
         </div>
     </div>
 
@@ -306,7 +308,6 @@ require_once '../controllers/actualizar_citas.php';
             </form>
         </div>
     </div>
-    </div></div></div><?php include '../../includes/footer.php'; ?>
     <script src="../assets/js/hamburguesa.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/actualizar_citas.js"></script>
