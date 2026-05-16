@@ -124,7 +124,7 @@ require_once '../controllers/reportes.php';
 
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                <h6 class="mb-0 text-primary fw-bold"><i class="bi bi-cash-stack me-2"></i>Nómina Pendiente (Comisiones de la Semana)</h6>
+                <h6 class="mb-0 text-primary fw-bold"><i class="bi bi-cash-stack me-2"></i>Comisión Pendiente (Comisiones de la Semana)</h6>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
