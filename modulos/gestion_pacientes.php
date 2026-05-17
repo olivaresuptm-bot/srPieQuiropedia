@@ -6,7 +6,7 @@ if (!isset($_SESSION['usuario_id'])) {
 }
 
 require_once '../includes/db.php';
-require_once 'controllers/notificaciones_citas.php';
+require_once '../controllers/notificaciones_citas.php';
 
 // Configuración de la paginación
 $por_pagina = 10;
