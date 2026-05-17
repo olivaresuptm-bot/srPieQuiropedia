@@ -18,10 +18,9 @@ try {
         $servicios = $stmt_servicios->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    $stmt_quiro = $conexion->query("SELECT u.cedula_id as usuario_cedula, u.primer_nombre, u.primer_apellido 
-                                    FROM quiropedistas q 
-                                    JOIN usuarios u ON q.usuario_cedula = u.cedula_id 
-                                    WHERE u.estado = 1");
+$stmt_quiro = $conexion->query("SELECT cedula_id as usuario_cedula, primer_nombre, primer_apellido 
+                                FROM usuarios 
+                                WHERE rol = 'quiropedista' AND estado = 1");
     if ($stmt_quiro) {
         $quiropedistas = $stmt_quiro->fetchAll(PDO::FETCH_ASSOC);
     }

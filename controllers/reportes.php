@@ -53,11 +53,12 @@ $sql_comisiones = "SELECT
     COALESCE(SUM(p.monto * (s.comision_porcentaje / 100)), 0) AS comision_usd,
     COALESCE(SUM(p.monto * p.tasa_bcv * (s.comision_porcentaje / 100)), 0) AS comision_bs
     FROM usuarios u
-    INNER JOIN quiropedistas q ON u.cedula_id = q.usuario_cedula
+    -- Eliminamos el INNER JOIN restrictivo de la tabla quiropedistas
     LEFT JOIN citas c ON u.cedula_id = c.quiropedista_cedula AND c.estado_comision = 0 AND c.estatus = 'atendida'
     LEFT JOIN pagos p ON c.cita_id = p.cita_id
     LEFT JOIN servicios s ON c.servicio_id = s.servicio_id
-    WHERE u.estado = 1
+    -- Añadimos la validación del rol directamente aquí
+    WHERE u.estado = 1 AND u.rol = 'quiropedista' 
     GROUP BY u.cedula_id";
 $res_comisiones = $conexion->query($sql_comisiones);
 
