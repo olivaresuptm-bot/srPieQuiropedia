@@ -35,7 +35,7 @@ $stmt_totales = $conexion->prepare("
 $stmt_totales->execute([$cedula]);
 $totales = $stmt_totales->fetch(PDO::FETCH_ASSOC);
 
-// 3. OBTENER DESGLOSE
+// 3. OBTENER DESGLOSE CON DATOS DEL PACIENTE
 $stmt_servicios = $conexion->prepare("
     SELECT 
         c.fecha AS fecha_cita,
@@ -61,40 +61,129 @@ if (empty($servicios)) {
     exit;
 }
 
-// 4. GENERAR PDF
-$pdf = new FPDF();
+// 4. GENERAR PDF (CON ESTILO VISUAL DE FACTURA)
+$pdf = new FPDF('P', 'mm', 'Letter');
 $pdf->AddPage();
-$pdf->SetFont('Arial', 'B', 14);
-$pdf->Cell(0, 10, utf8_decode('RECIBO DE COMISIONES - SR. PIE'), 0, 1, 'C');
-$pdf->Ln(5);
+$pdf->SetMargins(15, 15, 15);
+
+// --- ENCABEZADO ESTILO TICKET/FACTURA ---
+$pdf->Image('../assets/img/logo_sr_pie.png', 15, 12, 25);
+$pdf->SetFont('Arial', 'B', 18);
+$pdf->SetTextColor(13, 110, 253); // Azul Bootstrap
+$pdf->Cell(0, 10, utf8_decode('QUIROPEDIA SR. PIE. C.A. '), 0, 1, 'C');
+
 $pdf->SetFont('Arial', '', 10);
-$pdf->Cell(0, 10, 'Quiropedista: ' . utf8_decode($quiro['primer_nombre'] . ' ' . $quiro['primer_apellido']), 0, 1);
+$pdf->SetTextColor(100, 100, 100);
+$pdf->Cell(0, 5, utf8_decode('RIF: J-41230047-4 | Tel: (0274) 266-6818 / (0414) 735-9726'), 0, 1, 'C');
+$pdf->Cell(0, 5, utf8_decode('Mérida, Venezuela'), 0, 1, 'C');
+$pdf->Cell(0, 5, utf8_decode('C.C. Las Tapias Nivel 1 Local 57'), 0, 1, 'C');
+$pdf->Cell(0, 5, utf8_decode('Quiropediasrpie@gmail.com'), 0, 1, 'C');
 $pdf->Ln(5);
 
-// Tabla simple para no sobrecargar el servidor
+$pdf->SetDrawColor(13, 110, 253);
+$pdf->SetLineWidth(0.5);
+$pdf->Line(15, $pdf->GetY(), 200, $pdf->GetY());
+$pdf->Ln(7);
+
+// --- INFO QUIROPEDISTA ---
+$pdf->SetTextColor(0, 0, 0);
+$pdf->SetFont('Arial', 'B', 12);
+$pdf->Cell(0, 7, utf8_decode('RECIBO DE COMISIONES'), 0, 1, 'L');
+
+$pdf->SetFont('Arial', '', 11);
+$pdf->Cell(35, 7, utf8_decode('Quiropedista:'), 0, 0);
+$pdf->SetFont('Arial', 'B', 11);
+$pdf->Cell(0, 7, utf8_decode($quiro['primer_nombre'] . ' ' . $quiro['primer_apellido']), 0, 1);
+
+$pdf->SetFont('Arial', '', 11);
+$pdf->Cell(35, 7, utf8_decode('Cédula:'), 0, 0);
+$pdf->SetFont('Arial', 'B', 11);
+$pdf->Cell(0, 7, $quiro['cedula_id'], 0, 1);
+
+$pdf->SetFont('Arial', '', 11);
+$pdf->Cell(35, 7, utf8_decode('Fecha Emisión:'), 0, 0);
+$pdf->SetFont('Arial', 'B', 11);
+$pdf->Cell(0, 7, date('d/m/Y h:i A'), 0, 1);
+$pdf->Ln(8);
+
+// --- TABLA DE SERVICIOS ESTILIZADA ---
+$pdf->SetFillColor(13, 110, 253);
+$pdf->SetTextColor(255, 255, 255);
+$pdf->SetFont('Arial', 'B', 10);
+
+$pdf->Cell(25, 10, 'Fecha', 1, 0, 'C', true);
+$pdf->Cell(45, 10, 'Paciente', 1, 0, 'C', true);
+$pdf->Cell(55, 10, 'Servicio', 1, 0, 'C', true);
+$pdf->Cell(20, 10, '% Com.', 1, 0, 'C', true);
+$pdf->Cell(40, 10, 'A Pagar (USD)', 1, 1, 'C', true);
+
+$pdf->SetTextColor(0, 0, 0);
+$pdf->SetFont('Arial', '', 9);
+$pdf->SetFillColor(245, 245, 245);
+
+$fill = false;
+
 foreach ($servicios as $s) {
     $comision_usd = $s['subtotal_usd'] * ($s['comision_porcentaje'] / 100);
-    $pdf->Cell(30, 8, $s['fecha_cita'], 1);
-    $pdf->Cell(80, 8, utf8_decode(substr($s['servicio_nombre'], 0, 40)), 1);
-    $pdf->Cell(40, 8, number_format($comision_usd, 2) . ' USD', 1, 1, 'R');
+    $nombre_paciente = $s['primer_nombre'] . ' ' . $s['primer_apellido'];
+
+    $pdf->Cell(25, 8, date('d/m/Y', strtotime($s['fecha_cita'])), 1, 0, 'C', $fill);
+    $pdf->Cell(45, 8, utf8_decode(substr($nombre_paciente, 0, 25)), 1, 0, 'L', $fill);
+    $pdf->Cell(55, 8, utf8_decode(substr($s['servicio_nombre'], 0, 30)), 1, 0, 'L', $fill);
+    $pdf->Cell(20, 8, $s['comision_porcentaje'] . '%', 1, 0, 'C', $fill);
+    
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->Cell(40, 8, '$' . number_format($comision_usd, 2), 1, 1, 'R', $fill);
+    $pdf->SetFont('Arial', '', 9);
+    
+    $fill = !$fill; // Alternar color de fila
 }
 
-$pdf->Ln(10);
-$pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(110, 10, 'TOTAL A PAGAR:', 0, 0, 'R');
-$pdf->Cell(40, 10, number_format($totales['total_comision_usd'], 2) . ' USD', 0, 1, 'R');
+// --- RESUMEN FINAL ---
+$pdf->Ln(5);
 
+// Total en Dólares
+$pdf->SetFont('Arial', 'B', 11);
+$pdf->Cell(115, 10, '', 0, 0);
+$pdf->SetTextColor(0, 0, 0);
+$pdf->Cell(30, 10, 'TOTAL USD:', 1, 0, 'C', true);
+$pdf->SetTextColor(0, 0, 0);
+$pdf->Cell(40, 10, '$' . number_format($totales['total_comision_usd'], 2), 1, 1, 'R');
+
+// Total en Bolívares (usando la tasa en la que se cobró cada servicio)
+$pdf->Cell(115, 10, '', 0, 0);
+$pdf->SetTextColor(0, 0, 0);
+$pdf->Cell(30, 10, 'TOTAL BS:', 1, 0, 'C', true);
+$pdf->SetTextColor(0, 0, 0);
+$pdf->Cell(40, 10, number_format($totales['total_comision_bs'], 2, ',', '.') . ' Bs', 1, 1, 'R');
+
+// --- PIE DE PÁGINA ---
+$pdf->Ln(20);
+$pdf->SetFont('Arial', 'I', 9);
+$pdf->SetTextColor(150, 150, 150);
+$pdf->Cell(0, 5, utf8_decode('Este documento es un comprobante oficial de pago de comisiones generado por Sr. Pie Quiropedia.'), 0, 1, 'C');
+
+
+// 5. GUARDAR EN MEMORIA (No se muestra en pantalla)
 $pdf_doc = $pdf->Output('S');
 
-// 5. ENVIAR Y LIQUIDAR
-$enviado = enviarEmailConPDF($quiro['correo'], $quiro['primer_nombre'], 'Recibo Sr. Pie', 'Adjunto recibo.', $pdf_doc, 'recibo.pdf');
+// 6. ENVIAR CORREOS (AL QUIROPEDISTA Y A LA CLÍNICA)
+$cuerpo_quiro = "Hola " . $quiro['primer_nombre'] . ", adjunto a este correo encontrarás el desglose de tus comisiones de la semana. ¡Excelente trabajo!";
+$enviado_quiro = enviarEmailConPDF($quiro['correo'], $quiro['primer_nombre'], 'Recibo de Comisiones - Sr. Pie', $cuerpo_quiro, $pdf_doc, 'recibo_comisiones.pdf');
 
-if ($enviado) {
+// Enviar copia de respaldo a la clínica
+$correo_clinica = "srpiequiropedia4@gmail.com"; 
+$cuerpo_clinica = "Copia automática del recibo de comisiones del especialista " . $quiro['primer_nombre'] . " " . $quiro['primer_apellido'] . ".";
+$enviado_clinica = enviarEmailConPDF($correo_clinica, 'Administración', 'Copia: Recibo de Comisiones - ' . $quiro['primer_nombre'], $cuerpo_clinica, $pdf_doc, 'respaldo_comisiones.pdf');
+
+// 7. LIQUIDAR Y CERRAR
+if ($enviado_quiro) {
+    // Solo si el botón mandó "liquidar=1" actualizamos la BD a pagado
     if (isset($_GET['liquidar']) && $_GET['liquidar'] == '1') {
         $upd = $conexion->prepare("UPDATE citas SET estado_comision = 1 WHERE quiropedista_cedula = ? AND estado_comision = 0 AND estatus = 'atendida'");
         $upd->execute([$cedula]);
     }
-    echo "<script>alert('✅ Recibo enviado y contador reiniciado.'); if(window.opener) window.opener.location.reload(); window.close();</script>";
+    echo "<script>alert('✅ Recibo enviado a la clínica y al quiropedista. Contador reiniciado.'); if(window.opener) window.opener.location.reload(); window.close();</script>";
 } else {
-    echo "<script>alert('❌ Error de conexión al enviar el correo.'); window.close();</script>";
+    echo "<script>alert('❌ Error de conexión al enviar el correo al quiropedista.'); window.close();</script>";
 }
