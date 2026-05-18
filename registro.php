@@ -75,7 +75,6 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] !== 'gerente') {
                             <label class="form-label fw-bold">Rol del Usuario</label>
                             <select name="rol" class="form-select custom-input" required>
                                 <option value="" disabled selected>Seleccione un rol...</option>
-                                <option value="gerente">Gerente</option>
                                 <option value="recepcionista">Recepcionista</option>
                                 <option value="quiropedista">Quiropedista</option>
                             </select>
