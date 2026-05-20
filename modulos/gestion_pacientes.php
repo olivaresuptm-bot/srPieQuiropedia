@@ -104,7 +104,9 @@ try {
                 </div>
             </div>
              <div id="panelOcultable">
-
+ <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
+                        
+                     
              <div class="row justify-content-center">
                     <div class="col-md-10 col-lg-8">
                         <div class="card border-0 shadow-sm ">
@@ -122,7 +124,7 @@ try {
                             </div>
                         </div>
                     </div>
-
+   <?php endif; ?>
                 <div class="row justify-content-center mt-4 px-2 px-md-0">
                     <div class="col-12 col-md-10 col-lg-8 text-center">
                         <span class="badge bg-white text-secondary border px-3 px-md-4 py-3 fs-6 shadow-sm w-100 text-wrap" style="border-radius: 15px;">
