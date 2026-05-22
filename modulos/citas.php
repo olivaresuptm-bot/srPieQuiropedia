@@ -35,14 +35,7 @@ require_once '../controllers/citas_estadisticas.php';
         <div class="flex-grow-1" style="overflow-y: auto;">
             <div class="container-fluid p-4">
                 
-                <div class="card shadow-sm border-0 mb-4">
-                    <div class="card-body">
-                        <h4 class="card-title text-primary">
-                            <i class="bi bi-calendar-check me-2"></i>Módulo de Gestión de Citas
-                        </h4>
-                        <p class="card-text text-muted">Selecciona una de las siguientes opciones para administrar las citas:</p>
-                    </div>
-                </div>
+             
 
                 <div class="row g-4 <?php echo ($rol_usuario === 'quiropedista') ? 'justify-content-center' : ''; ?>">
                     
@@ -94,7 +87,6 @@ require_once '../controllers/citas_estadisticas.php';
                     </div>
                 </div>
 
-                <?php if ($rol_usuario === 'gerente' || $rol_usuario === 'recepcionista'): ?>
                 <div class="row mt-5">
                     <div class="col-12">
                         <div class="card shadow-sm border-0 bg-light">
@@ -117,7 +109,7 @@ require_once '../controllers/citas_estadisticas.php';
                         </div>
                     </div>
                 </div>
-                <?php endif; ?>
+              
 
             </div>
         </div>
