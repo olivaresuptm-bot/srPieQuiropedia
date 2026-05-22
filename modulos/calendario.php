@@ -72,7 +72,7 @@ require_once '../controllers/calendario_citas.php';
     </div>
     </div>
     
-    <div class="modal fade" id="modalCitasDia" tabindex="-1">
+    <div class="modal fade" id="modalCitasDia" tabindex="-1" style="z-index: 9999;">
         <div class="modal-dialog modal-lg">
             <div class="modal-content border-0 shadow">
                 <div class="modal-header bg-primary text-white">
