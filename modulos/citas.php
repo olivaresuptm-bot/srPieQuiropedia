@@ -4,6 +4,10 @@ if (!isset($_SESSION['usuario_id'])) {
     header("Location: ../index.php");
     exit;
 }
+
+// Obtenemos el rol del usuario desde la sesión (ajusta 'rol' al nombre exacto de tu variable de sesión)
+$rol_usuario = isset($_SESSION['rol']) ? strtolower($_SESSION['rol']) : '';
+
 require_once '../controllers/citas_estadisticas.php';
 ?>
 <!DOCTYPE html>
@@ -29,9 +33,8 @@ require_once '../controllers/citas_estadisticas.php';
         include '../includes/titulo_modulo.php'; ?>
 
         <div class="flex-grow-1" style="overflow-y: auto;">
-           
-
             <div class="container-fluid p-4">
+                
                 <div class="card shadow-sm border-0 mb-4">
                     <div class="card-body">
                         <h4 class="card-title text-primary">
@@ -41,7 +44,9 @@ require_once '../controllers/citas_estadisticas.php';
                     </div>
                 </div>
 
-                <div class="row g-4">
+                <div class="row g-4 <?php echo ($rol_usuario === 'quiropedista') ? 'justify-content-center' : ''; ?>">
+                    
+                    <?php if ($rol_usuario === 'gerente' || $rol_usuario === 'recepcionista'): ?>
                     <div class="col-md-4">
                         <div class="card h-100 shadow hover-card border-0">
                             <div class="card-body text-center p-4 d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
@@ -71,6 +76,7 @@ require_once '../controllers/citas_estadisticas.php';
                             </div>
                         </div>
                     </div>
+                    <?php endif; ?>
                     
                     <div class="col-md-4">
                         <div class="card h-100 shadow hover-card border-0">
@@ -88,6 +94,7 @@ require_once '../controllers/citas_estadisticas.php';
                     </div>
                 </div>
 
+                <?php if ($rol_usuario === 'gerente' || $rol_usuario === 'recepcionista'): ?>
                 <div class="row mt-5">
                     <div class="col-12">
                         <div class="card shadow-sm border-0 bg-light">
@@ -110,11 +117,13 @@ require_once '../controllers/citas_estadisticas.php';
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
+
             </div>
         </div>
     </div>
 
-    </div></div></div><?php include '../includes/footer.php'; ?>
+    <?php include '../includes/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/hamburguesa.js"></script>
     <script src="../assets/js/citas.js"></script>
