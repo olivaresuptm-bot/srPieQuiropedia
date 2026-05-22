@@ -1,5 +1,10 @@
 <?php
+// 1. Iniciamos sesión para capturar el rol del usuario
+session_start();
 require_once '../includes/db.php';
+
+// Capturamos el rol desde la sesión
+$rol_usuario = isset($_SESSION['rol']) ? strtolower($_SESSION['rol']) : '';
 
 if (isset($_GET['cedula'])) {
     $cedula = $_GET['cedula'];
@@ -11,6 +16,7 @@ if (isset($_GET['cedula'])) {
         $diabetico_badge = ($p['diabetico'] == 'Si') ? '<span class="badge bg-danger"><i class="bi bi-exclamation-triangle-fill me-1"></i>Sí (Precaución)</span>' : '<span class="badge bg-success">No</span>';
         $instagram_val = !empty($p['instagram']) ? $p['instagram'] : 'N/A';
 
+        // Imprimimos la cartilla de información (Visible para todos)
         echo '
         <div class="card border-0 bg-light shadow-sm">
             <div class="card-body">
@@ -28,7 +34,6 @@ if (isset($_GET['cedula'])) {
 
         // ======================================================
         // BLOQUE DINÁMICO DEL REPRESENTANTE
-        // Si hay nombre o cédula de representante, mostramos el cuadro
         // ======================================================
         if (!empty($p['cedula_rep']) || !empty($p['nombre_rep'])) {
             echo '
@@ -71,12 +76,13 @@ if (isset($_GET['cedula'])) {
                     </div>
                 </div>
 
-
-
-
-
-                 <div class="border-top pt-4 text-center">
-                    
+                 <div class="border-top pt-4 text-center">';
+                     
+        // ======================================================
+        // CONTROL DE ACCESO (RBAC): Botones de Acción
+        // ======================================================
+        if ($rol_usuario === 'gerente' || $rol_usuario === 'recepcionista') {
+            echo '
                     <div class="contenedor-acciones">
                         <button type="button" class="btn btn-warning btn-accion shadow-sm" onclick=\'abrirEditarPaciente(' . json_encode($p) . ')\'>
                             <i class="bi bi-pencil-square me-2"></i>Editar Datos
@@ -97,12 +103,25 @@ if (isset($_GET['cedula'])) {
                         <a href="../controllers/descargar_justificativo.php?cedula=' . $p['cedula_id'] . '" target="_blank" class="btn btn-danger btn-accion shadow-sm">
                             <i class="bi bi-file-earmark-pdf me-2"></i>Justificativo
                         </a>
-                    </div>
-                </div>
+                    </div>';
+        } else {
+            // Un pequeño mensaje visual para que el quiropedista no piense que la página cargó mal
+            echo '<span class="text-muted small"><i class="bi bi-eye me-1"></i>Modo de visualización de paciente</span>';
+        }
+
+        echo '       
+                 </div>
+                
                 </div>
             </div>
-        </div>
+        </div>';
 
+        // ======================================================
+        // CONTROL DE ACCESO (RBAC): Modal de Edición
+        // Lo ocultamos del código fuente para el quiropedista por seguridad extra
+        // ======================================================
+        if ($rol_usuario === 'gerente' || $rol_usuario === 'recepcionista') {
+            echo '
         <div class="modal fade" id="modalEditarPaciente" tabindex="-1" aria-hidden="true" style="z-index: 9999;">
             <div class="modal-dialog modal-lg">
                 <form action="../controllers/registro_paciente.php" method="POST" class="modal-content text-start">
@@ -192,10 +211,10 @@ if (isset($_GET['cedula'])) {
                 </form>
             </div>
         </div>';
+        }
+        
     } else {
         echo "error";
     }
 }
-
-
 ?>
