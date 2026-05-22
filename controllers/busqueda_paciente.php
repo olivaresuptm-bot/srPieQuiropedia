@@ -104,10 +104,18 @@ if (isset($_GET['cedula'])) {
                             <i class="bi bi-file-earmark-pdf me-2"></i>Justificativo
                         </a>
                     </div>';
-        } else {
-            // Un pequeño mensaje visual para que el quiropedista no piense que la página cargó mal
-            echo '<span class="text-muted small"><i class="bi bi-eye me-1"></i>Modo de visualización de paciente</span>';
+        } 
+        
+        else if ($rol_usuario === 'quiropedista') {
+            echo '
+                    <div class="contenedor-acciones">
+                    <span class="text-muted small d-block mb-3"><i class="bi bi-eye me-1"></i>Modo de visualización de paciente</span>
+                        <a href="gestion_pacientes/historial.php?cedula=' . $p['cedula_id'] . '" class="btn btn-info btn-accion shadow-sm">
+                            <i class="bi bi-file-medical me-2"></i>Ver Historial
+                        </a>
+                    </div>';
         }
+
 
         echo '       
                  </div>
@@ -212,6 +220,8 @@ if (isset($_GET['cedula'])) {
             </div>
         </div>';
         }
+
+        
         
     } else {
         echo "error";
