@@ -58,11 +58,13 @@ $ruta = isset($ruta_base) ? $ruta_base : '../';
             </a>
         </li>
         
+        <?php if($rol_usuario == 'gerente' ||  $rol_usuario == 'recepcionista'): ?>
         <li class="<?= ($pagina_actual == 'reportes.php') ? 'current-page' : '' ?>">
             <a href="<?= $ruta ?>modulos/reportes.php" class="nav-link <?= ($pagina_actual == 'reportes.php') ? 'active-link' : 'text-dark' ?>">
                 <i class="bi bi-bar-chart-line me-2"></i> Reportes y analítica
             </a>
         </li>
+        <?php endif; ?>
 
         
          <?php if($rol_usuario == 'gerente' ): ?>

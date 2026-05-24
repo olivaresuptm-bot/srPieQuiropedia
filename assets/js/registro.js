@@ -40,7 +40,7 @@
                 });
             });
 
-            // 2. Lógica especial para el campo de Correo (@)
+            // 2. Lógica para el campo de Correo (@)
             const correoField = document.querySelector('input[name="correo"]');
             const avisoCorreo = document.createElement('div');
             avisoCorreo.className = 'text-danger small mt-1 fw-bold';

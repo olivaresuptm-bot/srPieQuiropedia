@@ -9,9 +9,7 @@ $mensaje = "";
 $error = "";
 $search = "";
 
-// ==========================================
 // 1. EDICIÓN DE CITA (Vía POST)
-// ==========================================
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'editar_cita') {
     try {
         $sql_edit = "UPDATE citas SET 
@@ -36,9 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 }
 
-// ==========================================
 // 2. CAMBIO DE ESTATUS (Vía GET)
-// ==========================================
 if (isset($_GET['accion']) && isset($_GET['id'])) {
     $cita_id = $_GET['id'];
     $nuevo_estatus = $_GET['accion'] == 'atendida' ? 'atendida' : 'cancelada';
@@ -57,9 +53,7 @@ if (isset($_GET['accion']) && isset($_GET['id'])) {
     }
 }
 
-// ==========================================
 // 3. CARGAR LISTAS PARA EL MODAL DE EDICIÓN
-// ==========================================
 try {
     $stmt_quiro = $conexion->query("SELECT u.cedula_id as usuario_cedula, u.primer_nombre, u.primer_apellido FROM quiropedistas q JOIN usuarios u ON q.usuario_cedula = u.cedula_id WHERE u.estado = 1");
     $quiropedistas = $stmt_quiro->fetchAll(PDO::FETCH_ASSOC);
@@ -71,9 +65,7 @@ try {
     $servicios = [];
 }
 
-// ==========================================
 // 4. BÚSQUEDA Y PAGINACIÓN DE CITAS
-// ==========================================
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
 // Configuración de paginación
