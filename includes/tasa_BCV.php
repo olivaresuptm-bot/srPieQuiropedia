@@ -37,6 +37,6 @@ $tasa_bcv = getDolarBCV();
 
 
 if (!$tasa_bcv || $tasa_bcv <= 0) {
-    $tasa_bcv = 0.10; // (Actualiza este número periódicamente por si acaso)
+    $tasa_bcv = 0.10; // 
 }
 ?>
