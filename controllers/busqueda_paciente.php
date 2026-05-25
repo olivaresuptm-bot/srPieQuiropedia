@@ -3,6 +3,8 @@
 session_start();
 require_once '../includes/db.php';
 
+
+
 // Capturamos el rol desde la sesión
 $rol_usuario = isset($_SESSION['rol']) ? strtolower($_SESSION['rol']) : '';
 
@@ -226,5 +228,9 @@ if (isset($_GET['cedula'])) {
     } else {
         echo "error";
     }
+
+
 }
 ?>
+
+

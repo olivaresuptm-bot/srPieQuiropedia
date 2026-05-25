@@ -36,7 +36,7 @@
     text-decoration: underline;
 }
 
-/* Quitar los bordes invisibles del contenedor interno de Bootstrap */
+/* Quitar los bordes */
 .footer-srpie .container-fluid {
     width: 100% !important;
     max-width: 100% !important;

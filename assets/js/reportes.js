@@ -4,7 +4,7 @@
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: <?php echo json_encode($nombres_grafico); ?>,
+            labels: <?php echo json_encode($nombres_grafico); ?>, //Convertir el array de nombres a formato JSON
             datasets: [{
                 label: 'Ingresos Generados ($)',
                 data: <?php echo json_encode($ventas_grafico); ?>,
@@ -24,7 +24,6 @@
     document.getElementById('nombre_pago_modal').innerText = nombre;
     document.getElementById('monto_pago_modal').innerText = monto + " $";
     
-    // IMPORTANTE: Asegúrate de que la ruta sea exactamente esta
     document.getElementById('btn_enviar_pago').href = "../controllers/enviar_recibo_quiro.php?cedula=" + cedula + "&liquidar=1";
     
     var myModal = new bootstrap.Modal(document.getElementById('modalPago'));

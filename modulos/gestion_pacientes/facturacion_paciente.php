@@ -96,7 +96,7 @@ include '../../controllers/facturacion_paciente.php';
                                             <button type="submit" class="btn btn-success btn-lg shadow-sm">
                                                 <i class="bi bi-cash-stack me-2"></i>Registrar Pago
                                             </button>
-                                            <a href="actualizar_citas.php" class="btn btn-outline-secondary">Cancelar</a>
+                                            <a href="../actualizar_citas.php" class="btn btn-outline-secondary">Cancelar</a>
                                         </div>
                                     </form>
                                 </div>

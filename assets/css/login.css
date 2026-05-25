@@ -13,7 +13,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Este es el contenedor principal */
+/* contenedor principal */
 .main-wrapper {
     flex: 1; 
     display: flex;
@@ -33,7 +33,7 @@ body {
     min-height: 450px;
 }
 
-/* ESTA ES LA SECCIÓN IZQUIERDA (BLANCA)  */
+/*  SECCIÓN IZQUIERDA (BLANCA)  */
 .form-side {
     flex: 1;
     padding: 30px 50px;
@@ -82,7 +82,7 @@ body {
     background-color: #357abd !important;
 }
 
-/* ESTA ES LA SECCIÓN DERECHA (AZUL)*/
+/* SECCIÓN DERECHA (AZUL)*/
 .blue-side {
     flex: 1;
     background-color: #4a90e2;
@@ -121,17 +121,17 @@ body {
 .status-card-success {
     max-width: 500px; 
     width: 100%;
-    border-top: 6px solid #28a745; /* Verde de éxito */
+    border-top: 6px solid #28a745; 
     padding: 40px !important;
     text-align: center;
-    flex-direction: column !important; /* Mantiene el flujo vertical */
+    flex-direction: column !important; 
 }
 
 .icon-circle-success {
     width: 80px; 
     height: 80px;
-    background-color: #d4edda; /* Fondo verde suave */
-    color: #28a745; /* Icono verde fuerte */
+    background-color: #d4edda; 
+    color: #28a745; 
     border-radius: 50%;
     display: flex; 
     align-items: center; 
@@ -145,18 +145,16 @@ body {
     margin-bottom: 20px;
 }
 
-/* =========================================
-   MEDIA QUERIES (ADAPTACIÓN PARA MÓVILES)
-   ========================================= */
+/* ADAPTACIÓN PARA MÓVILES */
 @media (max-width: 768px) {
     .login-card {
-        flex-direction: column; /* Apila el formulario y la sección azul verticalmente */
+        flex-direction: column; 
         min-height: auto;
-        border-radius: 15px; /* Bordes un poco menos redondeados en móvil */
+        border-radius: 15px; 
     }
 
     .form-side {
-        padding: 30px 20px; /* Menos espacio a los lados para aprovechar la pantalla */
+        padding: 30px 20px; 
     }
 
     .blue-side {
@@ -164,11 +162,11 @@ body {
     }
 
     .blue-side h2 {
-        font-size: 1.8rem; /* Título un poco más pequeño para que no desborde */
+        font-size: 1.8rem; 
     }
 
     .logo-container img {
-        max-width: 75px; /* Achicamos ligeramente el logo */
+        max-width: 75px; 
     }
 }
 

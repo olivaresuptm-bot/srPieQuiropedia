@@ -9,7 +9,7 @@
     transition: all 0.3s ease;
     background: #4a90e2;
     color: white;
-    z-index: 1050; /* Asegura que siempre esté por encima del contenido */
+    z-index: 1050; 
 }
 
 #sidebar.active {
@@ -37,12 +37,8 @@
     width: 100%;
 }
 
-/* =========================================
-   MEDIA QUERIES (MAGIA PARA CELULARES) 
-   ========================================= */
-/* =========================================
-   MEDIA QUERIES (MAGIA PARA CELULARES) 
-   ========================================= */
+
+/* PARA CELULARES)  */
 @media (max-width: 768px) {
     
     #sidebar {
@@ -58,9 +54,9 @@
         margin-left: 0; 
     }
 
-    /* Ocultamos la hamburguesa de computadora SOLO en el celular */
+    /* Ocultamos la hamburguesa de computadora solo en el celular */
     #sidebarCollapse {
         display: none !important;
     }
 
-} /* <--- ESTA LLAVE CIERRA EL MODO CELULAR. SI SE BORRA, AFECTA A LA PC */
+} 

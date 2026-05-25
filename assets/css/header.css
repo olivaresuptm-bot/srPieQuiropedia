@@ -19,13 +19,13 @@
 }
 
 .header-left-container {
-    flex: 1; /* Permite que el texto tome el espacio sobrante */
-    min-width: 0; /* VITAL para que el texto largo se corte con ... */
+    flex: 1;
+    min-width: 0; 
     margin-right: 15px;
 }
 
 .welcome-text {
-    min-width: 0; /* VITAL */
+    min-width: 0; 
     display: flex;
     flex-direction: column;
     align-items: flex-start;
