@@ -247,9 +247,9 @@ function total_bitacora($conn) {
     return (int)$row['total'];
 }
 
-// ============================================
+
 // 2. PROCESAR ACCIONES DEL FORMULARIO (SOLO GERENTE)
-// ============================================
+
 
 // Crear tabla bitácora si no existe
 crear_tabla_bitacora($conn);
@@ -425,7 +425,7 @@ $registros_bitacora = obtener_bitacora($conn, $por_pagina, $offset);
                 <div class="row">
                    
                 
-<!-- ==================== COLUMNA 2: BITÁCORA ==================== -->
+<!--  COLUMNA 2: BITÁCORA  -->
                     <div class="col-lg-12 mb-4">
                         <div class="card shadow">
                             <div class="card-header bg-info text-white">

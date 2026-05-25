@@ -1,6 +1,6 @@
 <?php 
 session_start();
-// CANDADO DE SEGURIDAD: Si alguien intenta entrar aquí directo por la URL sin validar sus datos, lo expulsamos.
+
 if (!isset($_SESSION['reset_autorizado']) || $_SESSION['reset_autorizado'] !== true) {
     header("Location: index.php");
     exit();

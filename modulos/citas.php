@@ -5,7 +5,7 @@ if (!isset($_SESSION['usuario_id'])) {
     exit;
 }
 
-// Obtenemos el rol del usuario desde la sesión (ajusta 'rol' al nombre exacto de tu variable de sesión)
+
 $rol_usuario = isset($_SESSION['rol']) ? strtolower($_SESSION['rol']) : '';
 
 require_once '../controllers/citas_estadisticas.php';

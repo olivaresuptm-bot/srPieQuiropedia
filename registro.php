@@ -1,5 +1,5 @@
 <?php
-// 1. EL CANDADO DE SEGURIDAD
+
 session_start();
 if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] !== 'gerente') {
     header("Location: index.php");
