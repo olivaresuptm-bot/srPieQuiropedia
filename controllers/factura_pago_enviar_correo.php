@@ -40,9 +40,8 @@ if (!$pago) {
     die("Error: No hay pagos para enviar.");
 }
 
-// =========================================================
+
 // 4. GENERAR EL PDF
-// =========================================================
 $pdf = new FPDF('P', 'mm', array(80, 150));
 $pdf->AddPage();
 $pdf->SetMargins(5, 5, 5);
@@ -111,9 +110,9 @@ $pdf->Cell(0, 5, utf8_decode('Conserve su recibo.'), 0, 1, 'C');
 // Guardar en memoria
 $pdf_en_memoria = $pdf->Output('S'); 
 
-// =========================================================
+
 // 5. ENVIAR EL CORREO USANDO TU NUEVA FUNCIÓN
-// =========================================================
+
 
 // Preparar los datos
 $asunto = 'Su recibo de pago - Sr. Pie Quiropedia';

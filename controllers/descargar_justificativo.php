@@ -98,9 +98,9 @@ $pdf->Line($x_start, $y_start + 28, $x_start + 190, $y_start + 28);
 
 $pdf->Ln(60); 
 
-// ==========================================
+
 // SECCIÓN DE FIRMA Y SELLO
-// ==========================================
+
 $pdf->SetFont('Arial', 'B', 11);
 $y = $pdf->GetY();
 

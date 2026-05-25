@@ -1,7 +1,7 @@
 <?php
-// =====================================================
-// SISTEMA DE NOTIFICACIÓN DE CITAS (ejecución en segundo plano)
-// =====================================================
+
+// SISTEMA DE NOTIFICACIÓN DE CITAS
+
 
 $fecha_hoy = date('Y-m-d');
 $carpeta_logs = __DIR__ . '/../logs';
@@ -13,7 +13,7 @@ if (!file_exists($carpeta_logs)) {
     mkdir($carpeta_logs, 0777, true);
 }
 
-// 1. EL CANDADO DIARIO (A PRUEBA DE FALLOS)
+// 1. EL CANDADO DIARIO
 // Solo lee un archivo de texto simple con la fecha. Si es hoy, bloquea la ejecución.
 $ya_se_ejecuto = false;
 if (file_exists($archivo_lock)) {

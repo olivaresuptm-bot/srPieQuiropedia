@@ -18,7 +18,7 @@ if (isset($_GET['cedula'])) {
         $diabetico_badge = ($p['diabetico'] == 'Si') ? '<span class="badge bg-danger"><i class="bi bi-exclamation-triangle-fill me-1"></i>Sí (Precaución)</span>' : '<span class="badge bg-success">No</span>';
         $instagram_val = !empty($p['instagram']) ? $p['instagram'] : 'N/A';
 
-        // Imprimimos la cartilla de información (Visible para todos)
+        // Imprimimos la cartilla de información 
         echo '
         <div class="card border-0 bg-light shadow-sm">
             <div class="card-body">
@@ -34,9 +34,7 @@ if (isset($_GET['cedula'])) {
                 </div>
                 <hr>';
 
-        // ======================================================
         // BLOQUE DINÁMICO DEL REPRESENTANTE
-        // ======================================================
         if (!empty($p['cedula_rep']) || !empty($p['nombre_rep'])) {
             echo '
             <div class="alert border-0 mb-4 shadow-sm" style="background-color: #ffffff; border-left: 5px solid #0d6efd !important;">
@@ -80,9 +78,9 @@ if (isset($_GET['cedula'])) {
 
                  <div class="border-top pt-4 text-center">';
                      
-        // ======================================================
-        // CONTROL DE ACCESO (RBAC): Botones de Acción
-        // ======================================================
+        
+        // CONTROL DE ACCESO (RBAC)
+       
         if ($rol_usuario === 'gerente' || $rol_usuario === 'recepcionista') {
             echo '
                     <div class="contenedor-acciones">
@@ -126,10 +124,10 @@ if (isset($_GET['cedula'])) {
             </div>
         </div>';
 
-        // ======================================================
+        
         // CONTROL DE ACCESO (RBAC): Modal de Edición
-        // Lo ocultamos del código fuente para el quiropedista por seguridad extra
-        // ======================================================
+        // Lo ocultamos del código fuente para el quiropedista por seguridad 
+        
         if ($rol_usuario === 'gerente' || $rol_usuario === 'recepcionista') {
             echo '
         <div class="modal fade" id="modalEditarPaciente" tabindex="-1" aria-hidden="true" style="z-index: 9999;">

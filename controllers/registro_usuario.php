@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// 1. SEGURIDAD DEL BACKEND: Solo el gerente puede enviar datos a este controlador
+// 1. Solo el gerente puede enviar datos a este controlador
 if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] !== 'gerente') {
     die("Acceso denegado. Esta acción está restringida.");
 }
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $conexion->beginTransaction();
 
-        // AQUÍ LA CORRECCIÓN: Se eliminó la columna 'token' del INSERT
+        
         $sql = "INSERT INTO usuarios (cedula_id, tipo_doc, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, correo, password, rol, estado) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conexion->prepare($sql);
@@ -62,11 +62,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $apellido1, $apellido2, $correo, $password_hash, $rol, $estado
         ]);
 
-        // ==========================================
+        
         // BITÁCORA 1: Registro del Usuario Base
         $det_usu = "Nuevo empleado registrado: $nombre1 $apellido1 ($cedula_id) - Rol: " . ucfirst($rol);
         registrar_bitacora($conexion, 'INSERTAR', 'usuarios', $cedula_id, $det_usu);
-        // ==========================================
+        
 
         // Si el rol es quiropedista, insertar en su tabla
         if (strtolower($rol) === 'quiropedista') {
@@ -74,11 +74,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt_q = $conexion->prepare($sql_q);
             $stmt_q->execute([$cedula_id, 'General', 1]);
             
-            // ==========================================
+         
             // BITÁCORA 2: Registro del Perfil Quiropedista
             $det_quiro = "Perfil de quiropedista creado automáticamente para la cédula: $cedula_id";
             registrar_bitacora($conexion, 'INSERTAR', 'quiropedistas', $cedula_id, $det_quiro);
-            // ==========================================
+            
         }
 
         $conexion->commit();

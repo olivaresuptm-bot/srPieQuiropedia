@@ -117,5 +117,5 @@ $pdf->SetFont('Arial', 'I', 8);
 $pdf->Cell(0, 5, utf8_decode('¡Gracias por confiar en Sr. Pie!'), 0, 1, 'C');
 $pdf->Cell(0, 5, utf8_decode('Conserve su recibo.'), 0, 1, 'C');
 
-// IMPORTANTE: Output debe ser siempre la última instrucción
+
 $pdf->Output('I', 'Recibo_' . str_pad($pago['pago_id'], 5, '0', STR_PAD_LEFT) . '.pdf');
