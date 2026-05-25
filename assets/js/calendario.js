@@ -25,27 +25,25 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     });
 
-    // 1. DETECTAMOS SI ES UN CELULAR (Pantalla <= 768px)
+    // 1. SI ES UN CELULAR 
     const esMovil = window.innerWidth <= 768;
 
     var calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
         
-        // Vista inicial inteligente
+     
         initialView: esMovil ? 'listMonth' : 'dayGridMonth',
         locale: 'es',
         displayEventTime: false, 
         
-        // MAGIA 2: Botones dinámicos
-        // Si es móvil, los botones de Semana y Día cargan las vistas de "Lista". 
-        // Si es PC, cargan la vista de "Grilla/Horario" clásica.
+        // 2: Botones dinámicos
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
             right: esMovil ? 'listMonth,listWeek,listDay' : 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         
-        // Forzamos los nombres de los botones para que siempre sean cortos
+        
         buttonText: { 
             today: 'Hoy', 
             dayGridMonth: 'Mes', 
@@ -56,10 +54,10 @@ document.addEventListener('DOMContentLoaded', function() {
             listDay: 'Día'
         },
 
-        // MEJORAS DE HORARIO (Solo afectan a la PC cuando se ve en vista de columnas)
-        slotMinTime: '07:00:00', // El calendario empieza a las 7 AM (Ajusta según tu clínica)
-        slotMaxTime: '20:00:00', // Termina a las 8 PM
-        allDaySlot: false,       // Oculta la fila inútil de "Todo el día" que quita espacio
+        // MEJORAS DE HORARIO 
+        slotMinTime: '07:00:00', 
+        slotMaxTime: '20:00:00', 
+        allDaySlot: false,      
 
         events: eventos,
         height: 'auto',
@@ -69,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
             info.el.setAttribute('title', 
                 `${info.event.extendedProps.hora} - ${info.event.extendedProps.paciente}\nQuiropedista: ${info.event.extendedProps.quiropedista}\nServicio: ${info.event.extendedProps.servicio}\nEstatus: ${info.event.extendedProps.estatus}`
             );
-            // Que el texto no se corte
+           
             info.el.style.whiteSpace = 'normal';
             info.el.style.wordWrap = 'break-word';
             info.el.style.overflow = 'hidden';

@@ -28,19 +28,19 @@
 }
  
 
-       /* Contenedor de Registro Potenciado */
+     
 .card-registro-alto {
-    min-height: 180px; /* Controla la altura aquí */
+    min-height: 180px; 
     display: flex;
     align-items: center;
-    border-radius: 20px !important; /* Bordes más redondeados */
+    border-radius: 20px !important; 
     transition: all 0.3s ease;
-    border-left: 8px solid #198754 !important; /* Borde verde más grueso */
+    border-left: 8px solid #198754 !important; 
     background-color: #ffffff;
 }
 
 .card-registro-alto:hover {
-    transform: translateY(-5px); /* Efecto de levante */
+    transform: translateY(-5px); 
     box-shadow: 0 10px 25px rgba(92, 2, 2, 0.1) !important;
 }
 
@@ -60,7 +60,7 @@
     background-color: rgba(25, 135, 84, 0.2);
 }
 
-/* Tipografía dentro de la card */
+
 .card-registro-alto h4 {
     color: #1a1a1a;
     margin-bottom: 8px;
@@ -70,7 +70,7 @@
 .card-registro-alto p {
     font-size: 1.1rem;
     color: #6c757d;
-    max-width: 450px; /* Evita que el texto se estire demasiado */
+    max-width: 450px; 
 }
 
 /* Botón llamativo */

@@ -104,7 +104,7 @@ document.addEventListener('input', function(e) {
     }
 });
 
-// --- REVISAR TODO ANTES DE ENVIAR ---
+// REVISA TODO ANTES DE ENVIAR
 var form = document.querySelector('form');
 if(form) {
     form.onsubmit = function(e) {
@@ -130,21 +130,21 @@ if(form) {
     };
 }
 
-// --- ALERTA PROGRESIVA (AHORA AFUERA DEL ONSUBMIT) ---
+// ALERTA PROGRESIVA  
 document.addEventListener('DOMContentLoaded', function() {
     const alerta = document.getElementById('alertaObligatorios');
     const inputs = document.querySelectorAll('.form-panel input, .form-panel select, .form-panel textarea');
 
     if(alerta) {
         inputs.forEach(input => {
-            // Cuando el usuario entra a escribir en el campo (focus)
+            // Cuando el usuario entra a escribir en el campo
             input.addEventListener('focus', () => {
                 alerta.style.display = 'block';
-                // Pequeño retraso para que la transición visual (fade in) funcione
+                // Pequeño retraso para que la transición visual funcione
                 setTimeout(() => alerta.style.opacity = '1', 10);
             });
 
-            // Cuando el usuario sale del campo (blur)
+            // Cuando el usuario sale del campo
             input.addEventListener('blur', () => {
                 // Esperamos unos milisegundos para ver si saltó a otro input
                 setTimeout(() => {

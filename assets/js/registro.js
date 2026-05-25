@@ -5,7 +5,7 @@
             const requiredFields = document.querySelectorAll('input[required], select[required]');
             
             requiredFields.forEach(field => {
-                // Creamos un mensajito oculto debajo de cada campo obligatorio
+                // Creamos un mensaje oculto debajo de cada campo obligatorio
                 const aviso = document.createElement('div');
                 aviso.className = 'text-danger small mt-1';
                 aviso.style.display = 'none';
