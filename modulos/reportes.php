@@ -135,9 +135,9 @@ require_once '../controllers/reportes.php';
                                 <th>Servicios de la Semana</th>
                                 <th>Producido</th>
                                 <th>Comisión a Pagar</th>
-                                <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
+                                
                                 <th class="text-center">Acción</th>
-                                <?php endif; ?>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -170,14 +170,24 @@ require_once '../controllers/reportes.php';
                                     <span class="d-block"><?php echo number_format($fila['comision_usd'], 2); ?> $</span>
                                     <small class="text-muted fw-normal fs-6">A Pagar: <?php echo number_format($fila['comision_bs'], 2, ',', '.'); ?> Bs.</small>
                                 </td>
-                                 <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
-                                <td class="text-center">
-                                    <button class="btn btn-success shadow-sm fw-bold px-3" 
-                                            onclick="abrirModalPago('<?php echo $cedula_quiro; ?>', '<?php echo addslashes($fila['nombre_completo']); ?>', '<?php echo number_format($fila['comision_usd'], 2); ?>')">
-                                        <i class="bi bi-wallet2 me-1"></i> Pagar Semana
-                                    </button>
-                                </td>
-                                <?php endif; ?>
+                                 
+                                    <td class="text-center">
+                                        <?php if($rol_usuario == 'gerente' || $rol_usuario == 'recepcionista'): ?>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <button class="btn btn-success shadow-sm fw-bold px-3" 
+                                                        onclick="abrirModalPago('<?php echo $cedula_quiro; ?>', '<?php echo addslashes($fila['nombre_completo']); ?>', '<?php echo number_format($fila['comision_usd'], 2); ?>')">
+                                                    <i class="bi bi-wallet2 me-1"></i> Pagar Semana
+                                                </button>
+                                                <?php endif; ?>
+                                                <a href="../controllers/descargar_ultimo_recibo.php?cedula=<?php echo $cedula_quiro; ?>" 
+                                                target="_blank" 
+                                                class="btn btn-primary shadow-sm" 
+                                                title="Descargar comprobante del último pago realizado">
+                                                    <i class="bi bi-file-earmark-pdf me-2"></i> Historial Recibo
+                                                </a>
+                                            </div>
+                                        </td>
+                                
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
