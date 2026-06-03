@@ -120,7 +120,7 @@ try {
                                         <p class="mb-0 text-muted">Registra un nuevo paciente en el sistema.</p>
                                     </div>
                                 </div>
-                                <a href="gestion_pacientes/pacientes.php" class="btn btn-primary btn-lg px-4 mt-2 mt-md-0 w-50 w-md-auto">Registrar paciente</a>
+                                <a href="gestion_pacientes/pacientes.php" class="btn btn-primary btn-lg px-4 mt-2 mt-md-0 ">Registrar paciente</a>
                             </div>
                         </div>
                     </div>
